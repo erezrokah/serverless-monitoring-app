@@ -1,0 +1,49 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.8.2",
+    "react-dom": "^16.8.2",
+    "react-scripts": "2.1.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.5",
+    "@types/node": "^11.9.4",
+    "@types/react": "^16.8.3",
+    "@types/react-dom": "^16.8.2",
+    "serverless-plugin-tracing": "^2.0.0",
+    "serverless-single-page-app-plugin": "file:./serverless-single-page-app-plugin",
+    "serverless-stack-output": "^0.2.3",
+    "source-map-explorer": "^1.7.0",
+    "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.3.3"
+  },
+  "scripts": {
+    "analyze": "source-map-explorer build/static/js/main.*",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "TZ=GMT react-scripts test",
+    "test:ci": "TZ=GMT CI=true JEST_JUNIT_OUTPUT=../reports/junit/${npm_package_name}-test-results.xml yarn test --runInBand --ci --reporters=jest-junit --reporters=default",
+    "eject": "react-scripts eject",
+    "lint": "tslint 'src/**/*.ts?(x)'",
+    "coverage": "TZ=GMT yarn test --coverage",
+    "deploy:dev": "serverless deploy --stage dev",
+    "publish:dev": "serverless syncToS3 --stage dev && serverless invalidateCloudFrontCache --stage dev",
+    "prettier": "prettier --write src/**/*.ts src/**/*.tsx serverless-single-page-app-plugin/*.js",
+    "prettier:ci": "prettier --list-different src/**/*.ts src/**/*.tsx serverless-single-page-app-plugin/*.js"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "author": "Erez Rokah",
+  "license": "MIT"
+}

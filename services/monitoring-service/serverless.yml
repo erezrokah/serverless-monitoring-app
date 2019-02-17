@@ -1,0 +1,52 @@
+service: monitoring-service
+
+plugins:
+  - serverless-offline
+  - serverless-stack-output
+  - serverless-plugin-tracing
+
+custom:
+  defaultStage: dev
+  currentStage: ${opt:stage, self:custom.defaultStage}
+  currentRegion: ${file(../common/environment/config.${self:custom.currentStage}.json):region}
+
+  output:
+    handler: ../../scripts/stackOutput.handler
+
+  webpack:
+    includeModules: true
+    packager: yarn
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${self:custom.currentStage}
+  region: ${self:custom.currentRegion}
+
+  memorySize: 256
+  logRetentionInDays: 7
+
+  tracing: true # enable tracing
+
+  environment:
+    DYNAMODB_TABLE: ${self:service}-data-table-${opt:stage, self:provider.stage}
+
+resources:
+  Resources:
+    MonitoringDataTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: 'PAY_PER_REQUEST'
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+
+Outputs:
+  Value:
+    Ref: MonitoringDataTable
+  Export:
+    Name: MonitoringDataTableName

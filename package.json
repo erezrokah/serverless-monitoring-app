@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "workspaces": [
+    "services/*",
+    "frontend"
+  ],
+  "scripts": {
+    "build:frontend": "lerna run build --scope frontend",
+    "lint": "lerna exec yarn lint",
+    "test": "lerna exec yarn test",
+    "test:ci": "lerna exec --concurrency 1 yarn test:ci",
+    "test:e2e": "lerna run --concurrency 1 test:e2e",
+    "coverage": "lerna exec --concurrency 1 yarn coverage",
+    "deploy:dev": "lerna run --concurrency 1 deploy:dev",
+    "publish:frontend:dev": "lerna run publish:dev --scope frontend",
+    "prettier": "lerna exec yarn prettier",
+    "prettier:ci": "lerna exec yarn prettier:ci"
+  },
+  "devDependencies": {
+    "jest-junit": "^6.2.1",
+    "lerna": "^3.11.1",
+    "prettier": "^1.16.4"
+  },
+  "author": "Erez Rokah",
+  "license": "MIT",
+  "name": "serverless-monitoring-app",
+  "resolutions": {
+    "@types/react": "16.8.3"
+  }
+}

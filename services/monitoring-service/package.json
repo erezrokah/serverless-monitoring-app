@@ -1,0 +1,31 @@
+{
+  "name": "monitoring-service",
+  "version": "0.0.1",
+  "description": "File Service",
+  "scripts": {
+    "lint": "tslint 'src/**/*.ts'",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:ci": "JEST_JUNIT_OUTPUT=../../reports/junit/${npm_package_name}-test-results.xml jest --runInBand --ci",
+    "coverage": "jest --coverage",
+    "deploy:dev": "serverless deploy --stage dev",
+    "prettier": "prettier --write src/**/*.ts",
+    "prettier:ci": "prettier --list-different src/**/*.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^23.3.2",
+    "@types/node": "^10.10.3",
+    "jest": "^24.1.0",
+    "serverless-offline": "^3.25.14",
+    "serverless-plugin-tracing": "^2.0.0",
+    "serverless-stack-output": "^0.2.3",
+    "ts-jest": "^23.10.5",
+    "ts-loader": "^5.3.3",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.3.3",
+    "webpack": "^4.29.4"
+  },
+  "author": "Erez Rokah",
+  "license": "MIT"
+}
