@@ -1,0 +1,30 @@
+Resources:
+  AppSyncServiceRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: 'Dynamo-AppSyncServiceRole'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Service:
+                - 'appsync.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: 'Dynamo-AppSyncServiceRole-Policy'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action:
+                  - 'dynamodb:Query'
+                  - 'dynamodb:GetItem'
+                  - 'dynamodb:Scan'
+                Resource:
+                  - Fn::ImportValue: 'monitoring-service:${self:custom.currentStage}:MonitoringDataTableArn'
+                  - Fn::Join:
+                      - ''
+                      - - 'Fn::ImportValue': 'monitoring-service:${self:custom.currentStage}:MonitoringDataTableArn'
+                        - '/*'

@@ -1,0 +1,30 @@
+Resources:
+  # Amazon Cognito user pool
+  UserPool:
+    Type: 'AWS::Cognito::UserPool'
+    Description: 'An Amazon Cognito user pool for authenticating users'
+    Properties:
+      UserPoolName: ${self:service}-${self:custom.currentStage}-user-pool
+
+      AliasAttributes:
+        - preferred_username
+      AutoVerifiedAttributes:
+        - email
+
+  # An app client for the Amazon Cognito user pool
+  UserPoolClient:
+    Type: 'AWS::Cognito::UserPoolClient'
+    Description: 'App Client used by AWS AppSync'
+    Properties:
+      ClientName: ${self:service}-${self:custom.currentStage}-appsync-client
+      GenerateSecret: false
+      UserPoolId: { Ref: UserPool }
+
+Outputs:
+  UserPoolId:
+    Value:
+      Ref: UserPool
+
+  UserPoolClientId:
+    Value:
+      Ref: UserPoolClient

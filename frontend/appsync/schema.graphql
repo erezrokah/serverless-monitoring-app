@@ -1,0 +1,16 @@
+type Query {
+  getDataEntries: DataEntryConnection
+}
+
+type DataEntry {
+  id: String!
+}
+
+type DataEntryConnection {
+  items: [DataEntry!]!
+  nextToken: String
+}
+
+schema {
+  query: Query
+}

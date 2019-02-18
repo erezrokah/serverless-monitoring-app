@@ -2,8 +2,8 @@ service: monitoring-service
 
 plugins:
   - serverless-offline
-  - serverless-stack-output
   - serverless-plugin-tracing
+  - '@anttiviljami/serverless-stack-output'
 
 custom:
   defaultStage: dev
@@ -12,10 +12,6 @@ custom:
 
   output:
     handler: ../../scripts/stackOutput.handler
-
-  webpack:
-    includeModules: true
-    packager: yarn
 
 provider:
   name: aws
@@ -29,7 +25,7 @@ provider:
   tracing: true # enable tracing
 
   environment:
-    DYNAMODB_TABLE: ${self:service}-data-table-${opt:stage, self:provider.stage}
+    DYNAMODB_TABLE: ${self:service}-data-table-${self:custom.currentStage}
 
 resources:
   Resources:
@@ -45,8 +41,15 @@ resources:
         BillingMode: 'PAY_PER_REQUEST'
         TableName: ${self:provider.environment.DYNAMODB_TABLE}
 
-Outputs:
-  Value:
-    Ref: MonitoringDataTable
-  Export:
-    Name: MonitoringDataTableName
+  Outputs:
+    MonitoringDataTableName:
+      Value:
+        Ref: MonitoringDataTable
+      Export:
+        Name: '${self:service}:${self:custom.currentStage}:MonitoringDataTableName'
+
+    MonitoringDataTableArn:
+      Value:
+        'Fn::GetAtt': [MonitoringDataTable, Arn]
+      Export:
+        Name: '${self:service}:${self:custom.currentStage}:MonitoringDataTableArn'
