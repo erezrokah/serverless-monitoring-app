@@ -11,5 +11,17 @@ export const aggregateData: Handler = async (
 
   const { averageLatencyMs, lastSample, status } = aggregate(results);
 
-  callback(null, { id, name, url, logo, averageLatencyMs, lastSample, status });
+  // for notification message
+  const message = `The endpoint for service '${name}' is at '${status}' status, Please check!`;
+
+  callback(null, {
+    averageLatencyMs,
+    id,
+    lastSample,
+    logo,
+    message,
+    name,
+    status,
+    url,
+  });
 };

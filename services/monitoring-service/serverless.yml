@@ -112,7 +112,12 @@ stepFunctions:
                     Type: Pass
                     End: true
                   SendNotification:
-                    Type: Pass
+                    Type: Task
+                    Resource: 'arn:aws:states:::sns:publish'
+                    Parameters:
+                      TopicArn: ${self:custom.notificationsTopicArn}
+                      Message.$: '$.message'
+                      Subject: 'Monitoring Service Notification'
                     End: true
                   DefaultState:
                     Type: Fail
