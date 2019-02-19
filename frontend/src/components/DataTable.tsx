@@ -1,31 +1,25 @@
-import React from 'react';
+import { GraphQLResult } from '@aws-amplify/api/lib/types';
+import { API, graphqlOperation } from 'aws-amplify';
+import React, { useEffect, useState } from 'react';
 import { Header, Icon, Image, Statistic, Table } from 'semantic-ui-react';
+import { ListEvents } from '../queries';
 
-const parties: IRowProps[] = [
-  {
-    averageLatencyMs: 200,
-    id: 'likud',
-    lastSample: new Date(),
-    logo:
-      'https://www.idi.org.il/media/5955/likud.jpg?mode=crop&width=259&height=169',
-    partyName: 'Likud',
-    siteStatus: 'GREEN',
-    siteUrl: 'https://www.likud.org.il/',
-  },
-];
-
-interface IRowProps {
-  averageLatencyMs: number;
+interface IEntry {
   id: string;
-  lastSample: Date;
+  name: string;
+  url: string;
+  averageLatencyMs: number;
+  lastSample: string;
+  status: string;
   logo: string;
-  partyName: string;
-  siteStatus: string;
-  siteUrl: string;
+}
+
+interface IGraphQlResult {
+  getDataEntries: { items: IEntry[] };
 }
 
 const SiteStatus = ({ status }: { status: string }) => {
-  if (status === 'GREEN') {
+  if (status === 'PASS') {
     return (
       <Table.Cell positive={true}>
         <Icon name="checkmark" />
@@ -51,26 +45,18 @@ const SiteStatus = ({ status }: { status: string }) => {
   }
 };
 
-const Row = (props: IRowProps) => {
-  const {
-    averageLatencyMs,
-    id,
-    lastSample,
-    logo,
-    partyName,
-    siteStatus,
-    siteUrl,
-  } = props;
+const Row = (props: IEntry) => {
+  const { averageLatencyMs, id, lastSample, logo, name, status, url } = props;
   return (
     <Table.Row key={id}>
       <Table.Cell>
         <Header as="h4" image={true}>
           <Image src={logo} />
-          <Header.Content>{partyName}</Header.Content>
+          <Header.Content>{name}</Header.Content>
         </Header>
       </Table.Cell>
-      <Table.Cell>{siteUrl}</Table.Cell>
-      <SiteStatus status={siteStatus} />
+      <Table.Cell>{url}</Table.Cell>
+      <SiteStatus status={status} />
       <Table.Cell>
         <Statistic horizontal={true} label="ms" value={averageLatencyMs} />
       </Table.Cell>
@@ -80,6 +66,22 @@ const Row = (props: IRowProps) => {
 };
 
 const DataTable = () => {
+  const [entries, setEntries] = useState([] as IEntry[]);
+
+  const fetchData = async () => {
+    const { data = { getDataEntries: { items: [] } } } = (await API.graphql(
+      graphqlOperation(ListEvents),
+    )) as GraphQLResult;
+
+    const result = data as IGraphQlResult;
+
+    setEntries(result.getDataEntries.items);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <Table celled={true}>
       <Table.Header>
@@ -92,7 +94,7 @@ const DataTable = () => {
         </Table.Row>
       </Table.Header>
 
-      <Table.Body>{parties.map(Row)}</Table.Body>
+      <Table.Body>{entries.map(Row)}</Table.Body>
     </Table>
   );
 };

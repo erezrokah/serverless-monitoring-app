@@ -9,7 +9,7 @@ const replaceInEnvFile = async (file, envs) => {
     return;
   }
 
-  const envFile = path.join(__dirname, '../frontend', file);
+  const envFile = path.join(__dirname, '..', file);
   await fs.ensureFile(envFile);
   const content = await fs.readFile(envFile);
   const envConfig = await dotenv.parse(content);
@@ -26,18 +26,15 @@ const replaceInEnvFile = async (file, envs) => {
   );
 };
 
-const handler = async data => {
+const handler = async (data, serverless) => {
   //this handler creates the environment for the frontend based on the services deployment output
-  const {
-    UserPoolId,
-    UserPoolClientId,
-    GraphQlApiUrl,
-    WebAppCloudFrontDistributionOutput,
-  } = data;
+  const { UserPoolId, UserPoolClientId, GraphQlApiUrl } = data;
 
   if (UserPoolId) {
+    const region = serverless.variables.service.custom.currentRegion;
     await replaceInEnvFile('.env.local', {
       REACT_APP_USER_POOL_ID: UserPoolId,
+      REACT_APP_COGNITO_REGION: region,
     });
   }
 
@@ -48,8 +45,10 @@ const handler = async data => {
   }
 
   if (GraphQlApiUrl) {
+    const region = serverless.variables.service.custom.currentRegion;
     await replaceInEnvFile('.env.local', {
       REACT_APP_GRAPHQL_API_URL: GraphQlApiUrl,
+      REACT_APP_APPSYNC_REGION: region,
     });
   }
 };

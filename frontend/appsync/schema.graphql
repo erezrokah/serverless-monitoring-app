@@ -4,6 +4,12 @@ type Query {
 
 type DataEntry {
   id: String!
+  name: String!
+  url: String!
+  averageLatencyMs: Float!
+  lastSample: String!
+  status: String!
+  logo: String!
 }
 
 type DataEntryConnection {

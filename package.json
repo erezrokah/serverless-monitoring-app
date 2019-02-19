@@ -14,7 +14,9 @@
     "deploy:dev": "lerna run --concurrency 1 deploy:dev",
     "publish:frontend:dev": "lerna run publish:dev --scope frontend",
     "prettier": "lerna exec yarn prettier",
-    "prettier:ci": "lerna exec yarn prettier:ci"
+    "prettier:ci": "lerna exec yarn prettier:ci",
+    "run:all:dev": "yarn deploy:dev && yarn build:frontend && yarn publish:frontend:dev",
+    "remove:all:dev": "lerna run --concurrency 1 remove:dev --scope frontend && lerna run --concurrency 1 remove:dev --scope monitoring*"
   },
   "devDependencies": {
     "jest-junit": "^6.2.1",

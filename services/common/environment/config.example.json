@@ -1,3 +1,5 @@
 {
-  "region": "REGION_VALUE"
+  "region": "REGION_VALUE",
+  "alarmsTopicEmail": "admin@yourcompany.com",
+  "notificationsTopicEmail": "admin@yourcompany.com"
 }

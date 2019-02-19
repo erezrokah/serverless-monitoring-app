@@ -12,7 +12,7 @@ custom:
   currentRegion: ${file(../services/common/environment/config.${self:custom.currentStage}.json):region}
 
   output:
-    handler: ../scripts/stackOutput.handler
+    handler: ./scripts/stackOutput.handler
 
   s3Bucket: monitoring-frontend-app-bucket-${self:custom.currentStage}
 

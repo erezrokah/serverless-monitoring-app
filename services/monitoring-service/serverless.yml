@@ -1,17 +1,167 @@
 service: monitoring-service
 
 plugins:
+  - serverless-pseudo-parameters
+  - serverless-step-functions
+  - serverless-webpack
   - serverless-offline
   - serverless-plugin-tracing
   - '@anttiviljami/serverless-stack-output'
+  - serverless-iam-roles-per-function
 
 custom:
   defaultStage: dev
   currentStage: ${opt:stage, self:custom.defaultStage}
   currentRegion: ${file(../common/environment/config.${self:custom.currentStage}.json):region}
 
+  alarmsTopicName: ${self:service}-alarms-topic-${self:custom.currentStage}
+  alarmsTopicArn: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.alarmsTopicName}
+  alarmsTopicEmail: ${file(../common/environment/config.${self:custom.currentStage}.json):alarmsTopicEmail}
+
+  notificationsTopicName: ${self:service}-notifications-topic-${self:custom.currentStage}
+  notificationsTopicArn: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.notificationsTopicName}
+  notificationsTopicEmail: ${file(../common/environment/config.${self:custom.currentStage}.json):notificationsTopicEmail}
+
+  dataTableName: ${self:service}-data-table-${self:custom.currentStage}
+  endpointsTableName: ${self:service}-endpoints-table-${self:custom.currentStage}
+
+  checkEndpointStepFunction: ${self:service}-${self:custom.currentStage}-check-endpoint-step-function
+
   output:
-    handler: ../../scripts/stackOutput.handler
+    handler: ./scripts/stackOutput.handler
+
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    includeModules: true
+    packager: 'yarn'
+
+stepFunctions:
+  stateMachines:
+    spanOutStepFuntion:
+      events:
+        - http:
+            path: spanout
+            method: POST
+        - schedule:
+            rate: rate(10 minutes)
+            enabled: false
+      name: ${self:service}-${self:custom.currentStage}-span-out-step-function
+      definition:
+        Comment: 'A step function to span out several other step functions'
+        StartAt: SpanOut
+        States:
+          SpanOut:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:custom.currentStage}-spanOut
+            End: true
+
+    checkEndpointStepFunction:
+      name: ${self:custom.checkEndpointStepFunction}
+      definition:
+        Comment: 'A step function to check a single endpoint'
+        StartAt: CheckEndpoint
+        States:
+          CheckEndpoint:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:custom.currentStage}-checkEndpoint
+            Next: AggregateData
+            TimeoutSeconds: 300
+
+          AggregateData:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:custom.currentStage}-aggregateData
+            Next: CheckAndPersistResults
+            TimeoutSeconds: 300
+
+          CheckAndPersistResults:
+            Type: Parallel
+            End: true
+            Branches:
+              - StartAt: PersistResults
+                States:
+                  PersistResults:
+                    Type: Task
+                    Resource: 'arn:aws:states:::dynamodb:putItem'
+                    Parameters:
+                      TableName: ${self:custom.dataTableName}
+                      Item:
+                        'id': { 'S.$': '$.id' }
+                        'name': { 'S.$': '$.name' }
+                        'url': { 'S.$': '$.url' }
+                        'averageLatencyMs': { 'N.$': '$.averageLatencyMs' }
+                        'lastSample': { 'S.$': '$.lastSample' }
+                        'status': { 'S.$': '$.status' }
+                        'logo': { 'S.$': '$.logo' }
+                    End: true
+              - StartAt: CheckResults
+                States:
+                  CheckResults:
+                    Type: Choice
+                    Default: DefaultState
+                    Choices:
+                      - Variable: '$.status'
+                        StringEquals: 'PASS'
+                        Next: SkipNotification
+                      - Or:
+                          - Variable: '$.status'
+                            StringEquals: 'ERROR'
+                          - Variable: '$.status'
+                            StringEquals: 'WARNING'
+                        Next: SendNotification
+                  SkipNotification:
+                    Type: Pass
+                    End: true
+                  SendNotification:
+                    Type: Pass
+                    End: true
+                  DefaultState:
+                    Type: Fail
+                    Cause: 'No Matches!'
+
+      dependsOn:
+        - MonitoringDataTable
+        - AlarmsTopic
+        - NotificationsTopic
+      # alarms:
+      #   topics:
+      #     ok: ${self:custom.alarmsTopicArn}
+      #     alarm: ${self:custom.alarmsTopicArn}
+      #     insufficientData: ${self:custom.alarmsTopicArn}
+      #   metrics:
+      #     - executionsTimeOut
+      #     - executionsFailed
+      #     - executionsAborted
+      #     - executionThrottled
+      #   treatMissingData: missing
+
+functions:
+  checkEndpoint:
+    handler: src/checkEndpointHandler.checkEndpoint
+  aggregateData:
+    handler: src/aggregateDataHandler.aggregateData
+  spanOut:
+    handler: src/spanOutHandler.spanOut
+    environment:
+      DYNAMODB_TABLE: ${self:custom.endpointsTableName}
+      STEP_FUNCTION: arn:aws:states:#{AWS::Region}:#{AWS::AccountId}:stateMachine:${self:custom.checkEndpointStepFunction}
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: 'Allow'
+        Action:
+          - states:StartExecution
+        Resource: arn:aws:states:#{AWS::Region}:#{AWS::AccountId}:stateMachine:${self:custom.checkEndpointStepFunction}
+      - Effect: 'Allow'
+        Action:
+          - 'dynamodb:Scan'
+        Resource:
+          - 'Fn::GetAtt': [EndpointsTable, Arn]
+          - Fn::Join:
+              - ''
+              - - 'Fn::GetAtt': [EndpointsTable, Arn]
+                - '/*'
+
+package:
+  individually: true
 
 provider:
   name: aws
@@ -23,33 +173,17 @@ provider:
   logRetentionInDays: 7
 
   tracing: true # enable tracing
-
-  environment:
-    DYNAMODB_TABLE: ${self:service}-data-table-${self:custom.currentStage}
+  iamRoleStatements:
+    - Effect: 'Allow' # xray permissions (required)
+      Action:
+        - 'xray:PutTraceSegments'
+        - 'xray:PutTelemetryRecords'
+      Resource:
+        - '*'
 
 resources:
-  Resources:
-    MonitoringDataTable:
-      Type: 'AWS::DynamoDB::Table'
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        BillingMode: 'PAY_PER_REQUEST'
-        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+  # DynamoDb
+  - ${file(resources/dynamoDb.yml)}
 
-  Outputs:
-    MonitoringDataTableName:
-      Value:
-        Ref: MonitoringDataTable
-      Export:
-        Name: '${self:service}:${self:custom.currentStage}:MonitoringDataTableName'
-
-    MonitoringDataTableArn:
-      Value:
-        'Fn::GetAtt': [MonitoringDataTable, Arn]
-      Export:
-        Name: '${self:service}:${self:custom.currentStage}:MonitoringDataTableArn'
+  # SNS Topics
+  - ${file(resources/snsTopics.yml)}
