@@ -43,8 +43,8 @@ stepFunctions:
             path: spanout
             method: POST
         - schedule:
-            rate: rate(10 minutes)
-            enabled: false
+            rate: rate(5 minutes)
+            enabled: true
       name: ${self:service}-${self:custom.currentStage}-span-out-step-function
       definition:
         Comment: 'A step function to span out several other step functions'
