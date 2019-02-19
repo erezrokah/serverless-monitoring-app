@@ -4,5 +4,35 @@
     "logo": "https://www.idi.org.il/media/5955/likud.jpg?mode=crop&width=259&height=169",
     "name": "Likud",
     "url": "https://www.likud.org.il/"
+  },
+  {
+    "id": "bg19",
+    "logo": "https://upload.wikimedia.org/wikipedia/he/e/e6/HosenLeIsrael2019.png",
+    "name": "Hosen Le Israel",
+    "url": "https://bg19.co.il/"
+  },
+  {
+    "id": "yeshatid",
+    "logo": "https://www.jewishvirtuallibrary.org/jsource/images/Politics/yeshatidlogo.jpg",
+    "name": "Yesh Atid",
+    "url": "https://www.yeshatid.org.il/"
+  },
+  {
+    "id": "havoda",
+    "logo": "https://www.havoda.org.il/wp-content/uploads/2019/01/haavoda-new-logo.png",
+    "name": "Havoda",
+    "url": "https://www.havoda.org.il/"
+  },
+  {
+    "id": "meretz",
+    "logo": "http://www.kolhazman.co.il/wp-content/uploads/thumbs/%D7%9C%D7%95%D7%92%D7%95-%D7%9E%D7%A8%D7%A5-30q4ezlmmavnawxj3suf4a.jpg",
+    "name": "Meretz",
+    "url": "https://elections.meretz.org.il/"
+  },
+  {
+    "id": "baityehudi",
+    "logo": "http://baityehudi.org.il/wp-content/themes/baityehudi.org.il/images/new_logo.png",
+    "name": "Bait Yehudi",
+    "url": "http://baityehudi.org.il/"
   }
 ]
