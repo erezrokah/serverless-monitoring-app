@@ -75,7 +75,9 @@ const DataTable = () => {
 
     const result = data as IGraphQlResult;
 
-    setEntries(result.getDataEntries.items);
+    setEntries(
+      result.getDataEntries.items.sort((a, b) => a.name.localeCompare(b.name)),
+    );
   };
 
   useEffect(() => {
