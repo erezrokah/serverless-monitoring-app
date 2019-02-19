@@ -47,6 +47,7 @@ const SiteStatus = ({ status }: { status: string }) => {
 
 const Row = (props: IEntry) => {
   const { averageLatencyMs, id, lastSample, logo, name, status, url } = props;
+  const lastSampleDate = new Date(lastSample);
   return (
     <Table.Row key={id}>
       <Table.Cell>
@@ -58,9 +59,13 @@ const Row = (props: IEntry) => {
       <Table.Cell>{url}</Table.Cell>
       <SiteStatus status={status} />
       <Table.Cell>
-        <Statistic horizontal={true} label="ms" value={averageLatencyMs} />
+        <Statistic
+          horizontal={true}
+          label="ms"
+          value={averageLatencyMs.toFixed(2)}
+        />
       </Table.Cell>
-      <Table.Cell>{lastSample.toString()}</Table.Cell>
+      <Table.Cell>{lastSampleDate.toString()}</Table.Cell>
     </Table.Row>
   );
 };
@@ -81,7 +86,7 @@ const DataTable = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(fetchData, 3000);
+    const interval = setInterval(fetchData, 500);
     return () => clearInterval(interval);
   }, []);
 
