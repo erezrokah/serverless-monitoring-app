@@ -124,9 +124,9 @@ stepFunctions:
                     Cause: 'No Matches!'
 
       dependsOn:
-        - MonitoringDataTable
-        - AlarmsTopic
+        # - AlarmsTopic
         - NotificationsTopic
+        - MonitoringDataTable
       # alarms:
       #   topics:
       #     ok: ${self:custom.alarmsTopicArn}
