@@ -5,7 +5,7 @@ Resources:
   #     DisplayName: 'Alarms topic for monitoring step function'
   #     TopicName: ${self:custom.alarmsTopicName}
   #     Subscription:
-  #       - Endpoint: ${self:custom.alarmsTopicEmail}
+  #       - Endpoint: ${self:custom.adminEmail}
   #         Protocol: email
 
   NotificationsTopic:
@@ -14,5 +14,5 @@ Resources:
       DisplayName: 'Notifications topic for monitoring step function'
       TopicName: ${self:custom.notificationsTopicName}
       Subscription:
-        - Endpoint: ${self:custom.notificationsTopicEmail}
+        - Endpoint: ${self:custom.adminEmail}
           Protocol: email

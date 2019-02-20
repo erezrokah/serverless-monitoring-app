@@ -16,11 +16,11 @@ custom:
 
   alarmsTopicName: ${self:service}-alarms-topic-${self:custom.currentStage}
   alarmsTopicArn: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.alarmsTopicName}
-  alarmsTopicEmail: ${file(../common/environment/config.${self:custom.currentStage}.json):alarmsTopicEmail}
 
   notificationsTopicName: ${self:service}-notifications-topic-${self:custom.currentStage}
   notificationsTopicArn: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.notificationsTopicName}
-  notificationsTopicEmail: ${file(../common/environment/config.${self:custom.currentStage}.json):notificationsTopicEmail}
+
+  adminEmail: ${file(../common/environment/config.${self:custom.currentStage}.json):adminEmail}
 
   dataTableName: ${self:service}-data-table-${self:custom.currentStage}
   endpointsTableName: ${self:service}-endpoints-table-${self:custom.currentStage}
