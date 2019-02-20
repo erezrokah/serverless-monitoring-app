@@ -25,13 +25,13 @@
   },
   {
     "id": "meretz",
-    "logo": "http://www.kolhazman.co.il/wp-content/uploads/thumbs/%D7%9C%D7%95%D7%92%D7%95-%D7%9E%D7%A8%D7%A5-30q4ezlmmavnawxj3suf4a.jpg",
+    "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/6/67/Meretz_Logo.svg/200px-Meretz_Logo.svg.png",
     "name": "Meretz",
     "url": "https://elections.meretz.org.il/"
   },
   {
     "id": "baityehudi",
-    "logo": "http://baityehudi.org.il/wp-content/themes/baityehudi.org.il/images/new_logo.png",
+    "logo": "https://baityehudi.org.il/wp-content/themes/baityehudi.org.il/images/new_logo.png",
     "name": "Bait Yehudi",
     "url": "http://baityehudi.org.il/"
   }
