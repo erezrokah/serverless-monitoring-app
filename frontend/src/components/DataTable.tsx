@@ -1,7 +1,16 @@
 import { GraphQLResult } from '@aws-amplify/api/lib/types';
 import { API, graphqlOperation } from 'aws-amplify';
 import React, { useEffect, useState } from 'react';
-import { Header, Icon, Image, Statistic, Table } from 'semantic-ui-react';
+import {
+  Dimmer,
+  Header,
+  Icon,
+  Image,
+  Loader,
+  Segment,
+  Statistic,
+  Table,
+} from 'semantic-ui-react';
 import { ListEvents } from '../queries';
 
 interface IEntry {
@@ -71,6 +80,7 @@ const Row = (props: IEntry) => {
 };
 
 const DataTable = () => {
+  const [loading, setLoading] = useState(true);
   const [entries, setEntries] = useState([] as IEntry[]);
 
   const fetchData = async () => {
@@ -83,6 +93,7 @@ const DataTable = () => {
     setEntries(
       result.getDataEntries.items.sort((a, b) => a.name.localeCompare(b.name)),
     );
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -91,19 +102,21 @@ const DataTable = () => {
   }, []);
 
   return (
-    <Table celled={true}>
-      <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell>Party Name</Table.HeaderCell>
-          <Table.HeaderCell>Site Address</Table.HeaderCell>
-          <Table.HeaderCell>Site Status</Table.HeaderCell>
-          <Table.HeaderCell>Average Latency</Table.HeaderCell>
-          <Table.HeaderCell>Last Sample</Table.HeaderCell>
-        </Table.Row>
-      </Table.Header>
+    <Segment loading={loading} basic={true}>
+      <Table celled={true}>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>Party Name</Table.HeaderCell>
+            <Table.HeaderCell>Site Address</Table.HeaderCell>
+            <Table.HeaderCell>Site Status</Table.HeaderCell>
+            <Table.HeaderCell>Average Latency</Table.HeaderCell>
+            <Table.HeaderCell>Last Sample</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
 
-      <Table.Body>{entries.map(Row)}</Table.Body>
-    </Table>
+        <Table.Body>{entries.map(Row)}</Table.Body>
+      </Table>
+    </Segment>
   );
 };
 
