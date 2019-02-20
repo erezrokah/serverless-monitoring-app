@@ -3,15 +3,17 @@ import { Helmet } from 'react-helmet';
 import { Header, Segment } from 'semantic-ui-react';
 import { DataTable, Refresh } from './components';
 
+const title = 'Elections Monitoring App';
+
 class App extends Component<any, any> {
   public render() {
     return (
       <Segment>
         <Helmet>
-          <title>Elections Monitoring App</title>
+          <title>{title}</title>
         </Helmet>
         <Header textAlign="center" size="huge">
-          Elections Monitoring App
+          {title}
         </Header>
         <DataTable />
         <Refresh />
