@@ -37,22 +37,23 @@ custom:
 
 stepFunctions:
   stateMachines:
-    spanOutStepFuntion:
+    fanoutStepFuntion:
       events:
         - http:
-            path: spanout
+            path: fanout
             method: POST
+            cors: true
         - schedule:
-            rate: rate(1 minute)
-            enabled: true
-      name: ${self:service}-${self:custom.currentStage}-span-out-step-function
+            rate: true(2 hours)
+            enabled: false
+      name: ${self:service}-${self:custom.currentStage}-fan-out-step-function
       definition:
-        Comment: 'A step function to span out several other step functions'
-        StartAt: SpanOut
+        Comment: 'A step function to fan-out several other step functions'
+        StartAt: Fanout
         States:
-          SpanOut:
+          Fanout:
             Type: Task
-            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:custom.currentStage}-spanOut
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:custom.currentStage}-fanout
             End: true
 
     checkEndpointStepFunction:
@@ -144,8 +145,8 @@ functions:
     handler: src/checkEndpointHandler.checkEndpoint
   aggregateData:
     handler: src/aggregateDataHandler.aggregateData
-  spanOut:
-    handler: src/spanOutHandler.spanOut
+  fanout:
+    handler: src/fanoutHandler.fanout
     environment:
       DYNAMODB_TABLE: ${self:custom.endpointsTableName}
       STEP_FUNCTION: arn:aws:states:#{AWS::Region}:#{AWS::AccountId}:stateMachine:${self:custom.checkEndpointStepFunction}

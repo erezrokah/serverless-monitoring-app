@@ -2,7 +2,7 @@ import { Callback, Context, Handler } from 'aws-lambda';
 import * as DynamoDB from 'aws-sdk/clients/dynamodb';
 import * as StepFunctions from 'aws-sdk/clients/stepfunctions';
 
-export const spanOut: Handler = async (
+export const fanout: Handler = async (
   event,
   context: Context,
   callback: Callback,
