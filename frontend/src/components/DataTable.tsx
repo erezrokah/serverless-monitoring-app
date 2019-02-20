@@ -86,7 +86,7 @@ const DataTable = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(fetchData, 500);
+    const interval = setInterval(fetchData, 1000);
     return () => clearInterval(interval);
   }, []);
 

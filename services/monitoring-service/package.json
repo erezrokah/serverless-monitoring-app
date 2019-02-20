@@ -1,7 +1,8 @@
 {
   "name": "monitoring-service",
   "version": "0.0.1",
-  "description": "File Service",
+  "private": true,
+  "description": "Monitoring Service",
   "scripts": {
     "lint": "tslint 'src/**/*.ts'",
     "test": "jest",
@@ -11,7 +12,8 @@
     "deploy:dev": "serverless deploy --stage dev",
     "remove:dev": "serverless remove --stage dev",
     "prettier": "prettier --write src/**/*.ts",
-    "prettier:ci": "prettier --list-different src/**/*.ts"
+    "prettier:ci": "prettier --list-different src/**/*.ts",
+    "print:name": "echo ${npm_package_name}"
   },
   "dependencies": {
     "aws-sdk": "^2.405.0",
@@ -35,7 +37,8 @@
     "ts-loader": "^5.3.3",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.3.3",
-    "webpack": "^4.29.5"
+    "webpack": "^4.29.5",
+    "common": "file:./../common"
   },
   "author": "Erez Rokah",
   "license": "MIT"

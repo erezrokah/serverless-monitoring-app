@@ -43,8 +43,12 @@ stepFunctions:
             path: fanout
             method: POST
             cors: true
+            authorizer:
+              type: COGNITO_USER_POOLS
+              authorizerId:
+                Ref: ApiGatewayAuthorizer
         - schedule:
-            rate: true(2 hours)
+            rate: rate(2 hours)
             enabled: false
       name: ${self:service}-${self:custom.currentStage}-fan-out-step-function
       definition:
@@ -188,8 +192,7 @@ provider:
         - '*'
 
 resources:
-  # DynamoDb
   - ${file(resources/dynamoDb.yml)}
-
-  # SNS Topics
   - ${file(resources/snsTopics.yml)}
+  - ${file(resources/cognito.yml)}
+  - ${file(resources/authorizer.yml)}

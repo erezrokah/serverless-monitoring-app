@@ -11,10 +11,12 @@ custom:
   currentStage: ${opt:stage, self:custom.defaultStage}
   currentRegion: ${file(../services/common/environment/config.${self:custom.currentStage}.json):region}
 
-  output:
-    handler: ./scripts/stackOutput.handler
+  monitoringServiceName: ${file(../services/monitoring-service/serverless.yml):service}
 
   s3Bucket: monitoring-frontend-app-bucket-${self:custom.currentStage}
+
+  output:
+    handler: ./scripts/stackOutput.handler
 
   appSync:
     name: monitoring-data-endpoint
@@ -22,7 +24,8 @@ custom:
     userPoolConfig:
       awsRegion: ${self:custom.currentRegion}
       defaultAction: ALLOW
-      userPoolId: { Ref: UserPool }
+      userPoolId:
+        Fn::ImportValue: '${self:custom.monitoringServiceName}:${self:custom.currentStage}:UserPoolId'
     serviceRole: AppSyncServiceRole
     dataSources:
       - type: AMAZON_DYNAMODB
@@ -30,7 +33,7 @@ custom:
         description: 'Monitoring Data Entries Source'
         config:
           tableName:
-            Fn::ImportValue: 'monitoring-service:${self:custom.currentStage}:MonitoringDataTableName'
+            Fn::ImportValue: '${self:custom.monitoringServiceName}:${self:custom.currentStage}:MonitoringDataTableName'
           serviceRoleArn:
             Fn::Join:
               - ''
@@ -65,11 +68,6 @@ provider:
         - '*'
 
 resources:
-  # cloudfront
   - ${file(resources/cloudfront.yml)}
-
-  # appsync service role
   - ${file(resources/appsync-service-role.yml)}
-
-  # cognito
   - ${file(resources/cognito.yml)}

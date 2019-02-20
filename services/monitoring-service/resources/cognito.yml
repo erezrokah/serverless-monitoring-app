@@ -1,0 +1,19 @@
+Resources:
+  # Amazon Cognito user pool
+  UserPool:
+    Type: 'AWS::Cognito::UserPool'
+    Description: 'An Amazon Cognito user pool for authenticating users'
+    Properties:
+      UserPoolName: ${self:service}-${self:custom.currentStage}-user-pool
+
+      AliasAttributes:
+        - preferred_username
+      AutoVerifiedAttributes:
+        - email
+
+Outputs:
+  UserPoolId:
+    Value:
+      Ref: UserPool
+    Export:
+      Name: '${self:service}:${self:custom.currentStage}:UserPoolId'

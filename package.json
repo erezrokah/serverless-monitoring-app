@@ -11,12 +11,13 @@
     "test:ci": "lerna exec --concurrency 1 yarn test:ci",
     "test:e2e": "lerna run --concurrency 1 test:e2e",
     "coverage": "lerna exec --concurrency 1 yarn coverage",
-    "deploy:dev": "lerna run --concurrency 1 deploy:dev",
+    "deploy:dev": "lerna run deploy:dev",
     "publish:frontend:dev": "lerna run publish:dev --scope frontend",
     "prettier": "lerna exec yarn prettier",
     "prettier:ci": "lerna exec yarn prettier:ci",
     "run:all:dev": "yarn deploy:dev && yarn build:frontend && yarn publish:frontend:dev",
-    "remove:all:dev": "lerna run --concurrency 1 remove:dev --scope 'frontend' && lerna run --concurrency 1 remove:dev --scope 'monitoring-*'"
+    "remove:all:dev": "lerna run --concurrency 1 remove:dev --scope 'frontend' && lerna run --concurrency 1 remove:dev --scope 'monitoring-*'",
+    "print:name": "lerna run print:name"
   },
   "devDependencies": {
     "jest-junit": "^6.2.1",

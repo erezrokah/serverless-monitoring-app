@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "description": "Frontend",
   "dependencies": {
     "aws-amplify": "^1.1.19",
     "aws-amplify-react": "^2.3.0",
@@ -9,8 +10,7 @@
     "react-dom": "^16.8.2",
     "react-scripts": "2.1.5",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.85.0",
-    "monitoring-service": "^0.0.1"
+    "semantic-ui-react": "^0.85.0"
   },
   "devDependencies": {
     "@anttiviljami/serverless-stack-output": "^0.3.1",
@@ -27,7 +27,8 @@
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^3.6.0",
-    "typescript": "^3.3.3"
+    "typescript": "^3.3.3",
+    "monitoring-service": "file:./../services/monitoring-service"
   },
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
@@ -43,7 +44,8 @@
     "remove:dev": "serverless emptyS3Bucket --stage dev && serverless remove --stage dev",
     "publish:dev": "serverless syncToS3 --stage dev && serverless invalidateCloudFrontCache --stage dev",
     "prettier": "prettier --write src/**/*.ts src/**/*.tsx serverless-single-page-app-plugin/*.js",
-    "prettier:ci": "prettier --list-different src/**/*.ts src/**/*.tsx serverless-single-page-app-plugin/*.js"
+    "prettier:ci": "prettier --list-different src/**/*.ts src/**/*.tsx serverless-single-page-app-plugin/*.js",
+    "print:name": "echo ${npm_package_name}"
   },
   "eslintConfig": {
     "extends": "react-app"

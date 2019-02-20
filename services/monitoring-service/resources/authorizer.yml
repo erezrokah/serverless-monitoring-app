@@ -1,0 +1,10 @@
+Resources:
+  ApiGatewayAuthorizer:
+    Type: AWS::ApiGateway::Authorizer
+    Properties:
+      IdentitySource: 'method.request.header.Authorization'
+      Name: ${self:service}-${self:custom.currentStage}-cognito-authorizer
+      ProviderARNs:
+        - 'Fn::GetAtt': [UserPool, Arn]
+      RestApiId: { Ref: ApiGatewayRestApi }
+      Type: COGNITO_USER_POOLS

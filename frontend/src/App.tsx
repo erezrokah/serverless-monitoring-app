@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Header, Segment } from 'semantic-ui-react';
-import { DataTable } from './components';
+import { Header, Segment } from 'semantic-ui-react';
+import { DataTable, Refresh } from './components';
 
 class App extends Component<any, any> {
   public render() {
@@ -10,6 +10,7 @@ class App extends Component<any, any> {
           Elections Monitoring App
         </Header>
         <DataTable />
+        <Refresh />
       </Segment>
     );
   }
