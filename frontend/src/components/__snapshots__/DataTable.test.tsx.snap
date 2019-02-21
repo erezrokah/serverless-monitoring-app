@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataTable matches snapshot 1`] = `
+<div
+  className="ui basic loading segment"
+>
+  <table
+    className="ui celled table"
+  >
+    <thead
+      className=""
+    >
+      <tr
+        className=""
+      >
+        <th
+          className=""
+        >
+          Party Name
+        </th>
+        <th
+          className=""
+        >
+          Site Address
+        </th>
+        <th
+          className=""
+        >
+          Site Status
+        </th>
+        <th
+          className=""
+        >
+          Average Latency
+        </th>
+        <th
+          className=""
+        >
+          Last Sample
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      className=""
+    />
+  </table>
+</div>
+`;

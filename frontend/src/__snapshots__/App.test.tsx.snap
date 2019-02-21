@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App matches snapshot 1`] = `
+<div
+  className="ui segment"
+>
+  <div
+    className="ui huge center aligned header"
+  >
+    Elections Monitoring App
+  </div>
+  DataTable
+  Refresh
+</div>
+`;
