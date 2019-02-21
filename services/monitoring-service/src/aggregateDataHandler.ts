@@ -1,7 +1,7 @@
 import { Callback, Context, Handler } from 'aws-lambda';
 import { aggregate } from './aggregator';
 
-export const aggregateData: Handler = async (
+export const aggregateData: Handler = (
   event: IAggregatorData,
   context: Context,
   callback: Callback,

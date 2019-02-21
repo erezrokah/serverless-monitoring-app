@@ -16,7 +16,7 @@ export const sendSingleRequest = async (endpoint: string) => {
   return { error, duration: end - start };
 };
 
-const NUM_REQUESTS = 15;
+export const NUM_REQUESTS = 15;
 
 export const testEndpoint = async (endpoint: string) => {
   const endpoints = new Array(NUM_REQUESTS).fill(endpoint);

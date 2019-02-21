@@ -7,10 +7,10 @@ export const fanout: Handler = async (
   context: Context,
   callback: Callback,
 ) => {
-  const tableName = process.env.DYNAMODB_TABLE || '';
+  const tableName = process.env.DYNAMODB_TABLE as string;
   const db = new DynamoDB.DocumentClient();
 
-  const stateMachineArn = process.env.STEP_FUNCTION || '';
+  const stateMachineArn = process.env.STEP_FUNCTION as string;
   const stepFunctions = new StepFunctions();
 
   const scanResult = await db.scan({ TableName: tableName }).promise();
