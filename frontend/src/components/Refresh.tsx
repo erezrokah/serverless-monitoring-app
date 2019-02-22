@@ -2,9 +2,9 @@ import { Auth } from 'aws-amplify';
 import React, { useState } from 'react';
 import { Button, Container } from 'semantic-ui-react';
 
-const api = process.env.REACT_APP_REST_API || '';
-
 const Refresh = () => {
+  const api = process.env.REACT_APP_REST_API as string;
+
   const [loading, setLoading] = useState(false);
 
   async function onClick() {
@@ -23,7 +23,12 @@ const Refresh = () => {
 
   return (
     <Container textAlign="center">
-      <Button loading={loading} onClick={onClick} positive={true}>
+      <Button
+        loading={loading}
+        onClick={onClick}
+        positive={true}
+        data-testid="refresh"
+      >
         Refresh
       </Button>
     </Container>

@@ -6,6 +6,7 @@ exports[`DataTable matches snapshot 1`] = `
 >
   <table
     className="ui celled table"
+    data-testid="data-table"
   >
     <thead
       className=""
@@ -43,6 +44,287 @@ exports[`DataTable matches snapshot 1`] = `
     <tbody
       className=""
     />
+  </table>
+</div>
+`;
+
+exports[`DataTable updates data from graphql api 1`] = `
+<div
+  class="ui basic segment"
+>
+  <table
+    class="ui celled table"
+    data-testid="data-table"
+  >
+    <thead
+      class=""
+    >
+      <tr
+        class=""
+      >
+        <th
+          class=""
+        >
+          Party Name
+        </th>
+        <th
+          class=""
+        >
+          Site Address
+        </th>
+        <th
+          class=""
+        >
+          Site Status
+        </th>
+        <th
+          class=""
+        >
+          Average Latency
+        </th>
+        <th
+          class=""
+        >
+          Last Sample
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      class=""
+    >
+      <tr
+        class=""
+        data-testid="id1"
+      >
+        <td
+          class=""
+        >
+          <h4
+            class="ui image header"
+          >
+            <img
+              class="ui image"
+              src="logo1"
+            />
+            <div
+              class="content"
+            >
+              name1
+            </div>
+          </h4>
+        </td>
+        <td
+          class=""
+        >
+          url1
+        </td>
+        <td
+          class="error"
+        >
+          <i
+            aria-hidden="true"
+            class="close icon"
+          />
+          Error
+        </td>
+        <td
+          class=""
+        >
+          <div
+            class="ui horizontal statistic"
+          >
+            <div
+              class="value"
+            >
+              -1.00
+            </div>
+            <div
+              class="label"
+            >
+              ms
+            </div>
+          </div>
+        </td>
+        <td
+          class=""
+        >
+          Wed Jan 01 1947 00:00:00 GMT+0000 (Greenwich Mean Time)
+        </td>
+      </tr>
+      <tr
+        class=""
+        data-testid="id2"
+      >
+        <td
+          class=""
+        >
+          <h4
+            class="ui image header"
+          >
+            <img
+              class="ui image"
+              src="logo2"
+            />
+            <div
+              class="content"
+            >
+              name2
+            </div>
+          </h4>
+        </td>
+        <td
+          class=""
+        >
+          url2
+        </td>
+        <td
+          class="warning"
+        >
+          <i
+            aria-hidden="true"
+            class="attention icon"
+          />
+          Warning
+        </td>
+        <td
+          class=""
+        >
+          <div
+            class="ui horizontal statistic"
+          >
+            <div
+              class="value"
+            >
+              3000.00
+            </div>
+            <div
+              class="label"
+            >
+              ms
+            </div>
+          </div>
+        </td>
+        <td
+          class=""
+        >
+          Thu Jan 01 1948 00:00:00 GMT+0000 (Greenwich Mean Time)
+        </td>
+      </tr>
+      <tr
+        class=""
+        data-testid="id3"
+      >
+        <td
+          class=""
+        >
+          <h4
+            class="ui image header"
+          >
+            <img
+              class="ui image"
+              src="logo3"
+            />
+            <div
+              class="content"
+            >
+              name3
+            </div>
+          </h4>
+        </td>
+        <td
+          class=""
+        >
+          url3
+        </td>
+        <td
+          class="positive"
+        >
+          <i
+            aria-hidden="true"
+            class="checkmark icon"
+          />
+          Passing
+        </td>
+        <td
+          class=""
+        >
+          <div
+            class="ui horizontal statistic"
+          >
+            <div
+              class="value"
+            >
+              1000.00
+            </div>
+            <div
+              class="label"
+            >
+              ms
+            </div>
+          </div>
+        </td>
+        <td
+          class=""
+        >
+          Sat Jan 01 1949 00:00:00 GMT+0000 (Greenwich Mean Time)
+        </td>
+      </tr>
+      <tr
+        class=""
+        data-testid="id4"
+      >
+        <td
+          class=""
+        >
+          <h4
+            class="ui image header"
+          >
+            <img
+              class="ui image"
+              src="logo4"
+            />
+            <div
+              class="content"
+            >
+              name4
+            </div>
+          </h4>
+        </td>
+        <td
+          class=""
+        >
+          url4
+        </td>
+        <td
+          class=""
+        >
+          Unknown
+        </td>
+        <td
+          class=""
+        >
+          <div
+            class="ui horizontal statistic"
+          >
+            <div
+              class="value"
+            >
+              4000.00
+            </div>
+            <div
+              class="label"
+            >
+              ms
+            </div>
+          </div>
+        </td>
+        <td
+          class=""
+        >
+          Sun Jan 01 1950 00:00:00 GMT+0000 (Greenwich Mean Time)
+        </td>
+      </tr>
+    </tbody>
   </table>
 </div>
 `;

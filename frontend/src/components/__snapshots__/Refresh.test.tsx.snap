@@ -6,6 +6,7 @@ exports[`Refresh matches snapshot 1`] = `
 >
   <button
     className="ui positive button"
+    data-testid="refresh"
     onClick={[Function]}
   >
     Refresh

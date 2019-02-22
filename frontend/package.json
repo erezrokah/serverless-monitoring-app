@@ -70,7 +70,8 @@
       "!/node_modules/",
       "!src/index.tsx",
       "!src/components/index.tsx",
-      "!src/serviceWorker.ts"
+      "!src/serviceWorker.ts",
+      "!src/setupTests.ts"
     ]
   }
 }

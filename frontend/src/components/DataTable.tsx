@@ -2,18 +2,16 @@ import { GraphQLResult } from '@aws-amplify/api/lib/types';
 import { API, graphqlOperation } from 'aws-amplify';
 import React, { useEffect, useState } from 'react';
 import {
-  Dimmer,
   Header,
   Icon,
   Image,
-  Loader,
   Segment,
   Statistic,
   Table,
 } from 'semantic-ui-react';
 import { ListEvents } from '../queries';
 
-interface IEntry {
+export interface IEntry {
   id: string;
   name: string;
   url: string;
@@ -50,15 +48,16 @@ const SiteStatus = ({ status }: { status: string }) => {
       </Table.Cell>
     );
   } else {
-    return null;
+    return <Table.Cell>Unknown</Table.Cell>;
   }
 };
 
 const Row = (props: IEntry) => {
   const { averageLatencyMs, id, lastSample, logo, name, status, url } = props;
   const lastSampleDate = new Date(lastSample);
+
   return (
-    <Table.Row key={id}>
+    <Table.Row key={id} data-testid={id}>
       <Table.Cell>
         <Header as="h4" image={true}>
           <Image src={logo} />
@@ -84,7 +83,7 @@ const DataTable = () => {
   const [entries, setEntries] = useState([] as IEntry[]);
 
   const fetchData = async () => {
-    const { data = { getDataEntries: { items: [] } } } = (await API.graphql(
+    const { data } = (await API.graphql(
       graphqlOperation(ListEvents),
     )) as GraphQLResult;
 
@@ -99,11 +98,11 @@ const DataTable = () => {
   useEffect(() => {
     const interval = setInterval(fetchData, 1000);
     return () => clearInterval(interval);
-  }, []);
+  });
 
   return (
     <Segment loading={loading} basic={true}>
-      <Table celled={true}>
+      <Table celled={true} data-testid="data-table">
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Party Name</Table.HeaderCell>
