@@ -20,6 +20,10 @@ module.exports = {
         use: [
           {
             loader: 'ts-loader',
+            options: {
+              // https://github.com/serverless-heaven/serverless-webpack/issues/299
+              transpileOnly: true,
+            },
           },
         ],
       },

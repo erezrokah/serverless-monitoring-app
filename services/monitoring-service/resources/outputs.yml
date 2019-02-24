@@ -1,0 +1,4 @@
+Outputs:
+  CheckEndpointStepFunctionArn:
+    Value:
+      Ref: ${self:custom.checkEndpointStepFunctionId}

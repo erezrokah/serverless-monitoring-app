@@ -29,7 +29,13 @@ const replaceInEnvFile = async (file, envs) => {
 
 const handler = async (data, serverless) => {
   //this handler creates the environment for the frontend based on the services deployment output
-  const { EndpointsTableName, ServiceEndpoint, UserPoolId } = data;
+  const {
+    EndpointsTableName,
+    ServiceEndpoint,
+    UserPoolId,
+    MonitoringDataTableName,
+    CheckEndpointStepFunctionArn,
+  } = data;
   if (EndpointsTableName) {
     const region = serverless.variables.service.custom.currentRegion;
     const db = new DynamoDB.DocumentClient({ region });
@@ -58,6 +64,18 @@ const handler = async (data, serverless) => {
       REACT_APP_USER_POOL_ID: UserPoolId,
       REACT_APP_COGNITO_REGION: region,
     });
+  }
+
+  if (MonitoringDataTableName && CheckEndpointStepFunctionArn) {
+    await fs.writeJSON(
+      path.join(__dirname, '..', 'e2e', 'config.json'),
+      {
+        MonitoringDataTableName,
+        CheckEndpointStepFunctionArn,
+        Region: serverless.variables.service.custom.currentRegion,
+      },
+      { spaces: 2 },
+    );
   }
 };
 
