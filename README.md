@@ -2,6 +2,10 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+## Architecture
+
+![Application architecture](images/serverless-monitoring-app.png)
+
 ## Prerequisites
 
 [Nodejs](https://nodejs.org/en/) (at least version 8)
