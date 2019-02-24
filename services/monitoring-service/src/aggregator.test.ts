@@ -8,7 +8,7 @@ describe('aggregator', () => {
   test('should return status ERROR on many errors', () => {
     const results = new Array(15).fill({ error: true, duration: -1 });
     expect(aggregate(results)).toEqual({
-      averageLatencyMs: -1,
+      averageLatencyMs: '-1',
       lastSample: new Date().toISOString(),
       status: 'ERROR',
     });
