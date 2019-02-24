@@ -60,8 +60,6 @@ describe('checkEndpointStepFunction', () => {
       { ...data, status: 'PASS' },
       false,
     );
-    await expect({ region, stateMachineArn }).not.toHaveState(
-      'SendNotification',
-    );
+    await expect({ region, stateMachineArn }).toHaveState('SkipNotification');
   });
 });
