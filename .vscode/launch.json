@@ -7,6 +7,7 @@
       "request": "launch",
       "runtimeExecutable": "${workspaceRoot}/frontend/node_modules/.bin/react-scripts",
       "args": ["test", "--runInBand", "--no-cache", "--no-watch"],
+      "env": { "TZ": "GMT" },
       "cwd": "${workspaceRoot}/frontend",
       "protocol": "inspector",
       "console": "integratedTerminal",
