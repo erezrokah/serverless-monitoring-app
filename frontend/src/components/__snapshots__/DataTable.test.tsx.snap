@@ -148,7 +148,7 @@ exports[`DataTable updates data from graphql api 1`] = `
         <td
           class=""
         >
-          Wed Jan 01 1947 00:00:00 GMT+0000 (Greenwich Mean Time)
+          Wed Jan 01 1947 00:00:00 GMT+0000 (GMT)
         </td>
       </tr>
       <tr
@@ -207,7 +207,7 @@ exports[`DataTable updates data from graphql api 1`] = `
         <td
           class=""
         >
-          Thu Jan 01 1948 00:00:00 GMT+0000 (Greenwich Mean Time)
+          Thu Jan 01 1948 00:00:00 GMT+0000 (GMT)
         </td>
       </tr>
       <tr
@@ -266,7 +266,7 @@ exports[`DataTable updates data from graphql api 1`] = `
         <td
           class=""
         >
-          Sat Jan 01 1949 00:00:00 GMT+0000 (Greenwich Mean Time)
+          Sat Jan 01 1949 00:00:00 GMT+0000 (GMT)
         </td>
       </tr>
       <tr
@@ -321,7 +321,7 @@ exports[`DataTable updates data from graphql api 1`] = `
         <td
           class=""
         >
-          Sun Jan 01 1950 00:00:00 GMT+0000 (Greenwich Mean Time)
+          Sun Jan 01 1950 00:00:00 GMT+0000 (GMT)
         </td>
       </tr>
     </tbody>

@@ -5,7 +5,7 @@ import { ListEvents } from '../queries';
 import DataTable, { IEntry } from './DataTable';
 
 jest.mock('aws-amplify');
-// jest.useFakeTimers();
+jest.useFakeTimers();
 
 describe('DataTable', () => {
   beforeEach(() => {
@@ -71,10 +71,12 @@ describe('DataTable', () => {
 
     const { container, getByTestId } = render(<DataTable />);
 
-    // expect(setInterval).toHaveBeenCalledTimes(1);
-    // expect(setInterval).toHaveBeenCalledWith(expect.any(Function), 1000);
+    expect(setInterval).toHaveBeenCalledTimes(1);
+    expect(setInterval).toHaveBeenCalledWith(expect.any(Function), 1000);
 
-    // jest.advanceTimersByTime(1500);
+    jest.advanceTimersByTime(1500);
+
+    jest.useRealTimers();
 
     await waitForElement(() => getByTestId(entries[0].id));
 
