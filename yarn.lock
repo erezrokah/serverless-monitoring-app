@@ -7668,14 +7668,15 @@ jest-dom@^3.1.2:
     pretty-format "^24.0.0"
     redent "^2.0.0"
 
-jest-e2e-serverless@^0.0.18:
-  version "0.0.18"
-  resolved "https://registry.yarnpkg.com/jest-e2e-serverless/-/jest-e2e-serverless-0.0.18.tgz#bd45d866b7814cdbe05a81f89e6e69137f00cfc2"
-  integrity sha512-izq8hw3d3BJoL/obusgsiXt42FI2+WGGTJKjdJO+mQQBmfBEdgmuPfiyXvLh6N+p15KBtsKh4pUTPr8Q+8Zy+g==
+jest-e2e-serverless@^0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/jest-e2e-serverless/-/jest-e2e-serverless-0.0.19.tgz#94b5a6d68200821898295e69b3f4ce88b1fcba04"
+  integrity sha512-h5SPRgh5BJk0XMQYlgWaPOgqFBxTQiQsMthvhktFGkQ/L7Ofpgh2BMTgAVIiw5Ii8s8ftztAxArT3leTzvfFdw==
   dependencies:
     aws-sdk "^2.323.0"
     axios "^0.18.0"
     jest-diff "^23.6.0"
+    uuid "^3.3.2"
 
 jest-each@^23.6.0:
   version "23.6.0"
