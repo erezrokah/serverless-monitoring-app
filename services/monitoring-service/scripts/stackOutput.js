@@ -35,6 +35,7 @@ const handler = async (data, serverless) => {
     UserPoolId,
     MonitoringDataTableName,
     CheckEndpointStepFunctionArn,
+    NotificationsTopicArn,
   } = data;
   if (EndpointsTableName) {
     const region = serverless.variables.service.custom.currentRegion;
@@ -66,12 +67,17 @@ const handler = async (data, serverless) => {
     });
   }
 
-  if (MonitoringDataTableName && CheckEndpointStepFunctionArn) {
+  if (
+    MonitoringDataTableName &&
+    CheckEndpointStepFunctionArn &&
+    NotificationsTopicArn
+  ) {
     await fs.writeJSON(
       path.join(__dirname, '..', 'e2e', 'config.json'),
       {
         MonitoringDataTableName,
         CheckEndpointStepFunctionArn,
+        NotificationsTopicArn,
         Region: serverless.variables.service.custom.currentRegion,
       },
       { spaces: 2 },
