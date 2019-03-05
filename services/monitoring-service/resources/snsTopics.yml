@@ -16,3 +16,8 @@ Resources:
       Subscription:
         - Endpoint: ${self:custom.adminEmail}
           Protocol: email
+
+Outputs:
+  NotificationsTopicArn:
+    Value:
+      Ref: NotificationsTopic

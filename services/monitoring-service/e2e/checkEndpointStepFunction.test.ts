@@ -1,22 +1,40 @@
 import * as StepFunctions from 'aws-sdk/clients/stepfunctions';
 import { clearAllItems } from 'jest-e2e-serverless/lib/utils/dynamoDb';
+import {
+  subscribeToTopic,
+  unsubscribeFromTopic,
+} from 'jest-e2e-serverless/lib/utils/sqs';
 import { stopRunningExecutions } from 'jest-e2e-serverless/lib/utils/stepFunctions';
+
+interface IConfig {
+  MonitoringDataTableName: string;
+  CheckEndpointStepFunctionArn: string;
+  NotificationsTopicArn: string;
+  Region: string;
+}
 
 describe('checkEndpointStepFunction', () => {
   const {
     MonitoringDataTableName: table,
     CheckEndpointStepFunctionArn: stateMachineArn,
+    NotificationsTopicArn: topicArn,
     Region: region,
-  } = require('./config.json');
+  } = require('./config.json') as IConfig;
+
+  let [subscriptionArn, queueUrl] = ['', ''];
 
   beforeEach(async () => {
     await stopRunningExecutions(region, stateMachineArn);
     await clearAllItems(region, table);
+
+    ({ subscriptionArn, queueUrl } = await subscribeToTopic(region, topicArn));
   });
 
   afterEach(async () => {
     await stopRunningExecutions(region, stateMachineArn);
     await clearAllItems(region, table);
+
+    await unsubscribeFromTopic(region, subscriptionArn, queueUrl);
   });
 
   test('should update dynamodb and send notification on bad endpoint', async () => {
@@ -39,6 +57,15 @@ describe('checkEndpointStepFunction', () => {
       false,
     );
     await expect({ region, stateMachineArn }).toHaveState('SendNotification');
+
+    await expect({ region, queueUrl }).toHaveMessage(
+      message =>
+        message.Subject === 'Monitoring Service Notification' &&
+        message.Message ===
+          `The endpoint for service '${
+            data.name
+          }' is at 'ERROR' status, Please check!`,
+    );
   });
 
   test('should update dynamodb and not send notification on good endpoint', async () => {
@@ -61,5 +88,7 @@ describe('checkEndpointStepFunction', () => {
       false,
     );
     await expect({ region, stateMachineArn }).toHaveState('SkipNotification');
+
+    await expect({ region, queueUrl }).not.toHaveMessage(() => true);
   });
 });
