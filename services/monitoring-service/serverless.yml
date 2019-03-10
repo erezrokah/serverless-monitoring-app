@@ -153,6 +153,7 @@ stepFunctions:
 functions:
   checkEndpoint:
     handler: src/checkEndpointHandler.checkEndpoint
+    timeout: 15
   aggregateData:
     handler: src/aggregateDataHandler.aggregateData
   fanout:

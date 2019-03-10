@@ -4,7 +4,7 @@ export const sendSingleRequest = async (endpoint: string) => {
   const start = new Date().getTime();
   let error = true;
   try {
-    const { status } = await axios.get(endpoint);
+    const { status } = await axios.get(endpoint, { timeout: 10000 });
     console.log('received status code:', status);
     error = false;
   } catch (e) {

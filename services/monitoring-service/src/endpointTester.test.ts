@@ -25,7 +25,7 @@ describe('endpointTester', () => {
     expect.assertions(5);
 
     expect(axios.get).toHaveBeenCalledTimes(NUM_REQUESTS);
-    expect(axios.get).toHaveBeenCalledWith(url);
+    expect(axios.get).toHaveBeenCalledWith(url, { timeout: 10000 });
     expect(results).toEqual(
       new Array(NUM_REQUESTS).fill({ error: false, duration: 0 }),
     );
@@ -45,7 +45,7 @@ describe('endpointTester', () => {
     expect.assertions(5);
 
     expect(axios.get).toHaveBeenCalledTimes(NUM_REQUESTS);
-    expect(axios.get).toHaveBeenCalledWith(url);
+    expect(axios.get).toHaveBeenCalledWith(url, { timeout: 10000 });
     expect(results).toEqual(
       new Array(NUM_REQUESTS).fill({ error: true, duration: 0 }),
     );
