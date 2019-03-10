@@ -50,7 +50,9 @@ describe('checkEndpointStepFunction', () => {
       .startExecution({ stateMachineArn, input: JSON.stringify(data) })
       .promise();
 
-    await expect({ region, stateMachineArn }).toHaveState('PersistResults');
+    await expect({ region, stateMachineArn, timeout: 20000 }).toHaveState(
+      'PersistResults',
+    );
     await expect({ region, table }).toHaveItem(
       { id: data.id },
       { ...data, status: 'ERROR', averageLatencyMs: -1 },
