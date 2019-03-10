@@ -3,6 +3,7 @@ const fs = require('fs-extra');
 const dotenv = require('dotenv');
 const os = require('os');
 const DynamoDB = require('aws-sdk/clients/dynamodb');
+const { writeItems } = require('jest-e2e-serverless/lib/utils/dynamoDb');
 
 const replaceInEnvFile = async (file, envs) => {
   const keys = Object.keys(envs);
@@ -44,13 +45,7 @@ const handler = async (data, serverless) => {
 
     console.log(`Seeding ${EndpointsTableName} with ${items.length} items`);
 
-    const writeRequests = items.map(item => ({
-      PutRequest: { Item: item },
-    }));
-
-    await db
-      .batchWrite({ RequestItems: { [EndpointsTableName]: writeRequests } })
-      .promise();
+    await writeItems(region, EndpointsTableName, items);
   }
 
   if (ServiceEndpoint) {
