@@ -37,7 +37,7 @@ exports[`DataTable matches snapshot 1`] = `
         <th
           className=""
         >
-          Last Sample
+          Latest Sample
         </th>
       </tr>
     </thead>
@@ -85,7 +85,7 @@ exports[`DataTable updates data from graphql api 1`] = `
         <th
           class=""
         >
-          Last Sample
+          Latest Sample
         </th>
       </tr>
     </thead>
@@ -148,7 +148,7 @@ exports[`DataTable updates data from graphql api 1`] = `
         <td
           class=""
         >
-          Wed Jan 01 1947 00:00:00 GMT+0000 (GMT)
+          Wed Jan 01 1947 00:00:00 GMT+0000 (Greenwich Mean Time)
         </td>
       </tr>
       <tr
@@ -207,7 +207,7 @@ exports[`DataTable updates data from graphql api 1`] = `
         <td
           class=""
         >
-          Thu Jan 01 1948 00:00:00 GMT+0000 (GMT)
+          Thu Jan 01 1948 00:00:00 GMT+0000 (Greenwich Mean Time)
         </td>
       </tr>
       <tr
@@ -266,7 +266,7 @@ exports[`DataTable updates data from graphql api 1`] = `
         <td
           class=""
         >
-          Sat Jan 01 1949 00:00:00 GMT+0000 (GMT)
+          Sat Jan 01 1949 00:00:00 GMT+0000 (Greenwich Mean Time)
         </td>
       </tr>
       <tr
@@ -321,7 +321,7 @@ exports[`DataTable updates data from graphql api 1`] = `
         <td
           class=""
         >
-          Sun Jan 01 1950 00:00:00 GMT+0000 (GMT)
+          Sun Jan 01 1950 00:00:00 GMT+0000 (Greenwich Mean Time)
         </td>
       </tr>
     </tbody>

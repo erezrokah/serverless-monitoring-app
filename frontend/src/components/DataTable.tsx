@@ -109,7 +109,7 @@ const DataTable = () => {
             <Table.HeaderCell>Site Address</Table.HeaderCell>
             <Table.HeaderCell>Site Status</Table.HeaderCell>
             <Table.HeaderCell>Average Latency</Table.HeaderCell>
-            <Table.HeaderCell>Last Sample</Table.HeaderCell>
+            <Table.HeaderCell>Latest Sample</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
