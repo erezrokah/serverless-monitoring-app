@@ -4,7 +4,6 @@ plugins:
   - serverless-pseudo-parameters
   - serverless-step-functions
   - serverless-webpack
-  - serverless-offline
   - serverless-plugin-tracing
   - '@anttiviljami/serverless-stack-output'
   - serverless-iam-roles-per-function

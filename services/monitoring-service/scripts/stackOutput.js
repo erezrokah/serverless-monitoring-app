@@ -3,7 +3,7 @@ const fs = require('fs-extra');
 const dotenv = require('dotenv');
 const os = require('os');
 const DynamoDB = require('aws-sdk/clients/dynamodb');
-const { writeItems } = require('jest-e2e-serverless/lib/utils/dynamoDb');
+const { writeItems } = require('aws-testing-library/lib/utils/dynamoDb');
 
 const replaceInEnvFile = async (file, envs) => {
   const keys = Object.keys(envs);
