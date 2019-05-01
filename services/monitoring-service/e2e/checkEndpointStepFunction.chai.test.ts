@@ -1,3 +1,6 @@
+import awsTesting from 'aws-testing-library/lib/chai';
+import chai = require('chai');
+
 import * as StepFunctions from 'aws-sdk/clients/stepfunctions';
 import { clearAllItems } from 'aws-testing-library/lib/utils/dynamoDb';
 import {
@@ -5,6 +8,10 @@ import {
   unsubscribeFromTopic,
 } from 'aws-testing-library/lib/utils/sqs';
 import { stopRunningExecutions } from 'aws-testing-library/lib/utils/stepFunctions';
+
+chai.use(awsTesting);
+
+const { expect } = chai;
 
 interface IConfig {
   MonitoringDataTableName: string;
@@ -50,17 +57,17 @@ describe('checkEndpointStepFunction', () => {
       .startExecution({ stateMachineArn, input: JSON.stringify(data) })
       .promise();
 
-    await expect({ region, stateMachineArn, timeout: 20000 }).toHaveState(
+    await expect({ region, stateMachineArn, timeout: 20000 }).to.have.state(
       'PersistResults',
     );
-    await expect({ region, table }).toHaveItem(
+    await expect({ region, table }).to.have.item(
       { id: data.id },
       { ...data, status: 'ERROR', averageLatencyMs: -1 },
       false,
     );
-    await expect({ region, stateMachineArn }).toHaveState('SendNotification');
+    await expect({ region, stateMachineArn }).to.have.state('SendNotification');
 
-    await expect({ region, queueUrl }).toHaveMessage(
+    await expect({ region, queueUrl }).to.have.message(
       message =>
         message.Subject === 'Monitoring Service Notification' &&
         message.Message ===
@@ -83,14 +90,14 @@ describe('checkEndpointStepFunction', () => {
       .startExecution({ stateMachineArn, input: JSON.stringify(data) })
       .promise();
 
-    await expect({ region, stateMachineArn }).toHaveState('PersistResults');
-    await expect({ region, table }).toHaveItem(
+    await expect({ region, stateMachineArn }).to.have.state('PersistResults');
+    await expect({ region, table }).to.has.item(
       { id: data.id },
       { ...data, status: 'PASS' },
       false,
     );
-    await expect({ region, stateMachineArn }).toHaveState('SkipNotification');
+    await expect({ region, stateMachineArn }).to.have.state('SkipNotification');
 
-    await expect({ region, queueUrl }).not.toHaveMessage(() => true);
+    await expect({ region, queueUrl }).not.to.have.message(() => true);
   });
 });

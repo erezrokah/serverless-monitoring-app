@@ -49,8 +49,8 @@
     "deploy:dev": "serverless deploy --stage dev",
     "remove:dev": "serverless emptyS3Bucket --stage dev && serverless remove --stage dev",
     "publish:dev": "serverless syncToS3 --stage dev && serverless invalidateCloudFrontCache --stage dev",
-    "prettier": "prettier --write src/**/*.ts src/**/*.tsx serverless-single-page-app-plugin/*.js",
-    "prettier:ci": "prettier --list-different src/**/*.ts src/**/*.tsx serverless-single-page-app-plugin/*.js",
+    "prettier": "prettier --write src/**/*.ts src/**/*.tsx serverless-single-page-app-plugin/*.js scripts/*.js",
+    "prettier:ci": "prettier --list-different src/**/*.ts src/**/*.tsx serverless-single-page-app-plugin/*.js scripts/*.js",
     "print:name": "echo ${npm_package_name}"
   },
   "eslintConfig": {
