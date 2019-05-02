@@ -5,6 +5,7 @@ plugins:
   - serverless-plugin-tracing
   - serverless-appsync-plugin
   - '@anttiviljami/serverless-stack-output'
+  - serverless-s3-remover
 
 custom:
   defaultStage: dev
@@ -18,6 +19,10 @@ custom:
   output:
     handler: ./scripts/stackOutput.handler
 
+  remover:
+    buckets:
+      - ${self:custom.s3Bucket}
+
   appSync:
     name: monitoring-data-endpoint
     authenticationType: AMAZON_COGNITO_USER_POOLS
@@ -26,7 +31,7 @@ custom:
       defaultAction: ALLOW
       userPoolId:
         Fn::ImportValue: '${self:custom.monitoringServiceName}:${self:custom.currentStage}:UserPoolId'
-    serviceRole: AppSyncServiceRole
+    serviceRole: Dynamo-AppSyncServiceRole-${self:custom.currentStage}
     dataSources:
       - type: AMAZON_DYNAMODB
         name: DataEntries
@@ -39,7 +44,7 @@ custom:
               - ''
               - - 'arn:aws:iam::'
                 - Ref: AWS::AccountId
-                - ':role/Dynamo-${self:custom.appSync.serviceRole}'
+                - ':role/${self:custom.appSync.serviceRole}'
 
     mappingTemplatesLocation: ./appsync/mapping-templates
     schema: ./appsync/schema.graphql

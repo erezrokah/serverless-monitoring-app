@@ -19,9 +19,9 @@ class ServerlessPlugin {
         usage: 'Invalidates CloudFront cache',
         lifecycleEvents: ['invalidateCache'],
       },
-      emptyS3Bucket: {
-        usage: 'Empty the s3 bucket',
-        lifecycleEvents: ['empty'],
+      publishSite: {
+        usage: 'Runs syncToS3 and invalidateCloudFrontCache',
+        lifecycleEvents: ['publishSite'],
       },
     };
 
@@ -31,7 +31,7 @@ class ServerlessPlugin {
       'invalidateCloudFrontCache:invalidateCache': this.invalidateCache.bind(
         this,
       ),
-      'emptyS3Bucket:empty': this.emptyBucket.bind(this),
+      'publishSite:publishSite': this.publishSite.bind(this),
     };
   }
 
@@ -58,17 +58,6 @@ class ServerlessPlugin {
       this.serverless.cli.log('Successfully synced to the S3 bucket');
     } else {
       throw new Error('Failed syncing to the S3 bucket');
-    }
-  }
-
-  emptyBucket() {
-    const s3Bucket = this.serverless.variables.service.custom.s3Bucket;
-    const args = ['s3', 'rm', `s3://${s3Bucket}/`, '--recursive'];
-    const { sterr } = this.runAwsCommand(args);
-    if (!sterr) {
-      this.serverless.cli.log('Successfully emptied S3 bucket');
-    } else {
-      throw new Error('Failed emptying S3 bucket');
     }
   }
 
@@ -143,6 +132,11 @@ class ServerlessPlugin {
       this.serverless.cli.log(message);
       throw error;
     }
+  }
+
+  async publishSite() {
+    this.syncDirectory();
+    await this.invalidateCache();
   }
 }
 

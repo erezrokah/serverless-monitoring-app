@@ -5,13 +5,7 @@ import {
   unsubscribeFromTopic,
 } from 'aws-testing-library/lib/utils/sqs';
 import { stopRunningExecutions } from 'aws-testing-library/lib/utils/stepFunctions';
-
-interface IConfig {
-  MonitoringDataTableName: string;
-  CheckEndpointStepFunctionArn: string;
-  NotificationsTopicArn: string;
-  Region: string;
-}
+import { IConfig } from './types';
 
 describe('checkEndpointStepFunction', () => {
   const {

@@ -8,17 +8,11 @@ import {
   unsubscribeFromTopic,
 } from 'aws-testing-library/lib/utils/sqs';
 import { stopRunningExecutions } from 'aws-testing-library/lib/utils/stepFunctions';
+import { IConfig } from './types';
 
 chai.use(awsTesting);
 
 const { expect } = chai;
-
-interface IConfig {
-  MonitoringDataTableName: string;
-  CheckEndpointStepFunctionArn: string;
-  NotificationsTopicArn: string;
-  Region: string;
-}
 
 describe('checkEndpointStepFunction', () => {
   const {
