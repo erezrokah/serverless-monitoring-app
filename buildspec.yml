@@ -1,5 +1,12 @@
 version: 0.2
 
+env:
+  parameter-store:
+    region-staging: 'region-staging'
+    region-prod: 'region-prod'
+    adminEmail-staging: 'adminEmail-staging'
+    adminEmail-prod: 'adminEmail-prod'
+
 phases:
   install:
     commands:
@@ -8,14 +15,18 @@ phases:
       # Setup for Serverless
       - npm install -g serverless
       # Setup for Yarn
-      - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-      - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-      - apt-get update -y
-      - apt-get install -y yarn
+      - sudo apt-get update -y && sudo apt-get install -y make apt-transport-https
+      - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+      - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+      - sudo apt-get update -y && sudo apt-get install -y yarn
   pre_build:
     commands:
       - echo performing pre_build phase
       - yarn install
+      - echo configuring environment variables
+      - cp -f services/common/environment/config.example.json services/common/environment/config.${STAGE}.json
+      - sed -i 's/REGION_VALUE/${region-${STAGE}}/g' services/common/environment/config.${STAGE}.json
+      - sed -i 's/ADMIN_EMAIL_VALUE/${adminEmail-${STAGE}}/g' services/common/environment/config.${STAGE}.json
   build:
     commands:
       - echo performing build phase
