@@ -7,11 +7,15 @@
   "author": "Erez Rokah",
   "license": "MIT",
   "devDependencies": {
-    "serverless-plugin-cicd": "^0.1.1"
+    "serverless-plugin-cicd": "erezrokah/serverless-plugin-cicd#master"
   },
   "scripts": {
     "setup": "serverless deploy",
     "cleanup": "serverless remove",
-    "storeGithubToken": "aws ssm put-parameter --name githubToken --type String"
+    "storeGithubToken": "aws ssm put-parameter --name github-token --type String",
+    "storeRegionStaging": "aws ssm put-parameter --name region-staging --type String",
+    "storeRegionProd": "aws ssm put-parameter --name region-prod --type String",
+    "storeEmailStaging": "aws ssm put-parameter --name admin-email-staging --type String",
+    "storeEmailProd": "aws ssm put-parameter --name admin-email-prod --type String"
   }
 }

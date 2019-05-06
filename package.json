@@ -15,13 +15,17 @@
     "prettier": "lerna run prettier",
     "prettier:ci": "lerna run prettier:ci",
     "deploy:dev": "lerna run deploy -- --stage dev",
-    "deploy:test": "lerna run deploy -- --stage staging",
+    "deploy:staging": "lerna run deploy -- --stage staging",
+    "deploy:prod": "lerna run deploy -- --stage prod",
     "publish:frontend:dev": "lerna run publish --scope frontend -- --stage dev",
     "publish:frontend:staging": "lerna run publish --scope frontend -- --stage staging",
+    "publish:frontend:prod": "lerna run publish --scope frontend -- --stage prod",
     "run:all:dev": "yarn deploy:dev && yarn build:frontend && yarn publish:frontend:dev",
     "run:all:staging": "yarn deploy:staging && yarn build:frontend && yarn publish:frontend:staging",
+    "run:all:prod": "yarn deploy:prod && yarn build:frontend && yarn publish:frontend:prod",
     "remove:all:dev": "lerna run --concurrency 1 remove --scope 'frontend' -- --stage dev && lerna run --concurrency 1 remove --scope 'monitoring-*' -- --stage dev",
     "remove:all:staging": "lerna run --concurrency 1 remove --scope 'frontend' -- --stage staging && lerna run --concurrency 1 remove --scope 'monitoring-*' -- --stage staging",
+    "remove:all:prod": "lerna run --concurrency 1 remove --scope 'frontend' -- --stage prod && lerna run --concurrency 1 remove --scope 'monitoring-*' -- --stage prod",
     "print:name": "lerna run print:name"
   },
   "devDependencies": {

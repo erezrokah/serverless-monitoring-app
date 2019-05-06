@@ -1,28 +1,39 @@
 version: 0.2
 
+env:
+  parameter-store:
+    region_staging: 'region-staging'
+    region_prod: 'region-prod'
+    admin_email_staging: 'admin-email-staging'
+    admin_email_prod: 'admin-email-prod'
+
 phases:
   install:
     commands:
-      - echo running codebuild for stage ${STAGE}
       - echo performing install phase
       # Setup for Serverless
       - npm install -g serverless
       # Setup for Yarn
-      - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-      - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-      - apt-get update -y
-      - apt-get install -y yarn
+      - sudo apt-get update -y && sudo apt-get install -y make apt-transport-https
+      - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+      - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+      - sudo apt-get update -y && sudo apt-get install -y yarn
   pre_build:
     commands:
       - echo performing pre_build phase
       - yarn install
+      - echo configuring environment variables
+      - node cicd/setupEnvFile.js
   build:
     commands:
       - echo performing build phase
       - yarn lint
       - yarn test
-      - yarn run:all:${STAGE}
-  post_build:
-    commands:
-      - echo performing post_build phase
+      - yarn run:all:$STAGE
       - yarn test:e2e
+
+cache:
+  paths:
+    - 'node_modules/**/*'
+    - 'frontend/node_modules/**/*'
+    - 'services/monitoring-service/node_modules/**/*'

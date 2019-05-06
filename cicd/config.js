@@ -1,5 +1,6 @@
-const extractGitData = serverless => {
-  const { spawnSync } = require('child_process');
+const { spawnSync } = require('child_process');
+
+const extractGithubData = () => {
   const result = spawnSync('git', ['remote', 'get-url', 'origin']);
   const { stdout } = result;
 
@@ -14,13 +15,38 @@ const extractGitData = serverless => {
 
   // splits USERNAME/REPOSITORY.git
   const parts = stripped.split('/');
-  const owner = parts[0];
-  const repo = parts[1].split('.')[0];
+  const githubOwner = parts[0];
+  const githubRepo = parts[1].split('.')[0];
 
   return {
-    owner,
-    repo,
+    githubOwner,
+    githubRepo,
   };
 };
 
-module.exports = extractGitData;
+const extractRegion = serverless => {
+  const { stage: inputStage } = serverless.processedInput.options;
+  const { defaultStage } = serverless.variables.service.custom;
+  const stage = inputStage || defaultStage;
+  const result = spawnSync('aws', [
+    'ssm',
+    'get-parameter',
+    '--name',
+    `region-${stage}`,
+  ]);
+  const { stdout } = result;
+  const parameter = JSON.parse(stdout);
+  return parameter.Parameter.Value;
+};
+
+const getConfig = serverless => {
+  const githubData = extractGithubData();
+  const region = extractRegion(serverless);
+
+  return {
+    ...githubData,
+    region,
+  };
+};
+
+module.exports = getConfig;
