@@ -30,7 +30,7 @@ phases:
       - yarn lint
       - yarn test
       - yarn run:all:$STAGE
-      - yarn test:e2e
+      - yarn test:e2e:$STAGE
 
 cache:
   paths:
