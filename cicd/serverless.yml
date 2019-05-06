@@ -11,7 +11,7 @@ custom:
     image: 'aws/codebuild/nodejs:8.11.0'
     owner: ${self:custom.config.githubOwner}
     repository: ${self:custom.config.githubRepo}
-    githubtoken: '{{resolve:ssm:githubToken:1}}'
+    githubtoken: '{{resolve:ssm:github-token:1}}'
 
   staging:
     branch: staging

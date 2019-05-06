@@ -4,8 +4,8 @@ env:
   parameter-store:
     region_staging: 'region-staging'
     region_prod: 'region-prod'
-    admin_email_staging: 'adminEmail-staging'
-    admin_email_prod: 'adminEmail-prod'
+    admin_email_staging: 'admin-email-staging'
+    admin_email_prod: 'admin-email-prod'
 
 phases:
   install:
