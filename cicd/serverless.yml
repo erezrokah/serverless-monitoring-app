@@ -14,7 +14,7 @@ custom:
     githubtoken: '{{resolve:ssm:github-token:1}}'
 
   staging:
-    branch: staging
+    branch: master
   prod:
     branch: prod
 
