@@ -34,3 +34,9 @@ phases:
       - yarn test
       - yarn run:all:${STAGE}
       - yarn test:e2e
+
+cache:
+  paths:
+    - 'node_modules/**/*'
+    - 'frontend/node_modules/**/*'
+    - 'services/monitoring-service/node_modules/**/*'
