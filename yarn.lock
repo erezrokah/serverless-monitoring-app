@@ -12136,7 +12136,7 @@ serverless-iam-roles-per-function@^1.0.4:
 
 serverless-plugin-cicd@erezrokah/serverless-plugin-cicd#master:
   version "0.1.0"
-  resolved "https://codeload.github.com/erezrokah/serverless-plugin-cicd/tar.gz/4fddb0056eedd9f0a9a5d11464fd45295bc89dd6"
+  resolved "https://codeload.github.com/erezrokah/serverless-plugin-cicd/tar.gz/a324fd93509941a8faaa12c6b88bf12b50afbcd3"
   dependencies:
     lodash "^4.17.4"
 
