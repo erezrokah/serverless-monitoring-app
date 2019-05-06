@@ -32,7 +32,4 @@ phases:
       - yarn lint
       - yarn test
       - yarn run:all:${STAGE}
-  post_build:
-    commands:
-      - echo performing post_build phase
       - yarn test:e2e
