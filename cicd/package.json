@@ -12,6 +12,10 @@
   "scripts": {
     "setup": "serverless deploy",
     "cleanup": "serverless remove",
-    "storeGithubToken": "aws ssm put-parameter --name githubToken --type String"
+    "storeGithubToken": "aws ssm put-parameter --name githubToken --type String",
+    "storeRegionStaging": "aws ssm put-parameter --name region-staging --type String",
+    "storeRegionProd": "aws ssm put-parameter --name region-prod --type String",
+    "storeEmailStaging": "aws ssm put-parameter --name adminEmail-staging --type String",
+    "storeEmailProd": "aws ssm put-parameter --name adminEmail-prod --type String"
   }
 }
