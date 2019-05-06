@@ -23,16 +23,15 @@ phases:
       - echo performing pre_build phase
       - yarn install
       - echo configuring environment variables
-      - cp -f services/common/environment/config.example.json services/common/environment/config.${STAGE}.json
-      - sed -i 's/REGION_VALUE/${region_${STAGE}}/g' services/common/environment/config.${STAGE}.json
-      - sed -i 's/ADMIN_EMAIL_VALUE/${adminEmail_${STAGE}}/g' services/common/environment/config.${STAGE}.json
-      - cat services/common/environment/config.${STAGE}.json
+      - cp -f services/common/environment/config.example.json services/common/environment/config.$STAGE.json
+      - sed -i 's/REGION_VALUE/$region_$STAGE/g' services/common/environment/config.$STAGE.json
+      - sed -i 's/ADMIN_EMAIL_VALUE/$adminEmail_$STAGE/g' services/common/environment/config.$STAGE.json
   build:
     commands:
       - echo performing build phase
       - yarn lint
       - yarn test
-      - yarn run:all:${STAGE}
+      - yarn run:all:$STAGE
       - yarn test:e2e
 
 cache:
