@@ -10,7 +10,6 @@ env:
 phases:
   install:
     commands:
-      - echo running codebuild for stage ${STAGE}
       - echo performing install phase
       # Setup for Serverless
       - npm install -g serverless
