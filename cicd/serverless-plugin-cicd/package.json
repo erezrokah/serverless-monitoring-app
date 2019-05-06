@@ -1,0 +1,22 @@
+{
+  "name": "serverless-plugin-cicd",
+  "version": "0.1.0",
+  "description": "A Serverless Plugin for adding simple CICD Pipelines to serverless functions",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheBlackTuxCorp/serverless-plugin-cicd.git"
+  },
+  "keywords": [
+    "Serverless",
+    "Plugins",
+    "The Black Tux",
+    "CICD"
+  ],
+  "author": "The Black Tux",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/TheBlackTuxCorp/serverless-plugin-cicd/issues"
+  },
+  "homepage": "https://github.com/TheBlackTuxCorp/serverless-plugin-cicd#readme"
+}
