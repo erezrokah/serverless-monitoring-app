@@ -7,7 +7,7 @@
   "author": "Erez Rokah",
   "license": "MIT",
   "devDependencies": {
-    "serverless-plugin-cicd": "erezrokah/serverless-plugin-cicd#add_ssm_role_permissions"
+    "serverless-plugin-cicd": "erezrokah/serverless-plugin-cicd#master"
   },
   "scripts": {
     "setup": "serverless deploy",
