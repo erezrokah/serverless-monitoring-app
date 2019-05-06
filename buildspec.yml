@@ -24,8 +24,8 @@ phases:
       - yarn install
       - echo configuring environment variables
       - cp -f services/common/environment/config.example.json services/common/environment/config.$STAGE.json
-      - var=${region_$STAGE} && sed -i "s/REGION_VALUE/${!var}/g" services/common/environment/config.$STAGE.json
-      - var=${adminEmail_$STAGE} && sed -i "s/ADMIN_EMAIL_VALUE/${!var}/g" services/common/environment/config.$STAGE.json
+      - var=region_$STAGE && sed -i "s/REGION_VALUE/${!var}/g" services/common/environment/config.$STAGE.json
+      - var=adminEmail_$STAGE && sed -i "s/ADMIN_EMAIL_VALUE/${!var}/g" services/common/environment/config.$STAGE.json
       - ls -l services/common/environment/
       - cat services/common/environment/config.$STAGE.json
   build:
