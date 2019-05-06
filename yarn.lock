@@ -12113,10 +12113,9 @@ serverless-iam-roles-per-function@^1.0.4:
   dependencies:
     lodash "^4.17.10"
 
-serverless-plugin-cicd@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/serverless-plugin-cicd/-/serverless-plugin-cicd-0.1.1.tgz#9e21c94da2e257338840d29c8c73538b47beb4fc"
-  integrity sha512-1UrcAXmXN3VRog1c3oUxPg5Gl/dIBm8eRG2Oqvy8cl77lOz0dLt9GtfuJxXcV00NufBu3C1/hwcbX6qSy7FYfw==
+serverless-plugin-cicd@erezrokah/serverless-plugin-cicd#add_ssm_role_permissions:
+  version "0.1.0"
+  resolved "https://codeload.github.com/erezrokah/serverless-plugin-cicd/tar.gz/60a63702d6d0c2b5ce45ca80294c40bcfbb015f5"
   dependencies:
     lodash "^4.17.4"
 
