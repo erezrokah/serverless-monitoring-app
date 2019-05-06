@@ -12113,6 +12113,13 @@ serverless-iam-roles-per-function@^1.0.4:
   dependencies:
     lodash "^4.17.10"
 
+serverless-plugin-cicd@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/serverless-plugin-cicd/-/serverless-plugin-cicd-0.1.1.tgz#9e21c94da2e257338840d29c8c73538b47beb4fc"
+  integrity sha512-1UrcAXmXN3VRog1c3oUxPg5Gl/dIBm8eRG2Oqvy8cl77lOz0dLt9GtfuJxXcV00NufBu3C1/hwcbX6qSy7FYfw==
+  dependencies:
+    lodash "^4.17.4"
+
 serverless-plugin-tracing@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/serverless-plugin-tracing/-/serverless-plugin-tracing-2.0.0.tgz#df6b8b3166ac9bb70a37c7fc875014b2369158f6"

@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "name": "cicd",
+  "version": "0.0.1",
+  "description": "CICD setup",
+  "main": "index.js",
+  "author": "Erez Rokah",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless-plugin-cicd": "^0.1.1"
+  },
+  "scripts": {
+    "setup": "serverless deploy",
+    "cleanup": "serverless remove",
+    "storeGithubToken": "aws ssm put-parameter --name githubToken --type String"
+  }
+}

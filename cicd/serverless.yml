@@ -1,0 +1,25 @@
+service: cicd
+plugins:
+  - serverless-plugin-cicd
+
+custom:
+  defaultStage: staging
+  currentStage: ${opt:stage, self:custom.defaultStage}
+  currentRegion: ${file(../services/common/environment/config.${self:custom.currentStage}.json):region}
+  github: ${file(./config.js)}
+
+  cicd:
+    image: 'aws/codebuild/nodejs:8.11.0'
+    owner: ${self:custom.github.owner}
+    repository: ${self:custom.github.repo}
+    githubtoken: '{{resolve:ssm:githubToken:1}}'
+
+    staging:
+      branch: 'staging'
+    prod:
+      branch: 'prod'
+
+provider:
+  name: aws
+  stage: ${self:custom.currentStage}
+  region: ${self:custom.currentRegion}
