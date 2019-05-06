@@ -1,0 +1,28 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo running codebuild for stage ${STAGE}
+      - echo performing install phase
+      # Setup for Serverless
+      - npm install -g serverless
+      # Setup for Yarn
+      - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+      - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+      - apt-get update -y
+      - apt-get install -y yarn
+  pre_build:
+    commands:
+      - echo performing pre_build phase
+      - yarn install
+  build:
+    commands:
+      - echo performing build phase
+      - yarn lint
+      - yarn test
+      - yarn run:all:${STAGE}
+  post_build:
+    commands:
+      - echo performing post_build phase
+      - yarn test:e2e

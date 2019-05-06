@@ -2,7 +2,8 @@
   "private": true,
   "workspaces": [
     "services/*",
-    "frontend"
+    "frontend",
+    "cicd"
   ],
   "scripts": {
     "build:frontend": "lerna run build --scope frontend",
@@ -11,12 +12,16 @@
     "test:ci": "lerna run --concurrency 1 test:ci",
     "test:e2e": "lerna run --concurrency 1 test:e2e",
     "coverage": "lerna run --concurrency 1 coverage",
-    "deploy:dev": "lerna run deploy:dev",
-    "publish:frontend:dev": "lerna run publish:dev --scope frontend",
     "prettier": "lerna run prettier",
     "prettier:ci": "lerna run prettier:ci",
+    "deploy:dev": "lerna run deploy -- --stage dev",
+    "deploy:test": "lerna run deploy -- --stage staging",
+    "publish:frontend:dev": "lerna run publish --scope frontend -- --stage dev",
+    "publish:frontend:staging": "lerna run publish --scope frontend -- --stage staging",
     "run:all:dev": "yarn deploy:dev && yarn build:frontend && yarn publish:frontend:dev",
-    "remove:all:dev": "lerna run --concurrency 1 remove:dev --scope 'frontend' && lerna run --concurrency 1 remove:dev --scope 'monitoring-*'",
+    "run:all:staging": "yarn deploy:staging && yarn build:frontend && yarn publish:frontend:staging",
+    "remove:all:dev": "lerna run --concurrency 1 remove --scope 'frontend' -- --stage dev && lerna run --concurrency 1 remove --scope 'monitoring-*' -- --stage dev",
+    "remove:all:staging": "lerna run --concurrency 1 remove --scope 'frontend' -- --stage staging && lerna run --concurrency 1 remove --scope 'monitoring-*' -- --stage staging",
     "print:name": "lerna run print:name"
   },
   "devDependencies": {

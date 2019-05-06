@@ -10,8 +10,8 @@
     "test:ci": "JEST_JUNIT_OUTPUT=../../reports/junit/${npm_package_name}-test-results.xml yarn test --runInBand --ci",
     "test:e2e": "JEST_JUNIT_OUTPUT=../../reports/junit/${npm_package_name}-e2e-test-results.xml yarn test --runInBand --ci --config=jest.config.e2e.js",
     "coverage": "yarn test --coverage",
-    "deploy:dev": "serverless deploy --stage dev",
-    "remove:dev": "serverless remove --stage dev",
+    "deploy": "serverless deploy",
+    "remove": "serverless remove",
     "prettier": "prettier --write src/**/*.ts e2e/**/*.ts scripts/*.js",
     "prettier:ci": "prettier --list-different src/**/*.ts e2e/**/*.ts scripts/*.js",
     "print:name": "echo ${npm_package_name}"

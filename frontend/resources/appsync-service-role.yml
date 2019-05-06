@@ -2,7 +2,7 @@ Resources:
   AppSyncServiceRole:
     Type: 'AWS::IAM::Role'
     Properties:
-      RoleName: 'Dynamo-AppSyncServiceRole'
+      RoleName: 'Dynamo-AppSyncServiceRole-${self:custom.currentStage}'
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -13,7 +13,7 @@ Resources:
             Action:
               - 'sts:AssumeRole'
       Policies:
-        - PolicyName: 'Dynamo-AppSyncServiceRole-Policy'
+        - PolicyName: 'Dynamo-AppSyncServiceRole-Policy-${self:custom.currentStage}'
           PolicyDocument:
             Version: '2012-10-17'
             Statement:

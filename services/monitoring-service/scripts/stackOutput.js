@@ -74,6 +74,7 @@ const handler = async (data, serverless) => {
         CheckEndpointStepFunctionArn,
         NotificationsTopicArn,
         Region: serverless.variables.service.custom.currentRegion,
+        Stage: serverless.service.provider.stage,
       },
       { spaces: 2 },
     );
