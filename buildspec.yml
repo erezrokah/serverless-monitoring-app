@@ -2,10 +2,10 @@ version: 0.2
 
 env:
   parameter-store:
-    region-staging: 'region-staging'
-    region-prod: 'region-prod'
-    adminEmail-staging: 'adminEmail-staging'
-    adminEmail-prod: 'adminEmail-prod'
+    region_staging: 'region-staging'
+    region_prod: 'region-prod'
+    adminEmail_staging: 'adminEmail-staging'
+    adminEmail_prod: 'adminEmail-prod'
 
 phases:
   install:
@@ -25,8 +25,8 @@ phases:
       - yarn install
       - echo configuring environment variables
       - cp -f services/common/environment/config.example.json services/common/environment/config.${STAGE}.json
-      - sed -i 's/REGION_VALUE/${region-${STAGE}}/g' services/common/environment/config.${STAGE}.json
-      - sed -i 's/ADMIN_EMAIL_VALUE/${adminEmail-${STAGE}}/g' services/common/environment/config.${STAGE}.json
+      - sed -i 's/REGION_VALUE/${region_${STAGE}}/g' services/common/environment/config.${STAGE}.json
+      - sed -i 's/ADMIN_EMAIL_VALUE/${adminEmail_${STAGE}}/g' services/common/environment/config.${STAGE}.json
   build:
     commands:
       - echo performing build phase
