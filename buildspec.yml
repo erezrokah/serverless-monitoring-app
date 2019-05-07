@@ -28,7 +28,7 @@ phases:
       - echo performing build phase
       - yarn lint
       - yarn test
-      - yarn run:all:$STAGE
+      - yarn deploy:$STAGE
       - yarn test:e2e:$STAGE
 
 cache:
