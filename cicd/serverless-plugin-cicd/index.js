@@ -198,7 +198,7 @@ class CICDPlugin {
       ArtifactStoreBucket: {
         Type: 'AWS::S3::Bucket',
         Properties: {
-          Name: artifactStoreBucket,
+          BucketName: artifactStoreBucket,
           BucketEncryption: {
             ServerSideEncryptionConfiguration: [
               {
