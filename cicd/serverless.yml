@@ -12,7 +12,7 @@ custom:
 
   cicd:
     image: 'aws/codebuild/nodejs:8.11.0'
-    owner: ${self:custom.github.repo}
+    owner: ${self:custom.github.owner}
     repository: ${self:custom.github.repo}
     githubtoken: '{{resolve:ssm:github-token:1}}'
     artifactStoreBucket: ${self:custom.s3ArtifactBucket}
