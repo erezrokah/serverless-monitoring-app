@@ -65,6 +65,7 @@ class CICDPlugin {
     let gitRepo = service.name;
     let gitBranch = 'master';
     let githubOAuth = '';
+    let artifactStoreBucket = `${serviceName}-artifact-store-${stage}`;
 
     if (service.custom[stage]) {
       gitBranch = service.custom[stage].branch;
@@ -83,6 +84,8 @@ class CICDPlugin {
       gitRepo = service.custom.cicd.repository || gitRepo;
       gitBranch = service.custom.cicd.branch || gitBranch;
       githubOAuth = service.custom.cicd.githubtoken || '';
+      artifactStoreBucket =
+        service.custom.cicd.artifactStoreBucket || artifactStoreBucket;
     }
 
     // This role has a lot of access, but depending what you do with your buildspec
@@ -191,6 +194,24 @@ class CICDPlugin {
       },
     };
 
+    const bucket = {
+      ArtifactStoreBucket: {
+        Type: 'AWS::S3::Bucket',
+        Properties: {
+          Name: artifactStoreBucket,
+          BucketEncryption: {
+            ServerSideEncryptionConfiguration: [
+              {
+                ServerSideEncryptionByDefault: {
+                  SSEAlgorithm: 'AES256',
+                },
+              },
+            ],
+          },
+        },
+      },
+    };
+
     const pipeline = {
       Pipeline: {
         Type: 'AWS::CodePipeline::Pipeline',
@@ -247,13 +268,13 @@ class CICDPlugin {
           ],
           ArtifactStore: {
             Type: 'S3',
-            Location: { Ref: 'ServerlessDeploymentBucket' },
+            Location: { Ref: 'ArtifactStoreBucket' },
           },
         },
       },
     };
 
-    return { ...role, ...build, ...pipeline };
+    return { ...role, ...build, ...bucket, ...pipeline };
   }
 }
 

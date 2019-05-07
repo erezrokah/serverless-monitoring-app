@@ -7,7 +7,8 @@
   "author": "Erez Rokah",
   "license": "MIT",
   "devDependencies": {
-    "serverless-plugin-cicd": "file:./serverless-plugin-cicd"
+    "serverless-plugin-cicd": "file:./serverless-plugin-cicd",
+    "serverless-s3-remover": "^0.6.0"
   },
   "scripts": {
     "setup": "serverless deploy",
