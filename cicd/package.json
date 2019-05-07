@@ -13,10 +13,13 @@
   "scripts": {
     "setup": "serverless deploy",
     "cleanup": "serverless remove",
-    "storeGithubToken": "aws ssm put-parameter --name github-token --type String",
-    "storeRegionStaging": "aws ssm put-parameter --name region-staging --type String",
-    "storeRegionProd": "aws ssm put-parameter --name region-prod --type String",
-    "storeEmailStaging": "aws ssm put-parameter --name admin-email-staging --type String",
-    "storeEmailProd": "aws ssm put-parameter --name admin-email-prod --type String"
+    "storeGithubTokenStaging": "aws ssm put-parameter --name github-token --type String --region $npm_package_regions_staging",
+    "storeAdminEmailStaging": "aws ssm put-parameter --name admin-email --type String --region $npm_package_regions_staging",
+    "storeGithubTokenProd": "aws ssm put-parameter --name github-token --type String --region $npm_package_regions_prod",
+    "storeAdminEmailProd": "aws ssm put-parameter --name admin-email --type String --region $npm_package_regions_prod"
+  },
+  "regions": {
+    "staging": "eu-west-1",
+    "prod": "eu-central-1"
   }
 }

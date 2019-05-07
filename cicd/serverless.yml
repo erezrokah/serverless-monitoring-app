@@ -6,13 +6,14 @@ plugins:
 custom:
   defaultStage: staging
   currentStage: ${opt:stage, self:custom.defaultStage}
-  config: ${file(./config.js)}
+  github: ${file(./githubConfig.js)}
   s3ArtifactBucket: ${self:service}-artifact-store-${self:custom.currentStage}
+  regions: ${file(./package.json):regions}
 
   cicd:
     image: 'aws/codebuild/nodejs:8.11.0'
-    owner: ${self:custom.config.githubOwner}
-    repository: ${self:custom.config.githubRepo}
+    owner: ${self:custom.github.repo}
+    repository: ${self:custom.github.repo}
     githubtoken: '{{resolve:ssm:github-token:1}}'
     artifactStoreBucket: ${self:custom.s3ArtifactBucket}
 
@@ -22,10 +23,12 @@ custom:
 
   staging:
     branch: master
+    region: eu-west-1
   prod:
     branch: prod
+    region: eu-central-1
 
 provider:
   name: aws
   stage: ${self:custom.currentStage}
-  region: ${self:custom.config.region}
+  region: ${self:custom.regions.${self:custom.currentStage}}

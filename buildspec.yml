@@ -2,10 +2,7 @@ version: 0.2
 
 env:
   parameter-store:
-    region_staging: 'region-staging'
-    region_prod: 'region-prod'
-    admin_email_staging: 'admin-email-staging'
-    admin_email_prod: 'admin-email-prod'
+    admin_email: 'admin-email'
 
 phases:
   install:
@@ -23,7 +20,9 @@ phases:
       - echo performing pre_build phase
       - yarn install
       - echo configuring environment variables
-      - node cicd/setupEnvFile.js
+      - cp -f services/common/environment/config.example.json services/common/environment/config.$STAGE.json
+      - sed -i 's/REGION_VALUE/$AWS_REGION/g' services/common/environment/config.$STAGE.json
+      - sed -i 's/ADMIN_EMAIL_VALUE/$admin_email/g' services/common/environment/config.$STAGE.json
   build:
     commands:
       - echo performing build phase

@@ -3,9 +3,9 @@
 ## Setup
 
 ```bash
-yarn storeGithubToken --value ****************************
-yarn storeRegionStaging --value eu-west-1
-yarn storeRegionProd --value eu-central-1
+yarn storeGithubTokenStaging --value ****************************
 yarn storeEmailStaging --value admin@email.com
+
+yarn storeGithubTokenProd --value ****************************
 yarn storeEmailProd --value admin@email.com
 ```
