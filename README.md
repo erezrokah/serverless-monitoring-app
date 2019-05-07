@@ -37,9 +37,10 @@ yarn install
 Setup environment file
 
 ```bash
-cp -f services/common/environment/config.example.json services/common/environment/config.dev.json
-sed -i 's/REGION_VALUE/us-east-1/g' services/common/environment/config.dev.json
-sed -i 's/ADMIN_EMAIL_VALUE/your@email.address/g' services/common/environment/config.dev.json
+export STAGE=dev
+export region_dev=us-east-1
+export admin_email_dev=your@email.address
+node cicd/setupEnvFile.js
 ```
 
 ## Deploy
