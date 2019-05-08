@@ -23,10 +23,8 @@ custom:
 
   staging:
     branch: master
-    region: eu-west-1
   prod:
     branch: prod
-    region: eu-central-1
 
 provider:
   name: aws
