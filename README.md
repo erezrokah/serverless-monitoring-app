@@ -47,7 +47,7 @@ sed -i 's/ADMIN_EMAIL_VALUE/your@email.address/g' services/common/environment/co
 Deploy all services and frontend
 
 ```bash
-yarn run:all:dev
+yarn deploy:dev
 ```
 
 ## Run Tests
