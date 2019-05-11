@@ -64,7 +64,7 @@ class CICDPlugin {
     let gitOwner = '';
     let gitRepo = service.name;
     let gitBranch = 'master';
-    let githubOAuth = '';
+    let githubToken = '';
     let artifactStoreBucket = `${serviceName}-artifact-store-${stage}`;
 
     if (service.custom[stage]) {
@@ -83,7 +83,7 @@ class CICDPlugin {
       gitOwner = service.custom.cicd.owner || '';
       gitRepo = service.custom.cicd.repository || gitRepo;
       gitBranch = service.custom.cicd.branch || gitBranch;
-      githubOAuth = service.custom.cicd.githubtoken || '';
+      githubToken = service.custom.cicd.githubtoken || '';
       artifactStoreBucket =
         service.custom.cicd.artifactStoreBucket || artifactStoreBucket;
     }
@@ -162,7 +162,7 @@ class CICDPlugin {
       },
     };
 
-    const build = {
+    const stageBuild = {
       Build: {
         Type: 'AWS::CodeBuild::Project',
         Properties: {
@@ -237,7 +237,7 @@ class CICDPlugin {
                     Owner: `${gitOwner}`,
                     Repo: `${gitRepo}`,
                     Branch: `${gitBranch}`,
-                    OAuthToken: `${githubOAuth}`,
+                    OAuthToken: `${githubToken}`,
                   },
                   RunOrder: '1',
                 },
@@ -274,7 +274,89 @@ class CICDPlugin {
       },
     };
 
-    return { ...role, ...build, ...bucket, ...pipeline };
+    const pullRequestRole = {
+      PullRequestRole: {
+        Type: 'AWS::IAM::Role',
+        Properties: {
+          RoleName: `${serviceName}-on-pull-request-${stage}`,
+          AssumeRolePolicyDocument: {
+            Version: '2012-10-17',
+            Statement: [
+              {
+                Effect: 'Allow',
+                Principal: {
+                  Service: ['codebuild.amazonaws.com'],
+                },
+                Action: ['sts:AssumeRole'],
+              },
+            ],
+          },
+          Policies: [
+            {
+              PolicyName: `${serviceName}-on-pull-request-${stage}`,
+              PolicyDocument: {
+                Version: '2012-10-17',
+                Statement: [
+                  {
+                    Effect: 'Allow',
+                    Resource: '*',
+                    Action: [
+                      'logs:CreateLogGroup',
+                      'logs:CreateLogStream',
+                      'logs:PutLogEvents',
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+    };
+
+    const pullRequestBuild = {
+      Build: {
+        Type: 'AWS::CodeBuild::Project',
+        Properties: {
+          Name: `${serviceName}-on-pull-request-${stage}`,
+          ServiceRole: {
+            'Fn::GetAtt': ['PullRequestRole', 'Arn'],
+          },
+          Artifacts: {
+            Type: 'NO_ARTIFACTS',
+          },
+          Environment: {
+            Type: 'LINUX_CONTAINER',
+            ComputeType: 'BUILD_GENERAL1_SMALL',
+            Image: `${image}`,
+            EnvironmentVariables: [
+              {
+                Name: 'STAGE',
+                Value: 'pr',
+              },
+            ],
+          },
+          Source: {
+            Type: GITHUB,
+            Location: `https://github.com/${gitOwner}/${gitRepo}.git`,
+            Auth: {
+              Resource: `${githubToken}`,
+              Type: 'OAUTH',
+            },
+            ReportBuildStatus: true,
+          },
+        },
+      },
+    };
+
+    return {
+      ...role,
+      ...stageBuild,
+      ...bucket,
+      ...pipeline,
+      ...pullRequestRole,
+      ...pullRequestBuild,
+    };
   }
 }
 
