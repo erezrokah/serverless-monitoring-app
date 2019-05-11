@@ -163,7 +163,7 @@ class CICDPlugin {
     };
 
     const stageBuild = {
-      Build: {
+      PerStageBuild: {
         Type: 'AWS::CodeBuild::Project',
         Properties: {
           Name: `${serviceName}-${stage}`,
@@ -258,7 +258,7 @@ class CICDPlugin {
                   OutputArtifacts: [{ Name: `${serviceName}Build` }],
                   Configuration: {
                     ProjectName: {
-                      Ref: 'Build',
+                      Ref: 'PerStageBuild',
                     },
                   },
                   RunOrder: '1',
@@ -315,7 +315,7 @@ class CICDPlugin {
     };
 
     const pullRequestBuild = {
-      Build: {
+      PullRequestsBuild: {
         Type: 'AWS::CodeBuild::Project',
         Properties: {
           Name: `${serviceName}-on-pull-request-${stage}`,
@@ -344,6 +344,22 @@ class CICDPlugin {
               Type: 'OAUTH',
             },
             ReportBuildStatus: true,
+          },
+          Triggers: {
+            Webhook: true,
+            FilterGroups: [
+              [
+                {
+                  Type: 'EVENT',
+                  Pattern: 'PULL_REQUEST_CREATED,PULL_REQUEST_UPDATED',
+                },
+                {
+                  Type: 'BASE_REF',
+                  Pattern: '^refs/heads/master$',
+                  ExcludeMatchedPattern: false,
+                },
+              ],
+            ],
           },
         },
       },
