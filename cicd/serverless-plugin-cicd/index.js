@@ -337,7 +337,7 @@ class CICDPlugin {
             ],
           },
           Source: {
-            Type: GITHUB,
+            Type: 'GITHUB',
             Location: `https://github.com/${gitOwner}/${gitRepo}.git`,
             Auth: {
               Resource: `${githubToken}`,
