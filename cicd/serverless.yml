@@ -17,14 +17,14 @@ custom:
     githubtoken: '{{resolve:ssm:github-token:1}}'
     artifactStoreBucket: ${self:custom.s3ArtifactBucket}
 
+    staging:
+      branch: master
+    prod:
+      branch: prod
+
   remover:
     buckets:
       - ${self:custom.s3ArtifactBucket}
-
-  staging:
-    branch: master
-  prod:
-    branch: prod
 
 provider:
   name: aws

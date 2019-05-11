@@ -67,10 +67,6 @@ class CICDPlugin {
     let githubToken = '';
     let artifactStoreBucket = `${serviceName}-artifact-store-${stage}`;
 
-    if (service.custom[stage]) {
-      gitBranch = service.custom[stage].branch;
-    }
-
     if (service.custom.cicd) {
       if (service.custom.cicd.image != null) {
         image = service.custom.cicd.image;
@@ -82,10 +78,15 @@ class CICDPlugin {
 
       gitOwner = service.custom.cicd.owner || '';
       gitRepo = service.custom.cicd.repository || gitRepo;
-      gitBranch = service.custom.cicd.branch || gitBranch;
       githubToken = service.custom.cicd.githubtoken || '';
       artifactStoreBucket =
         service.custom.cicd.artifactStoreBucket || artifactStoreBucket;
+
+      if (service.custom.cicd[stage]) {
+        gitBranch = service.custom.cicd[stage].branch;
+      } else {
+        gitBranch = service.custom.cicd.branch || gitBranch;
+      }
     }
 
     // This role has a lot of access, but depending what you do with your buildspec
@@ -306,6 +307,11 @@ class CICDPlugin {
                       'logs:PutLogEvents',
                     ],
                   },
+                  {
+                    Effect: 'Allow',
+                    Action: ['ssm:*'],
+                    Resource: '*',
+                  },
                 ],
               },
             },
@@ -355,7 +361,7 @@ class CICDPlugin {
                 },
                 {
                   Type: 'BASE_REF',
-                  Pattern: '^refs/heads/master$',
+                  Pattern: `^refs/heads/${gitBranch}$`,
                   ExcludeMatchedPattern: false,
                 },
               ],
