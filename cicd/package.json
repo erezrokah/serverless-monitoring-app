@@ -7,6 +7,7 @@
   "author": "Erez Rokah",
   "license": "MIT",
   "devDependencies": {
+    "jest": "23.6.0",
     "serverless-plugin-cicd": "file:./serverless-plugin-cicd",
     "serverless-s3-remover": "^0.6.0"
   },
@@ -16,7 +17,14 @@
     "storeGithubTokenStaging": "aws ssm put-parameter --name github-token --type String --region $npm_package_regions_staging",
     "storeAdminEmailStaging": "aws ssm put-parameter --name admin-email --type String --region $npm_package_regions_staging",
     "storeGithubTokenProd": "aws ssm put-parameter --name github-token --type String --region $npm_package_regions_prod",
-    "storeAdminEmailProd": "aws ssm put-parameter --name admin-email --type String --region $npm_package_regions_prod"
+    "storeAdminEmailProd": "aws ssm put-parameter --name admin-email --type String --region $npm_package_regions_prod",
+    "test": "jest --verbose",
+    "test:watch": "jest --watch",
+    "test:ci": "JEST_JUNIT_OUTPUT=../../reports/junit/${npm_package_name}-test-results.xml yarn test --runInBand --ci",
+    "coverage": "yarn test --coverage",
+    "prettier": "prettier --write scripts/**/*.ts e2e/**/*.ts serverless-plugin-cicd/*.js jest.config.js",
+    "prettier:ci": "prettier --list-different scripts/**/*.ts e2e/**/*.ts serverless-plugin-cicd/*.js jest.config.js",
+    "print:name": "echo ${npm_package_name}"
   },
   "regions": {
     "staging": "eu-west-1",

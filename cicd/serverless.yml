@@ -6,7 +6,7 @@ plugins:
 custom:
   defaultStage: staging
   currentStage: ${opt:stage, self:custom.defaultStage}
-  github: ${file(./githubConfig.js)}
+  github: ${file(./scripts/githubConfig.js)}
   s3ArtifactBucket: ${self:service}-artifact-store-${self:custom.currentStage}
   regions: ${file(./package.json):regions}
 
