@@ -1,23 +1,34 @@
+const readline = require('readline');
 const { spawn } = require('child_process');
 
 const runSpawnCommand = async (command, args) => {
   const promise = new Promise((resolve, reject) => {
-    const cmd = spawn(command, args);
+    const proc = spawn(command, args);
 
-    cmd.stdout.on('data', data => {
-      console.log(data.toString());
+    const stdout = readline.createInterface({
+      input: proc.stdout,
+      terminal: false,
     });
 
-    cmd.stderr.on('data', data => {
-      console.log(data.toString());
+    const stderr = readline.createInterface({
+      input: proc.stderr,
+      terminal: false,
     });
 
-    cmd.on('close', code => {
+    stdout.on('line', line => {
+      console.log(line);
+    });
+
+    stderr.on('line', line => {
+      console.log(line);
+    });
+
+    proc.on('close', code => {
       const message = `${command} process exited with code ${code}`;
       if (code) {
-        reject(message);
+        reject({ message, code });
       } else {
-        resolve(message);
+        resolve({ message, code });
       }
     });
   });
@@ -33,9 +44,13 @@ const deployFrontend = async () => {
   }
   console.log(`Deploying frontend to stage "${stage}"`);
 
-  await runSpawnCommand('yarn', ['run', 'deploy:stack', '--stage', stage]);
-  await runSpawnCommand('yarn', ['run', 'build']);
-  await runSpawnCommand('yarn', ['run', 'publish', '--stage', stage]);
+  try {
+    await runSpawnCommand('yarn', ['run', 'deploy:stack', '--stage', stage]);
+    await runSpawnCommand('yarn', ['run', 'build']);
+    await runSpawnCommand('yarn', ['run', 'publish', '--stage', stage]);
+  } catch (e) {
+    process.exit(e.code);
+  }
 };
 
 deployFrontend();

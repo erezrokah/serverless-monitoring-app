@@ -1,6 +1,5 @@
-'use strict';
-
-const spawnSync = require('child_process').spawnSync;
+const readline = require('readline');
+const { spawn } = require('child_process');
 
 class ServerlessPlugin {
   constructor(serverless, options) {
@@ -35,26 +34,48 @@ class ServerlessPlugin {
     };
   }
 
-  runAwsCommand(args) {
-    const result = spawnSync('aws', args);
-    const stdout = result.stdout.toString();
-    const sterr = result.stderr.toString();
-    if (stdout) {
-      this.serverless.cli.log(stdout);
-    }
-    if (sterr) {
-      this.serverless.cli.log(sterr);
-    }
+  async runSpawnCommand(command, args) {
+    const promise = new Promise(resolve => {
+      const proc = spawn(command, args);
 
-    return { stdout, sterr };
+      const stdout = readline.createInterface({
+        input: proc.stdout,
+        terminal: false,
+      });
+
+      const stderr = readline.createInterface({
+        input: proc.stderr,
+        terminal: false,
+      });
+
+      stdout.on('line', line => {
+        this.serverless.cli.log(line);
+      });
+
+      stderr.on('line', line => {
+        this.serverless.cli.log(line);
+      });
+
+      proc.on('close', code => {
+        resolve(code);
+      });
+    });
+
+    return promise;
+  }
+
+  async runAwsCommand(args) {
+    const exitCode = await this.runSpawnCommand('aws', args);
+
+    return exitCode;
   }
 
   // syncs the `app` directory to the provided bucket
-  syncDirectory() {
+  async syncDirectory() {
     const s3Bucket = this.serverless.variables.service.custom.s3Bucket;
     const args = ['s3', 'sync', 'build/', `s3://${s3Bucket}/`, '--delete'];
-    const { sterr } = this.runAwsCommand(args);
-    if (!sterr) {
+    const exitCode = await this.runAwsCommand(args);
+    if (!exitCode) {
       this.serverless.cli.log('Successfully synced to the S3 bucket');
     } else {
       throw new Error('Failed syncing to the S3 bucket');
@@ -120,8 +141,8 @@ class ServerlessPlugin {
         '--paths',
         '/*',
       ];
-      const { sterr } = this.runAwsCommand(args);
-      if (!sterr) {
+      const exitCode = await this.runAwsCommand(args);
+      if (!exitCode) {
         this.serverless.cli.log('Successfully invalidated CloudFront cache');
       } else {
         throw new Error('Failed invalidating CloudFront cache');
@@ -135,7 +156,7 @@ class ServerlessPlugin {
   }
 
   async publishSite() {
-    this.syncDirectory();
+    await this.syncDirectory();
     await this.invalidateCache();
   }
 }
