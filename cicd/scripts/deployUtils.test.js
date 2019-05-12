@@ -15,6 +15,7 @@ describe('deploy', () => {
 
       const changedFiles = [
         'cicd/serverless.yml',
+        'cicd/scripts/deploy.js',
         'buildspec.yml',
         'frontend/deploy.js',
         'frontend/package.json',

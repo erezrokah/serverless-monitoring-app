@@ -7,6 +7,7 @@ const Project = require('@lerna/project');
 const batchPackages = require('@lerna/batch-packages');
 const { CloudFormation } = require('aws-sdk');
 const yaml = require('js-yaml');
+const { log } = require('./log');
 
 const FRONTEND = 'frontend';
 const SERVICES = 'services';
@@ -37,7 +38,7 @@ const getChangedServices = commitId => {
     .map(f =>
       f.startsWith(SERVICES) ? f.slice(SERVICES.length + path.sep.length) : f,
     )
-    .map(path.dirname);
+    .map(file => path.dirname(file).split(path.sep)[0]);
 
   const unique = [...new Set(changedServices)].sort();
 
@@ -147,15 +148,8 @@ const batchCommand = async (packages, toDeploy, command) => {
     await Promise.all(
       batch.map(({ name }) => {
         if (toDeploy.includes(name)) {
-          if (name === CICD) {
-            console.log(
-              "Skipping command for 'CICD' service since it is a one time setup",
-            );
-            return Promise.resolve();
-          }
           return command(name);
         } else {
-          console.log('Skipping command for unchanged service', `'${name}'`);
           return Promise.resolve();
         }
       }),
@@ -164,8 +158,9 @@ const batchCommand = async (packages, toDeploy, command) => {
 };
 
 const batchDeployCommand = async (packages, toDeploy, stage) => {
+  log('Deploying services');
   await batchCommand(packages, toDeploy, name => {
-    console.log('Deploying changed service', `'${name}'`);
+    log('Deploying changed service', `'${name}'`);
     return runSpawnCommand(lerna, [
       'run',
       '--scope',
@@ -176,11 +171,13 @@ const batchDeployCommand = async (packages, toDeploy, stage) => {
       stage,
     ]);
   });
+  log('Done deploying services');
 };
 
 const batchE2ETestCommand = async (packages, toDeploy) => {
+  log('Running e2e tests');
   await batchCommand(packages, toDeploy, name => {
-    console.log('Running e2e tests for service', `'${name}'`);
+    log('Running e2e tests for service', `'${name}'`);
     return runSpawnCommand(lerna, [
       'run',
       '--concurrency',
@@ -190,6 +187,7 @@ const batchE2ETestCommand = async (packages, toDeploy) => {
       'test:e2e',
     ]);
   });
+  log('Done running e2e tests');
 };
 
 module.exports = {
@@ -199,4 +197,5 @@ module.exports = {
   getPackages,
   batchDeployCommand,
   batchE2ETestCommand,
+  CICD,
 };
