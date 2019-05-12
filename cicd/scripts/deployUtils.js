@@ -160,7 +160,7 @@ const batchCommand = async (packages, toDeploy, command) => {
 const batchDeployCommand = async (packages, toDeploy, stage) => {
   log('Deploying services');
   await batchCommand(packages, toDeploy, name => {
-    log('Deploying changed service', `'${name}'`);
+    log('Deploying service', `'${name}'`);
     return runSpawnCommand(lerna, [
       'run',
       '--scope',
