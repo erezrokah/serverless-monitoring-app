@@ -19,17 +19,25 @@ const deploy = async () => {
     error('Missing stage argument for deploy');
     process.exit(1);
   }
-  if (stage === 'pr') {
-    info('Skipping deployment for stage:', stage);
-    process.exit(0);
-  }
+
   if (!commitId || !commitId.match(/\b[0-9a-f]{5,40}\b/)) {
     error('Invalid commitId argument:', commitId);
     process.exit(1);
   }
 
-  const changed = getChangedServices(commitId);
+  let changed = [];
+  try {
+    changed = getChangedServices(commitId);
+  } catch (e) {
+    error(e.message);
+    process.exit(1);
+  }
   info('Changed services:', JSON.stringify(changed));
+
+  if (stage === 'pr') {
+    info('Skipping deployment for stage:', stage);
+    process.exit(0);
+  }
 
   const region = await getRegion(stage);
 

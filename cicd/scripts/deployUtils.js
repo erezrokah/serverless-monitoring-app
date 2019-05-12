@@ -7,7 +7,7 @@ const Project = require('@lerna/project');
 const batchPackages = require('@lerna/batch-packages');
 const { CloudFormation } = require('aws-sdk');
 const yaml = require('js-yaml');
-const { log } = require('./log');
+const { log, error } = require('./log');
 
 const FRONTEND = 'frontend';
 const SERVICES = 'services';
@@ -24,7 +24,14 @@ const getChangedServices = commitId => {
     commitId,
   ]);
 
-  const { stdout } = result;
+  const { stdout, stderr, status } = result;
+  const err = stderr.toString();
+  if (err) {
+    error("Failed running 'diff-tree':", err);
+  }
+  if (status) {
+    throw new Error("'diff-tree' command exited with status: " + status);
+  }
 
   const changedFiles = stdout
     .toString()
