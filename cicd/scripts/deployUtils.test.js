@@ -14,6 +14,7 @@ describe('deploy', () => {
       const { spawnSync } = require('child_process');
 
       const changedFiles = [
+        'cicd/serverless.yml',
         'buildspec.yml',
         'frontend/deploy.js',
         'frontend/package.json',
@@ -39,7 +40,7 @@ describe('deploy', () => {
         commitId,
       ]);
       expect(changed).toEqual(
-        ['frontend', 'common', 'monitoring-service'].sort(),
+        ['cicd', 'frontend', 'common', 'monitoring-service'].sort(),
       );
     });
   });

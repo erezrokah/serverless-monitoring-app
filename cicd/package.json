@@ -7,7 +7,14 @@
   "author": "Erez Rokah",
   "license": "MIT",
   "devDependencies": {
+    "aws-sdk": "^2.453.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-plugin-jest": "^22.5.1",
+    "fs-extra": "^8.0.0",
     "jest": "23.6.0",
+    "js-yaml": "^3.13.1",
+    "minimist": "^1.2.0",
     "serverless-plugin-cicd": "file:./serverless-plugin-cicd",
     "serverless-s3-remover": "^0.6.0"
   },
@@ -18,12 +25,13 @@
     "storeAdminEmailStaging": "aws ssm put-parameter --name admin-email --type String --region $npm_package_regions_staging",
     "storeGithubTokenProd": "aws ssm put-parameter --name github-token --type String --region $npm_package_regions_prod",
     "storeAdminEmailProd": "aws ssm put-parameter --name admin-email --type String --region $npm_package_regions_prod",
+    "lint": "eslint scripts/**/*.js serverless-plugin-cicd/**/*.js",
     "test": "jest --verbose",
     "test:watch": "jest --watch",
     "test:ci": "JEST_JUNIT_OUTPUT=../../reports/junit/${npm_package_name}-test-results.xml yarn test --runInBand --ci",
     "coverage": "yarn test --coverage",
-    "prettier": "prettier --write scripts/**/*.ts e2e/**/*.ts serverless-plugin-cicd/*.js jest.config.js",
-    "prettier:ci": "prettier --list-different scripts/**/*.ts e2e/**/*.ts serverless-plugin-cicd/*.js jest.config.js",
+    "prettier": "prettier --write scripts/**/*.js serverless-plugin-cicd/*.js jest.config.js",
+    "prettier:ci": "prettier --list-different scripts/**/*.js serverless-plugin-cicd/*.js jest.config.js",
     "print:name": "echo ${npm_package_name}"
   },
   "regions": {
