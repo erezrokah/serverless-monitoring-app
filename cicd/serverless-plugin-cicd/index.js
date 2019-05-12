@@ -93,7 +93,7 @@ class CICDPlugin {
         filterGroups.push([
           {
             Type: 'EVENT',
-            Pattern: 'PULL_REQUEST_CREATED,PULL_REQUEST_UPDATED',
+            Pattern: 'PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED',
           },
           {
             Type: 'BASE_REF',
