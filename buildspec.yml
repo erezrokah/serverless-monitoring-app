@@ -31,11 +31,11 @@ phases:
       - yarn test:ci
       - echo "Webhook was triggered by ${CODEBUILD_WEBHOOK_TRIGGER}"
       - |
-        "if expr \"${CODEBUILD_WEBHOOK_TRIGGER}\" : \"^pr/\" >/dev/null; then
+        if expr "${CODEBUILD_WEBHOOK_TRIGGER}" : "^pr/" >/dev/null; then
           echo 'Skipping deployment for Pull Requests'
         else
-          yarn deployAndRunE2eTests --commitId \"${CODEBUILD_RESOLVED_SOURCE_VERSION}\" --stage $STAGE
-        fi"
+          yarn deployAndRunE2eTests --commitId "${CODEBUILD_RESOLVED_SOURCE_VERSION}" --stage $STAGE
+        fi
 
 cache:
   paths:
