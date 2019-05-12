@@ -26,6 +26,7 @@ phases:
   build:
     commands:
       - echo performing build phase
+      - yarn prettier:ci
       - yarn lint
       - yarn test:ci
       - yarn deployAndRunE2eTests --commitId "${CODEBUILD_RESOLVED_SOURCE_VERSION}" --stage $STAGE

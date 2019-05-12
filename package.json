@@ -12,7 +12,7 @@
     "test:ci": "lerna run --concurrency 1 test:ci",
     "coverage": "lerna run --concurrency 1 coverage",
     "prettier": "lerna run prettier --parallel",
-    "prettier:ci": "lerna run prettier:ci",
+    "prettier:ci": "lerna run prettier:ci --parallel",
     "deployAndRunE2eTests": "node cicd/scripts/deploy.js",
     "test:e2e:dev": "lerna run --concurrency 1 test:e2e",
     "test:e2e:staging": "lerna run --concurrency 1 test:e2e",

@@ -13,20 +13,20 @@ const deploy = async () => {
   const argv = require('minimist')(process.argv.slice(2));
   const { stage, commitId } = argv;
 
+  log('Received arguments:', `stage=${stage}, commitId=${commitId}`);
+
   if (!stage) {
     error('Missing stage argument for deploy');
     process.exit(1);
   }
   if (stage === 'pr') {
-    info('Not running deployment for stage:', stage);
+    info('Skipping deployment for stage:', stage);
     process.exit(0);
   }
   if (!commitId || !commitId.match(/\b[0-9a-f]{5,40}\b/)) {
     error('Invalid commitId argument:', commitId);
     process.exit(1);
   }
-
-  log('Running deploy with arguments:', `stage=${stage}, commitId=${commitId}`);
 
   const changed = getChangedServices(commitId);
   info('Changed services:', JSON.stringify(changed));
