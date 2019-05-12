@@ -26,10 +26,10 @@ phases:
   build:
     commands:
       - echo performing build phase
+      - yarn prettier:ci
       - yarn lint
       - yarn test:ci
-      - yarn deploy:$STAGE
-      - yarn test:e2e:$STAGE
+      - yarn deployAndRunE2eTests --commitId "${CODEBUILD_RESOLVED_SOURCE_VERSION}" --stage $STAGE
 
 cache:
   paths:
