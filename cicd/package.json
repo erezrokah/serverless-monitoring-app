@@ -21,9 +21,9 @@
   "scripts": {
     "setup": "serverless deploy",
     "cleanup": "serverless remove",
-    "storeGithubTokenStaging": "aws ssm put-parameter --name github-token --type String --region $npm_package_regions_staging",
+    "connectToGitHubStaging": "aws codebuild import-source-credentials --server-type GITHUB --auth-type PERSONAL_ACCESS_TOKEN --region $npm_package_regions_staging",
     "storeAdminEmailStaging": "aws ssm put-parameter --name admin-email --type String --region $npm_package_regions_staging",
-    "storeGithubTokenProd": "aws ssm put-parameter --name github-token --type String --region $npm_package_regions_prod",
+    "connectToGitHubProd": "aws codebuild import-source-credentials --server-type GITHUB --auth-type PERSONAL_ACCESS_TOKEN --region $npm_package_regions_prod",
     "storeAdminEmailProd": "aws ssm put-parameter --name admin-email --type String --region $npm_package_regions_prod",
     "lint": "eslint scripts/**/*.js serverless-plugin-cicd/**/*.js",
     "test": "jest --verbose",

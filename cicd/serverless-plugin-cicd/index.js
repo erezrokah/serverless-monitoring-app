@@ -68,7 +68,6 @@ class CICDPlugin {
     let image = '';
     let gitOwner = '';
     let gitRepo = '';
-    let githubToken = '';
     let stageSettings = {};
 
     let filterGroups = [];
@@ -83,11 +82,6 @@ class CICDPlugin {
       gitRepo = this.getOptionOrThrowError(
         service.custom.cicd,
         'repository',
-        'cicd',
-      );
-      githubToken = this.getOptionOrThrowError(
-        service.custom.cicd,
-        'githubtoken',
         'cicd',
       );
       stageSettings = this.getOptionOrThrowError(
@@ -213,7 +207,7 @@ class CICDPlugin {
     };
 
     const build = {
-      PerStageBuild: {
+      CICDBUILD: {
         Type: 'AWS::CodeBuild::Project',
         Properties: {
           Name: `${serviceName}-${stage}`,
@@ -232,10 +226,6 @@ class CICDPlugin {
           Source: {
             Type: 'GITHUB',
             Location: `https://github.com/${gitOwner}/${gitRepo}.git`,
-            Auth: {
-              Resource: `${githubToken}`,
-              Type: 'OAUTH',
-            },
             ReportBuildStatus: true,
           },
           TimeoutInMinutes: 60,
