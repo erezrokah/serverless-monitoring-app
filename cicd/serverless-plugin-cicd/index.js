@@ -89,6 +89,19 @@ class CICDPlugin {
       }
     }
 
+    const repoUrl = `git@github.com:${gitOwner}/${gitRepo}.git`;
+
+    const environmentVariables = [
+      {
+        Name: 'STAGE',
+        Value: `${stage}`,
+      },
+      {
+        Name: 'GITHUB_REPO_URL',
+        Value: `${repoUrl}`,
+      },
+    ];
+
     // This role has a lot of access, but depending what you do with your buildspec
     // it might be needed!
     const role = {
@@ -180,12 +193,7 @@ class CICDPlugin {
             Type: 'LINUX_CONTAINER',
             ComputeType: 'BUILD_GENERAL1_SMALL',
             Image: `${image}`,
-            EnvironmentVariables: [
-              {
-                Name: 'STAGE',
-                Value: `${stage}`,
-              },
-            ],
+            EnvironmentVariables: environmentVariables,
           },
           Source: {
             Type: 'CODEPIPELINE',
@@ -335,12 +343,7 @@ class CICDPlugin {
             Type: 'LINUX_CONTAINER',
             ComputeType: 'BUILD_GENERAL1_SMALL',
             Image: `${image}`,
-            EnvironmentVariables: [
-              {
-                Name: 'STAGE',
-                Value: 'pr',
-              },
-            ],
+            EnvironmentVariables: environmentVariables,
           },
           Source: {
             Type: 'GITHUB',
