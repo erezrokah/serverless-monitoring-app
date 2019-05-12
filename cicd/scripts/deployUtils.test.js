@@ -26,6 +26,8 @@ describe('deploy', () => {
       ];
       spawnSync.mockReturnValueOnce({
         stdout: Buffer.from(changedFiles.join(os.EOL)),
+        stderr: Buffer.from(''),
+        status: 0,
       });
 
       const commitId = 'c152619a';
