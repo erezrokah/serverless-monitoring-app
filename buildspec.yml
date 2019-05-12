@@ -8,6 +8,15 @@ phases:
   install:
     commands:
       - echo performing install phase
+      # Re-clone repository to get git metadata. See:
+      # https://stackoverflow.com/questions/47310000/aws-codepipeline-build-lacks-git-history
+      # https://forums.aws.amazon.com/message.jspa?messageID=754669
+      # https://forums.aws.amazon.com/thread.jspa?threadID=251732
+      - git init
+      - git remote add origin "${CODEBUILD_SOURCE_REPO_URL}"
+      - git add .
+      - git fetch
+      - git checkout -t origin/master
       # Setup for Serverless
       - npm install -g serverless
       # Setup for Yarn
