@@ -8,15 +8,6 @@ phases:
   install:
     commands:
       - echo performing install phase
-      # Re-clone repository to get git metadata. See:
-      # https://stackoverflow.com/questions/47310000/aws-codepipeline-build-lacks-git-history
-      # https://forums.aws.amazon.com/message.jspa?messageID=754669
-      # https://forums.aws.amazon.com/thread.jspa?threadID=251732
-      - git init
-      - git remote add origin "${GITHUB_REPO_URL}" || true
-      - git add .
-      - git fetch
-      - git checkout -t origin/master || true
       # Setup for Serverless
       - npm install -g serverless
       # Setup for Yarn
@@ -38,7 +29,13 @@ phases:
       - yarn prettier:ci
       - yarn lint
       - yarn test:ci
-      - yarn deployAndRunE2eTests --commitId "${CODEBUILD_RESOLVED_SOURCE_VERSION}" --stage $STAGE
+      - echo "Webhook was triggered by ${CODEBUILD_WEBHOOK_TRIGGER}"
+      - |
+        "if expr \"${CODEBUILD_WEBHOOK_TRIGGER}\" : \"^pr/\" >/dev/null; then
+          echo 'Skipping deployment for Pull Requests'
+        else
+          yarn deployAndRunE2eTests --commitId \"${CODEBUILD_RESOLVED_SOURCE_VERSION}\" --stage $STAGE
+        fi"
 
 cache:
   paths:

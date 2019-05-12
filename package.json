@@ -17,15 +17,12 @@
     "test:e2e:dev": "lerna run --concurrency 1 test:e2e",
     "test:e2e:staging": "lerna run --concurrency 1 test:e2e",
     "test:e2e:prod": "echo 'not running e2e testing in production'",
-    "test:e2e:pr": "echo 'not running e2e testing for Pull Requests'",
     "deploy:all:dev": "lerna run deploy -- --stage dev",
     "deploy:all:staging": "lerna run deploy -- --stage dev",
     "deploy:all:prod": "lerna run deploy -- --stage dev",
-    "deploy:all:pr": "echo 'not running deploy for Pull Requests'",
     "remove:all:dev": "lerna run --concurrency 1 remove --scope 'frontend' -- --stage dev && lerna run --concurrency 1 remove --ignore 'frontend' -- --stage dev",
     "remove:all:staging": "lerna run --concurrency 1 remove --scope 'frontend' -- --stage staging && lerna run --concurrency 1 remove --ignore 'frontend' -- --stage staging",
     "remove:all:prod": "lerna run --concurrency 1 remove --scope 'frontend' -- --stage prod && lerna run --concurrency 1 remove --ignore 'frontend' -- --stage prod",
-    "remove:all:pr": "echo 'nothing to remove for Pull Requests'",
     "print:name": "lerna run print:name"
   },
   "devDependencies": {

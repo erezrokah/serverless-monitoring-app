@@ -16,8 +16,7 @@
     "jest": "23.6.0",
     "js-yaml": "^3.13.1",
     "minimist": "^1.2.0",
-    "serverless-plugin-cicd": "file:./serverless-plugin-cicd",
-    "serverless-s3-remover": "^0.6.0"
+    "serverless-plugin-cicd": "file:./serverless-plugin-cicd"
   },
   "scripts": {
     "setup": "serverless deploy",
