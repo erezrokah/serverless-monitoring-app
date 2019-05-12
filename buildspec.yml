@@ -13,10 +13,10 @@ phases:
       # https://forums.aws.amazon.com/message.jspa?messageID=754669
       # https://forums.aws.amazon.com/thread.jspa?threadID=251732
       - git init
-      - git remote add origin "${CODEBUILD_SOURCE_REPO_URL}"
+      - git remote add origin "${CODEBUILD_SOURCE_REPO_URL}" || true
       - git add .
       - git fetch
-      - git checkout -t origin/master
+      - git checkout -t origin/master || true
       # Setup for Serverless
       - npm install -g serverless
       # Setup for Yarn
