@@ -17,6 +17,7 @@ const lerna = path.join('node_modules', '.bin', 'lerna');
 const getChangedServices = commitId => {
   const result = spawnSync('git', [
     'diff-tree',
+    '-m',
     '--no-commit-id',
     '--name-only',
     '-r',
