@@ -1,30 +1,26 @@
 service: cicd
 plugins:
   - serverless-plugin-cicd
-  - serverless-s3-remover
 
 custom:
   defaultStage: staging
   currentStage: ${opt:stage, self:custom.defaultStage}
   github: ${file(./scripts/githubConfig.js)}
-  s3ArtifactBucket: ${self:service}-artifact-store-${self:custom.currentStage}
   regions: ${file(./package.json):regions}
 
   cicd:
     image: 'aws/codebuild/nodejs:8.11.0'
     owner: ${self:custom.github.owner}
     repository: ${self:custom.github.repo}
-    githubtoken: '{{resolve:ssm:github-token:1}}'
-    artifactStoreBucket: ${self:custom.s3ArtifactBucket}
 
     staging:
-      branch: master
+      # build on pull requests where master is the base branch
+      buildOnPullRequest: master
+      # build on push events to master
+      buildOnPush: master
     prod:
-      branch: prod
-
-  remover:
-    buckets:
-      - ${self:custom.s3ArtifactBucket}
+      # build on tags starting with 'v'
+      buildOnTag: 'v.*'
 
 provider:
   name: aws

@@ -34,11 +34,6 @@ const deploy = async () => {
   }
   info('Changed services:', JSON.stringify(changed));
 
-  if (stage === 'pr') {
-    info('Skipping deployment for stage:', stage);
-    process.exit(0);
-  }
-
   const region = await getRegion(stage);
 
   const notDeployed = await getNotDeployedServices(stage, region);

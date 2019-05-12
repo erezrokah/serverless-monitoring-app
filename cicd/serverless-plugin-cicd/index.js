@@ -1,8 +1,5 @@
 'use strict';
 
-const baseImage = 'aws/codebuild/ubuntu-base:14.04';
-const nodeImage = 'aws/codebuild/nodejs:6.3.1';
-const pythonImage = 'aws/codebuild/python:3.5.2';
 let stage;
 
 class CICDPlugin {
@@ -53,6 +50,14 @@ class CICDPlugin {
     this.serverless.cli.log('CICD Resources Updated');
   }
 
+  getOptionOrThrowError(options, name, errorPrefix) {
+    if (options[name]) {
+      return options[name];
+    } else {
+      throw new Error(`Missing required option ${errorPrefix}.${name}`);
+    }
+  }
+
   /**
    * Creates CloudFormation resources object with CICD Role, CodeBuild, CodePipeline
    * @return {Object} resources object
@@ -60,45 +65,77 @@ class CICDPlugin {
   create() {
     const service = this.serverless.service;
     const serviceName = service.service;
-    let image = baseImage;
+    let image = '';
     let gitOwner = '';
-    let gitRepo = service.name;
-    let gitBranch = 'master';
-    let githubToken = '';
-    let artifactStoreBucket = `${serviceName}-artifact-store-${stage}`;
+    let gitRepo = '';
+    let stageSettings = {};
+
+    let filterGroups = [];
 
     if (service.custom.cicd) {
-      if (service.custom.cicd.image != null) {
-        image = service.custom.cicd.image;
-      } else if (service.provider.runtime.includes('node')) {
-        image = nodeImage;
-      } else if (service.provider.runtime.includes('python')) {
-        image = pythonImage;
+      image = this.getOptionOrThrowError(service.custom.cicd, 'image', 'cicd');
+      gitOwner = this.getOptionOrThrowError(
+        service.custom.cicd,
+        'owner',
+        'cicd',
+      );
+      gitRepo = this.getOptionOrThrowError(
+        service.custom.cicd,
+        'repository',
+        'cicd',
+      );
+      stageSettings = this.getOptionOrThrowError(
+        service.custom.cicd,
+        stage,
+        'cicd',
+      );
+      if (stageSettings.buildOnPullRequest) {
+        filterGroups.push([
+          {
+            Type: 'EVENT',
+            Pattern: 'PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED',
+          },
+          {
+            Type: 'BASE_REF',
+            Pattern: `^refs/heads/${stageSettings.buildOnPullRequest}$`,
+            ExcludeMatchedPattern: false,
+          },
+        ]);
       }
-
-      gitOwner = service.custom.cicd.owner || '';
-      gitRepo = service.custom.cicd.repository || gitRepo;
-      githubToken = service.custom.cicd.githubtoken || '';
-      artifactStoreBucket =
-        service.custom.cicd.artifactStoreBucket || artifactStoreBucket;
-
-      if (service.custom.cicd[stage]) {
-        gitBranch = service.custom.cicd[stage].branch;
-      } else {
-        gitBranch = service.custom.cicd.branch || gitBranch;
+      if (stageSettings.buildOnPush) {
+        filterGroups.push([
+          {
+            Type: 'EVENT',
+            Pattern: 'PUSH',
+          },
+          {
+            Type: 'HEAD_REF',
+            Pattern: `^refs/heads/${stageSettings.buildOnPush}$`,
+            ExcludeMatchedPattern: false,
+          },
+        ]);
       }
+      if (stageSettings.buildOnTag) {
+        filterGroups.push([
+          {
+            Type: 'EVENT',
+            Pattern: 'PUSH',
+          },
+          {
+            Type: 'HEAD_REF',
+            Pattern: `^refs/tags/${stageSettings.buildOnTag}$`,
+            ExcludeMatchedPattern: false,
+          },
+        ]);
+      }
+    } else {
+      return {};
     }
-
-    const repoUrl = `git@github.com:${gitOwner}/${gitRepo}.git`;
 
     const environmentVariables = [
       {
         Name: 'STAGE',
         Value: `${stage}`,
-      },
-      {
-        Name: 'GITHUB_REPO_URL',
-        Value: `${repoUrl}`,
       },
     ];
 
@@ -112,13 +149,6 @@ class CICDPlugin {
           AssumeRolePolicyDocument: {
             Version: '2012-10-17',
             Statement: [
-              {
-                Effect: 'Allow',
-                Principal: {
-                  Service: ['codepipeline.amazonaws.com'],
-                },
-                Action: ['sts:AssumeRole'],
-              },
               {
                 Effect: 'Allow',
                 Principal: {
@@ -176,165 +206,13 @@ class CICDPlugin {
       },
     };
 
-    const stageBuild = {
-      PerStageBuild: {
+    const build = {
+      CICDBUILD: {
         Type: 'AWS::CodeBuild::Project',
         Properties: {
           Name: `${serviceName}-${stage}`,
           ServiceRole: {
             'Fn::GetAtt': ['CICDRole', 'Arn'],
-          },
-          Artifacts: {
-            Type: 'CODEPIPELINE',
-            Name: `${serviceName}-${stage}-build`,
-            Packaging: 'NONE',
-          },
-          Environment: {
-            Type: 'LINUX_CONTAINER',
-            ComputeType: 'BUILD_GENERAL1_SMALL',
-            Image: `${image}`,
-            EnvironmentVariables: environmentVariables,
-          },
-          Source: {
-            Type: 'CODEPIPELINE',
-          },
-          TimeoutInMinutes: 60,
-        },
-      },
-    };
-
-    const bucket = {
-      ArtifactStoreBucket: {
-        Type: 'AWS::S3::Bucket',
-        Properties: {
-          BucketName: artifactStoreBucket,
-          BucketEncryption: {
-            ServerSideEncryptionConfiguration: [
-              {
-                ServerSideEncryptionByDefault: {
-                  SSEAlgorithm: 'AES256',
-                },
-              },
-            ],
-          },
-        },
-      },
-    };
-
-    const pipeline = {
-      Pipeline: {
-        Type: 'AWS::CodePipeline::Pipeline',
-        Properties: {
-          Name: `${serviceName}-${stage}`,
-          RoleArn: {
-            'Fn::GetAtt': ['CICDRole', 'Arn'],
-          },
-          Stages: [
-            {
-              Name: 'Source',
-              Actions: [
-                {
-                  Name: 'Source',
-                  ActionTypeId: {
-                    Category: 'Source',
-                    Owner: 'ThirdParty',
-                    Version: '1',
-                    Provider: 'GitHub',
-                  },
-                  OutputArtifacts: [{ Name: `${serviceName}` }],
-                  Configuration: {
-                    Owner: `${gitOwner}`,
-                    Repo: `${gitRepo}`,
-                    Branch: `${gitBranch}`,
-                    OAuthToken: `${githubToken}`,
-                  },
-                  RunOrder: '1',
-                },
-              ],
-            },
-            {
-              Name: 'Build',
-              Actions: [
-                {
-                  Name: 'CodeBuild',
-                  InputArtifacts: [{ Name: `${serviceName}` }],
-                  ActionTypeId: {
-                    Category: 'Build',
-                    Owner: 'AWS',
-                    Version: '1',
-                    Provider: 'CodeBuild',
-                  },
-                  OutputArtifacts: [{ Name: `${serviceName}Build` }],
-                  Configuration: {
-                    ProjectName: {
-                      Ref: 'PerStageBuild',
-                    },
-                  },
-                  RunOrder: '1',
-                },
-              ],
-            },
-          ],
-          ArtifactStore: {
-            Type: 'S3',
-            Location: { Ref: 'ArtifactStoreBucket' },
-          },
-        },
-      },
-    };
-
-    const pullRequestRole = {
-      PullRequestRole: {
-        Type: 'AWS::IAM::Role',
-        Properties: {
-          RoleName: `${serviceName}-on-pull-request-${stage}`,
-          AssumeRolePolicyDocument: {
-            Version: '2012-10-17',
-            Statement: [
-              {
-                Effect: 'Allow',
-                Principal: {
-                  Service: ['codebuild.amazonaws.com'],
-                },
-                Action: ['sts:AssumeRole'],
-              },
-            ],
-          },
-          Policies: [
-            {
-              PolicyName: `${serviceName}-on-pull-request-${stage}`,
-              PolicyDocument: {
-                Version: '2012-10-17',
-                Statement: [
-                  {
-                    Effect: 'Allow',
-                    Resource: '*',
-                    Action: [
-                      'logs:CreateLogGroup',
-                      'logs:CreateLogStream',
-                      'logs:PutLogEvents',
-                    ],
-                  },
-                  {
-                    Effect: 'Allow',
-                    Action: ['ssm:*'],
-                    Resource: '*',
-                  },
-                ],
-              },
-            },
-          ],
-        },
-      },
-    };
-
-    const pullRequestBuild = {
-      PullRequestsBuild: {
-        Type: 'AWS::CodeBuild::Project',
-        Properties: {
-          Name: `${serviceName}-on-pull-request-${stage}`,
-          ServiceRole: {
-            'Fn::GetAtt': ['PullRequestRole', 'Arn'],
           },
           Artifacts: {
             Type: 'NO_ARTIFACTS',
@@ -348,27 +226,12 @@ class CICDPlugin {
           Source: {
             Type: 'GITHUB',
             Location: `https://github.com/${gitOwner}/${gitRepo}.git`,
-            Auth: {
-              Resource: `${githubToken}`,
-              Type: 'OAUTH',
-            },
             ReportBuildStatus: true,
           },
+          TimeoutInMinutes: 60,
           Triggers: {
             Webhook: true,
-            FilterGroups: [
-              [
-                {
-                  Type: 'EVENT',
-                  Pattern: 'PULL_REQUEST_CREATED,PULL_REQUEST_UPDATED',
-                },
-                {
-                  Type: 'BASE_REF',
-                  Pattern: `^refs/heads/${gitBranch}$`,
-                  ExcludeMatchedPattern: false,
-                },
-              ],
-            ],
+            FilterGroups: filterGroups,
           },
         },
       },
@@ -376,11 +239,7 @@ class CICDPlugin {
 
     return {
       ...role,
-      ...stageBuild,
-      ...bucket,
-      ...pipeline,
-      ...pullRequestRole,
-      ...pullRequestBuild,
+      ...build,
     };
   }
 }

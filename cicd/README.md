@@ -3,9 +3,9 @@
 ## Setup
 
 ```bash
-yarn storeGithubTokenStaging --value ****************************
-yarn storeEmailStaging --value admin@email.com
+yarn connectToGitHubStaging --token ****************************
+yarn storeAdminEmailStaging --value admin@email.com
 
-yarn storeGithubTokenProd --value ****************************
-yarn storeEmailProd --value admin@email.com
+yarn connectToGitHubProd --token ****************************
+yarn storeAdminEmailProd --value admin@email.com
 ```
