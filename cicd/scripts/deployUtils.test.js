@@ -35,6 +35,7 @@ describe('deploy', () => {
       expect(spawnSync).toHaveBeenCalledTimes(1);
       expect(spawnSync).toHaveBeenCalledWith('git', [
         'diff-tree',
+        '-m',
         '--no-commit-id',
         '--name-only',
         '-r',
