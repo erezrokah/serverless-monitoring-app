@@ -13,63 +13,68 @@ const { error, warning, info, log } = require('./log');
 const yargs = require('yargs');
 
 const deploy = async (stage, commitId) => {
-  log('Received deploy arguments:', `stage=${stage}, commitId=${commitId}`);
-
-  let changed = [];
   try {
-    changed = getChangedServices(commitId);
+    log('Received deploy arguments:', `stage=${stage}, commitId=${commitId}`);
+
+    const changed = getChangedServices(commitId);
+
+    info('Changed services:', JSON.stringify(changed));
+
+    const region = await getRegion(stage);
+
+    const notDeployed = await getNotDeployedServices(stage, region);
+
+    info('Not deployed services:', JSON.stringify(notDeployed));
+
+    if (changed.includes(CICD) || notDeployed.includes(CICD)) {
+      warning(
+        `If you've made changes to ${CICD} service make sure to setup it again (as a one time setup)`,
+      );
+    }
+
+    const toDeploy = [...new Set([...changed, ...notDeployed])].filter(
+      service => service !== CICD,
+    );
+
+    info('Services to deploy:', JSON.stringify(toDeploy));
+
+    if (toDeploy.length > 0) {
+      const packages = await getPackages();
+      await batchDeployCommand(packages, toDeploy, stage);
+
+      if (stage !== 'prod') {
+        await batchE2ETestCommand(packages, toDeploy, stage);
+      } else {
+        info('Not running e2e tests for stage:', stage);
+      }
+    } else {
+      info('No services to deploy');
+    }
   } catch (e) {
     error(e.message);
     process.exit(1);
   }
-  info('Changed services:', JSON.stringify(changed));
-
-  const region = await getRegion(stage);
-
-  const notDeployed = await getNotDeployedServices(stage, region);
-
-  info('Not deployed services:', JSON.stringify(notDeployed));
-
-  if (changed.includes(CICD) || notDeployed.includes(CICD)) {
-    warning(
-      `If you've made changes to ${CICD} service make sure to setup it again (as a one time setup)`,
-    );
-  }
-
-  const toDeploy = [...new Set([...changed, ...notDeployed])].filter(
-    service => service !== CICD,
-  );
-
-  info('Services to deploy:', JSON.stringify(toDeploy));
-
-  if (toDeploy.length > 0) {
-    const packages = await getPackages();
-    await batchDeployCommand(packages, toDeploy, stage);
-
-    if (stage !== 'prod') {
-      await batchE2ETestCommand(packages, toDeploy, stage);
-    } else {
-      info('Not running e2e tests for stage:', stage);
-    }
-  } else {
-    info('No services to deploy');
-  }
 };
 
 const remove = async stage => {
-  log('Received remove arguments:', `stage=${stage}`);
+  try {
+    log('Received remove arguments:', `stage=${stage}`);
 
-  const region = await getRegion(stage);
+    const region = await getRegion(stage);
 
-  const deployed = await getDeployedServices(stage, region);
+    const deployed = await getDeployedServices(stage, region);
 
-  info('Deployed services:', JSON.stringify(deployed));
+    info('Deployed services:', JSON.stringify(deployed));
 
-  if (deployed.length > 0) {
-    const packages = await getPackages();
-    await batchRemoveCommand(packages, deployed, stage);
-  } else {
-    info('No services to remove');
+    if (deployed.length > 0) {
+      const packages = await getPackages();
+      await batchRemoveCommand(packages, deployed, stage);
+    } else {
+      info('No services to remove');
+    }
+  } catch (e) {
+    error(e.message);
+    process.exit(1);
   }
 };
 

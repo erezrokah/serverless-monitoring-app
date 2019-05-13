@@ -135,7 +135,7 @@ const getDeployedServices = async (stage, region) => {
 };
 
 const runSpawnCommand = async (command, args) => {
-  const promise = new Promise(resolve => {
+  const promise = new Promise((resolve, reject) => {
     const proc = spawn(command, args);
 
     const stdout = readline.createInterface({
@@ -157,7 +157,11 @@ const runSpawnCommand = async (command, args) => {
     });
 
     proc.on('close', code => {
-      resolve(code);
+      if (code) {
+        reject(code);
+      } else {
+        resolve(code);
+      }
     });
   });
 
