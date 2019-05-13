@@ -98,7 +98,7 @@ const isStackExists = async (name, region) => {
   }
 };
 
-const getNotDeployedServices = async (stage, region) => {
+const getAllStacks = async (stage, region) => {
   const yamls = await getServerlessYamls();
   const services = await Promise.all(
     yamls.map(({ service, serverlessYaml }) => {
@@ -113,11 +113,25 @@ const getNotDeployedServices = async (stage, region) => {
       isStackExists(stack, region).then(exists => ({ service, exists })),
     ),
   );
+  return allStacks;
+};
+
+const getNotDeployedServices = async (stage, region) => {
+  const allStacks = await getAllStacks(stage, region);
   const notDeployed = allStacks
     .filter(({ exists }) => !exists)
     .map(({ service }) => service);
 
   return notDeployed;
+};
+
+const getDeployedServices = async (stage, region) => {
+  const allStacks = await getAllStacks(stage, region);
+  const deployed = allStacks
+    .filter(({ exists }) => exists)
+    .map(({ service }) => service);
+
+  return deployed;
 };
 
 const runSpawnCommand = async (command, args) => {
@@ -150,12 +164,11 @@ const runSpawnCommand = async (command, args) => {
   return promise;
 };
 
-const batchCommand = async (packages, toDeploy, command) => {
-  const batched = batchPackages(packages, true);
+const batchCommand = async (batched, toProcess, command) => {
   for (const batch of batched) {
     await Promise.all(
       batch.map(({ name }) => {
-        if (toDeploy.includes(name)) {
+        if (toProcess.includes(name)) {
           return command(name);
         } else {
           return Promise.resolve();
@@ -167,7 +180,8 @@ const batchCommand = async (packages, toDeploy, command) => {
 
 const batchDeployCommand = async (packages, toDeploy, stage) => {
   log('Deploying services');
-  await batchCommand(packages, toDeploy, name => {
+  const batched = batchPackages(packages, true);
+  await batchCommand(batched, toDeploy, name => {
     log('Deploying service', `'${name}'`);
     return runSpawnCommand(lerna, [
       'run',
@@ -182,9 +196,10 @@ const batchDeployCommand = async (packages, toDeploy, stage) => {
   log('Done deploying services');
 };
 
-const batchE2ETestCommand = async (packages, toDeploy) => {
+const batchE2ETestCommand = async (packages, toTest) => {
   log('Running e2e tests');
-  await batchCommand(packages, toDeploy, name => {
+  const batched = batchPackages(packages, true);
+  await batchCommand(batched, toTest, name => {
     log('Running e2e tests for service', `'${name}'`);
     return runSpawnCommand(lerna, [
       'run',
@@ -198,12 +213,32 @@ const batchE2ETestCommand = async (packages, toDeploy) => {
   log('Done running e2e tests');
 };
 
+const batchRemoveCommand = async (packages, toRemove, stage) => {
+  log('Removing services');
+  const batched = batchPackages(packages, true).reverse();
+  await batchCommand(batched, toRemove, name => {
+    log('Removing service', `'${name}'`);
+    return runSpawnCommand(lerna, [
+      'run',
+      '--scope',
+      name,
+      'remove',
+      '--',
+      '--stage',
+      stage,
+    ]);
+  });
+  log('Done running e2e tests');
+};
+
 module.exports = {
   getChangedServices,
   getRegion,
   getNotDeployedServices,
+  getDeployedServices,
   getPackages,
   batchDeployCommand,
   batchE2ETestCommand,
+  batchRemoveCommand,
   CICD,
 };
