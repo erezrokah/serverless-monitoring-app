@@ -12,34 +12,42 @@ const {
 const { error, warning, info, log } = require('./log');
 const yargs = require('yargs');
 
-const deploy = async (stage, commitId) => {
+const deploy = async (stage, commitId, forceAll) => {
   try {
-    log('Received deploy arguments:', `stage=${stage}, commitId=${commitId}`);
-
-    const changed = getChangedServices(commitId);
-
-    info('Changed services:', JSON.stringify(changed));
+    log(
+      'Received deploy arguments:',
+      `stage=${stage}, commitId=${commitId}, forceAll=${forceAll}`,
+    );
 
     const region = await getRegion(stage);
 
-    const notDeployed = await getNotDeployedServices(stage, region);
+    let toDeploy = [];
+    const packages = await getPackages();
 
-    info('Not deployed services:', JSON.stringify(notDeployed));
+    if (forceAll) {
+      toDeploy = packages.map(({ name }) => name);
+    } else {
+      const changed = getChangedServices(commitId);
 
-    if (changed.includes(CICD) || notDeployed.includes(CICD)) {
-      warning(
-        `If you've made changes to ${CICD} service make sure to setup it again (as a one time setup)`,
-      );
+      info('Changed services:', JSON.stringify(changed));
+
+      const notDeployed = await getNotDeployedServices(stage, region);
+
+      info('Not deployed services:', JSON.stringify(notDeployed));
+
+      if (changed.includes(CICD) || notDeployed.includes(CICD)) {
+        warning(
+          `If you've made changes to ${CICD} service make sure to setup it again (as a one time setup)`,
+        );
+      }
+
+      toDeploy = [...new Set([...changed, ...notDeployed])];
     }
 
-    const toDeploy = [...new Set([...changed, ...notDeployed])].filter(
-      service => service !== CICD,
-    );
-
-    info('Services to deploy:', JSON.stringify(toDeploy));
+    toDeploy = toDeploy.filter(service => service !== CICD);
 
     if (toDeploy.length > 0) {
-      const packages = await getPackages();
+      info('Services to deploy:', JSON.stringify(toDeploy));
       await batchDeployCommand(packages, toDeploy, stage);
 
       if (stage !== 'prod') {
@@ -92,6 +100,14 @@ yargs
           string: true,
           requiresArg: true,
         })
+        .option('forceAll', {
+          alias: 'f',
+          describe: 'Force deploy of all services',
+          demandOption: false,
+          boolean: true,
+          requiresArg: true,
+          default: false,
+        })
         .option('commitId', {
           alias: 'c',
           describe: 'Commit Id',
@@ -105,8 +121,8 @@ yargs
           }
           return true;
         }),
-    handler: async ({ stage, commitId }) => {
-      await deploy(stage, commitId);
+    handler: async ({ stage, commitId, forceAll }) => {
+      await deploy(stage, commitId, forceAll);
     },
   })
   .command({
