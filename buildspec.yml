@@ -34,7 +34,12 @@ phases:
         if expr "${CODEBUILD_WEBHOOK_TRIGGER}" : "^pr/" >/dev/null; then
           echo 'Skipping deployment for Pull Requests'
         else
-          yarn deployAndRunE2eTests --commitId "${CODEBUILD_RESOLVED_SOURCE_VERSION}" --stage $STAGE
+          if [ "${FORCE_DEPLOY_ALL}" = "true" ]
+          then
+            yarn deploy:all:$STAGE && yarn test:e2e:$STAGE            
+          else
+            yarn deployAndRunE2eTests --commitId "${CODEBUILD_RESOLVED_SOURCE_VERSION}" --stage $STAGE
+          fi          
         fi
 
 cache:
