@@ -2,28 +2,18 @@ const {
   getChangedServices,
   getRegion,
   getNotDeployedServices,
+  getDeployedServices,
   getPackages,
   batchDeployCommand,
   batchE2ETestCommand,
+  batchRemoveCommand,
   CICD,
 } = require('./deployUtils');
 const { error, warning, info, log } = require('./log');
+const yargs = require('yargs');
 
-const deploy = async () => {
-  const argv = require('minimist')(process.argv.slice(2));
-  const { stage, commitId } = argv;
-
-  log('Received arguments:', `stage=${stage}, commitId=${commitId}`);
-
-  if (!stage) {
-    error('Missing stage argument for deploy');
-    process.exit(1);
-  }
-
-  if (!commitId || !commitId.match(/\b[0-9a-f]{5,40}\b/)) {
-    error('Invalid commitId argument:', commitId);
-    process.exit(1);
-  }
+const deploy = async (stage, commitId) => {
+  log('Received deploy arguments:', `stage=${stage}, commitId=${commitId}`);
 
   let changed = [];
   try {
@@ -66,4 +56,71 @@ const deploy = async () => {
   }
 };
 
-deploy();
+const remove = async stage => {
+  log('Received remove arguments:', `stage=${stage}`);
+
+  const region = await getRegion(stage);
+
+  const deployed = await getDeployedServices(stage, region);
+
+  info('Deployed services:', JSON.stringify(deployed));
+
+  if (deployed.length > 0) {
+    const packages = await getPackages();
+    await batchRemoveCommand(packages, deployed, stage);
+  } else {
+    info('No services to remove');
+  }
+};
+
+yargs
+  .command({
+    command: 'deploy',
+    aliases: ['d'],
+    desc: 'Deploy services',
+    builder: yargs =>
+      yargs
+        .option('stage', {
+          alias: 's',
+          describe: 'Stage',
+          demandOption: true,
+          string: true,
+          requiresArg: true,
+        })
+        .option('commitId', {
+          alias: 'c',
+          describe: 'Commit Id',
+          demandOption: true,
+          string: true,
+          requiresArg: true,
+        })
+        .check(({ commitId }) => {
+          if (!commitId.match(/\b[0-9a-f]{5,40}\b/)) {
+            throw new Error(`'${commitId}' must be a valid commitId`);
+          }
+          return true;
+        }),
+    handler: async ({ stage, commitId }) => {
+      await deploy(stage, commitId);
+    },
+  })
+  .command({
+    command: 'remove',
+    aliases: ['r'],
+    desc: 'Remove all services',
+    builder: yargs =>
+      yargs.option('stage', {
+        alias: 's',
+        describe: 'Stage',
+        demandOption: true,
+        string: true,
+        requiresArg: true,
+      }),
+    handler: async ({ stage }) => {
+      await remove(stage);
+    },
+  })
+  .demandCommand(1)
+  .help()
+  .strict()
+  .version('0.0.1').argv;
