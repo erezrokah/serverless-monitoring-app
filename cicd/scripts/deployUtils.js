@@ -228,7 +228,7 @@ const batchRemoveCommand = async (packages, toRemove, stage) => {
       stage,
     ]);
   });
-  log('Done running e2e tests');
+  log('Done removing services');
 };
 
 module.exports = {
