@@ -313,20 +313,14 @@ class CICDPlugin {
                 Id: `build-progress-target-${buildName}`,
                 InputTransformer: {
                   InputPathsMap: {
-                    'build-id': '$.detail.build-id',
+                    'build-id': '$.detail.additional-information.id',
                     'project-name': '$.detail.project-name',
                     'build-status': '$.detail.build-status',
-                    initiator: '$.detail.additional-information.initiator',
                     region: '$.region',
-                    'short-build-id':
-                      '$.detail.additional-information.logs.stream-name',
-                    source: '$.detail.additional-information.source.location',
                   },
                   InputTemplate: JSON.stringify(
-                    "Build '<build-id>' for build project '<project-name>' has reached the build status of '<build-status>'.&#10;" +
-                      'Build initiator: <initiator>.&#10;' +
-                      'Build URL: https://<region>.console.aws.amazon.com/codebuild/home?region=<region>#/builds/<project-name>:<short-build-id>/view/new &#10;' +
-                      'Build Source: <source>',
+                    "Build '<build-id>' for build project '<project-name>' has reached the build status of '<build-status>'.\n" +
+                      'Build URL: https://<region>.console.aws.amazon.com/codesuite/codebuild/projects/<project-name>/build/<project-name>:2ecc8b40-1a09-4864-8a09-9c0049dc09aa/log?region=<region>',
                   ),
                 },
               },
