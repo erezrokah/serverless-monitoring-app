@@ -248,7 +248,7 @@ class CICDPlugin {
     };
 
     let topic = {};
-    let cloudWatchRole = {};
+    let topicPolicy = {};
     let cloudWatch = {};
     if (emailNotifications && emailNotifications.length > 0) {
       const subscriptions = emailNotifications.map(email => ({
@@ -265,38 +265,25 @@ class CICDPlugin {
           },
         },
       };
-      cloudWatchRole = {
-        CloudWatchRole: {
-          Type: 'AWS::IAM::Role',
+      topicPolicy = {
+        BuildProgressTopicPolicy: {
+          Type: 'AWS::SNS::TopicPolicy',
           Properties: {
-            RoleName: `cloudwatch-build-progress-${buildName}`,
-            AssumeRolePolicyDocument: {
+            PolicyDocument: {
+              Id: `build-progress-topic-policy-${buildName}`,
               Version: '2012-10-17',
               Statement: [
                 {
+                  Sid:
+                    'TrustCloudWatchEventsToPublishEventsToBuildProgressTopic',
                   Effect: 'Allow',
-                  Principal: {
-                    Service: ['events.amazonaws.com'],
-                  },
-                  Action: ['sts:AssumeRole'],
+                  Principal: { Service: ['events.amazonaws.com'] },
+                  Action: 'sns:Publish',
+                  Resource: { Ref: 'BuildProgressTopic' },
                 },
               ],
             },
-            Policies: [
-              {
-                PolicyName: `cloudwatch-build-progress-${buildName}`,
-                PolicyDocument: {
-                  Version: '2012-10-17',
-                  Statement: [
-                    {
-                      Effect: 'Allow',
-                      Action: ['SNS:Publish'],
-                      Resource: { Ref: 'BuildProgressTopic' },
-                    },
-                  ],
-                },
-              },
-            ],
+            Topics: [{ Ref: 'BuildProgressTopic' }],
           },
         },
       };
@@ -319,9 +306,6 @@ class CICDPlugin {
               },
             }),
             Name: `build-progress-event-${buildName}`,
-            RoleArn: {
-              'Fn::GetAtt': ['CloudWatchRole', 'Arn'],
-            },
             State: 'ENABLED',
             Targets: [
               {
@@ -332,9 +316,17 @@ class CICDPlugin {
                     'build-id': '$.detail.build-id',
                     'project-name': '$.detail.project-name',
                     'build-status': '$.detail.build-status',
+                    initiator: '$.detail.additional-information.initiator',
+                    region: '$.region',
+                    'short-build-id':
+                      '$.detail.additional-information.logs.stream-name',
+                    source: '$.detail.additional-information.source.location',
                   },
                   InputTemplate: JSON.stringify(
-                    "Build '<build-id>' for build project '<project-name>' has reached the build status of '<build-status>'.",
+                    "Build '<build-id>' for build project '<project-name>' has reached the build status of '<build-status>'.&#10;" +
+                      'Build initiator: <initiator>.&#10;' +
+                      'Build URL: https://<region>.console.aws.amazon.com/codebuild/home?region=<region>#/builds/<project-name>:<short-build-id>/view/new &#10;' +
+                      'Build Source: <source>',
                   ),
                 },
               },
@@ -348,7 +340,7 @@ class CICDPlugin {
       ...role,
       ...build,
       ...topic,
-      ...cloudWatchRole,
+      ...topicPolicy,
       ...cloudWatch,
     };
   }
