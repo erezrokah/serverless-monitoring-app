@@ -12,6 +12,7 @@ custom:
     image: 'aws/codebuild/nodejs:8.11.0'
     owner: ${self:custom.github.owner}
     repository: ${self:custom.github.repo}
+    emailNotifications: ['{{resolve:ssm:admin-email:1}}']
 
     staging:
       # build on pull requests where master is the base branch

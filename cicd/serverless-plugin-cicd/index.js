@@ -68,6 +68,9 @@ class CICDPlugin {
     let image = '';
     let gitOwner = '';
     let gitRepo = '';
+
+    let emailNotifications = [];
+
     let stageSettings = {};
 
     let filterGroups = [];
@@ -79,11 +82,16 @@ class CICDPlugin {
         'owner',
         'cicd',
       );
+
       gitRepo = this.getOptionOrThrowError(
         service.custom.cicd,
         'repository',
         'cicd',
       );
+
+      emailNotifications =
+        service.custom.cicd.emailNotifications || emailNotifications;
+
       stageSettings = this.getOptionOrThrowError(
         service.custom.cicd,
         stage,
@@ -206,11 +214,13 @@ class CICDPlugin {
       },
     };
 
+    const buildName = `${serviceName}-${stage}`;
+
     const build = {
       CICDBUILD: {
         Type: 'AWS::CodeBuild::Project',
         Properties: {
-          Name: `${serviceName}-${stage}`,
+          Name: buildName,
           ServiceRole: {
             'Fn::GetAtt': ['CICDRole', 'Arn'],
           },
@@ -237,9 +247,95 @@ class CICDPlugin {
       },
     };
 
+    let topic = {};
+    let topicPolicy = {};
+    let cloudWatch = {};
+    if (emailNotifications && emailNotifications.length > 0) {
+      const subscriptions = emailNotifications.map(email => ({
+        Endpoint: email,
+        Protocol: 'email',
+      }));
+      topic = {
+        BuildProgressTopic: {
+          Type: 'AWS::SNS::Topic',
+          Properties: {
+            DisplayName: `Notifications for build '${buildName}' progress`,
+            TopicName: `build-progress-topic-${buildName}`,
+            Subscription: subscriptions,
+          },
+        },
+      };
+      topicPolicy = {
+        BuildProgressTopicPolicy: {
+          Type: 'AWS::SNS::TopicPolicy',
+          Properties: {
+            PolicyDocument: {
+              Id: `build-progress-topic-policy-${buildName}`,
+              Version: '2012-10-17',
+              Statement: [
+                {
+                  Sid:
+                    'TrustCloudWatchEventsToPublishEventsToBuildProgressTopic',
+                  Effect: 'Allow',
+                  Principal: { Service: ['events.amazonaws.com'] },
+                  Action: 'sns:Publish',
+                  Resource: { Ref: 'BuildProgressTopic' },
+                },
+              ],
+            },
+            Topics: [{ Ref: 'BuildProgressTopic' }],
+          },
+        },
+      };
+      cloudWatch = {
+        CloudWatchBuildProgress: {
+          Type: 'AWS::Events::Rule',
+          Properties: {
+            Description: `Build project '${buildName}' progress event`,
+            EventPattern: JSON.stringify({
+              source: ['aws.codebuild'],
+              'detail-type': ['CodeBuild Build State Change'],
+              detail: {
+                'build-status': [
+                  'IN_PROGRESS',
+                  'SUCCEEDED',
+                  'FAILED',
+                  'STOPPED',
+                ],
+                'project-name': [buildName],
+              },
+            }),
+            Name: `build-progress-event-${buildName}`,
+            State: 'ENABLED',
+            Targets: [
+              {
+                Arn: { Ref: 'BuildProgressTopic' },
+                Id: `build-progress-target-${buildName}`,
+                InputTransformer: {
+                  InputPathsMap: {
+                    'build-id': '$.detail.build-id',
+                    'project-name': '$.detail.project-name',
+                    'build-status': '$.detail.build-status',
+                    region: '$.region',
+                  },
+                  InputTemplate: JSON.stringify(
+                    "Build '<build-id>' for build project '<project-name>' has reached the build status of '<build-status>'. " +
+                      'Builds: https://<region>.console.aws.amazon.com/codesuite/codebuild/projects/<project-name>/history',
+                  ),
+                },
+              },
+            ],
+          },
+        },
+      };
+    }
+
     return {
       ...role,
       ...build,
+      ...topic,
+      ...topicPolicy,
+      ...cloudWatch,
     };
   }
 }
