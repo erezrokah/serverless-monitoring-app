@@ -68,6 +68,9 @@ class CICDPlugin {
     let image = '';
     let gitOwner = '';
     let gitRepo = '';
+
+    let emailNotifications = [];
+
     let stageSettings = {};
 
     let filterGroups = [];
@@ -79,11 +82,16 @@ class CICDPlugin {
         'owner',
         'cicd',
       );
+
       gitRepo = this.getOptionOrThrowError(
         service.custom.cicd,
         'repository',
         'cicd',
       );
+
+      emailNotifications =
+        service.custom.cicd.emailNotifications || emailNotifications;
+
       stageSettings = this.getOptionOrThrowError(
         service.custom.cicd,
         stage,
@@ -206,11 +214,13 @@ class CICDPlugin {
       },
     };
 
+    const buildName = `${serviceName}-${stage}`;
+
     const build = {
       CICDBUILD: {
         Type: 'AWS::CodeBuild::Project',
         Properties: {
-          Name: `${serviceName}-${stage}`,
+          Name: buildName,
           ServiceRole: {
             'Fn::GetAtt': ['CICDRole', 'Arn'],
           },
@@ -237,9 +247,109 @@ class CICDPlugin {
       },
     };
 
+    let topic = {};
+    let cloudWatchRole = {};
+    let cloudWatch = {};
+    if (emailNotifications && emailNotifications.length > 0) {
+      const subscriptions = emailNotifications.map(email => ({
+        Endpoint: email,
+        Protocol: 'email',
+      }));
+      topic = {
+        BuildProgressTopic: {
+          Type: 'AWS::SNS::Topic',
+          Properties: {
+            DisplayName: `Notifications for build '${buildName}' progress`,
+            TopicName: `build-progress-topic-${buildName}`,
+            Subscription: subscriptions,
+          },
+        },
+      };
+      cloudWatchRole = {
+        CloudWatchRole: {
+          Type: 'AWS::IAM::Role',
+          Properties: {
+            RoleName: `cloudwatch-build-progress-${buildName}`,
+            AssumeRolePolicyDocument: {
+              Version: '2012-10-17',
+              Statement: [
+                {
+                  Effect: 'Allow',
+                  Principal: {
+                    Service: ['events.amazonaws.com'],
+                  },
+                  Action: ['sts:AssumeRole'],
+                },
+              ],
+            },
+            Policies: [
+              {
+                PolicyName: `cloudwatch-build-progress-${buildName}`,
+                PolicyDocument: {
+                  Version: '2012-10-17',
+                  Statement: [
+                    {
+                      Effect: 'Allow',
+                      Action: ['SNS:Publish'],
+                      Resource: { Ref: 'BuildProgressTopic' },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      };
+      cloudWatch = {
+        CloudWatchBuildProgress: {
+          Type: 'AWS::Events::Rule',
+          Properties: {
+            Description: `Build project '${buildName}' progress event`,
+            EventPattern: JSON.stringify({
+              source: ['aws.codebuild'],
+              'detail-type': ['CodeBuild Build State Change'],
+              detail: {
+                'build-status': [
+                  'IN_PROGRESS',
+                  'SUCCEEDED',
+                  'FAILED',
+                  'STOPPED',
+                ],
+                'project-name': [buildName],
+              },
+            }),
+            Name: `build-progress-event-${buildName}`,
+            RoleArn: {
+              'Fn::GetAtt': ['CloudWatchRole', 'Arn'],
+            },
+            State: 'ENABLED',
+            Targets: [
+              {
+                Arn: { Ref: 'BuildProgressTopic' },
+                Id: `build-progress-target-${buildName}`,
+                InputTransformer: {
+                  InputPathsMap: {
+                    'build-id': '$.detail.build-id',
+                    'project-name': '$.detail.project-name',
+                    'build-status': '$.detail.build-status',
+                  },
+                  InputTemplate: JSON.stringify(
+                    "Build '<build-id>' for build project '<project-name>' has reached the build status of '<build-status>'.",
+                  ),
+                },
+              },
+            ],
+          },
+        },
+      };
+    }
+
     return {
       ...role,
       ...build,
+      ...topic,
+      ...cloudWatchRole,
+      ...cloudWatch,
     };
   }
 }
