@@ -28,7 +28,7 @@ custom:
   endpointsTableName: ${self:service}-endpoints-table-${self:custom.currentStage}
 
   checkEndpointStepFunction: ${self:service}-check-endpoint-step-function-${self:custom.currentStage}
-  checkEndpointStepFunctionId: MonitoringDashendpointsDashtesterDashserviceDashcheckDashendpointDashstepDashfunctionDash${self:custom.currentStage}
+  checkEndpointStepFunctionId: MonitoringDashtesterDashserviceDashcheckDashendpointDashstepDashfunctionDash${self:custom.currentStage}
 
   output:
     handler: ./scripts/stackOutput.handler
