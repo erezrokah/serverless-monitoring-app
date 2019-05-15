@@ -1,5 +1,3 @@
-const path = require('path');
-const fs = require('fs-extra');
 const DynamoDB = require('aws-sdk/clients/dynamodb');
 const { writeItems } = require('aws-testing-library/lib/utils/dynamoDb');
 const { updateE2eTestsConfig } = require('./utils');

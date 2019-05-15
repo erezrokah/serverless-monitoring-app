@@ -1,7 +1,6 @@
 const path = require('path');
 const { readFile } = require('fs-extra');
 const yaml = require('js-yaml');
-const { replaceInEnvFile } = require('./utils');
 const { updateE2eTestsConfig } = require('./utils');
 
 const getStackName = async (serverlessYaml, stage) => {
