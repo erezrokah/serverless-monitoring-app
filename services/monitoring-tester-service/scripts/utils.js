@@ -12,7 +12,9 @@ const updateE2eTestsConfig = async config => {
     ...config,
   };
 
-  console.log(`Updating e2e tests ${file} with: ${JSON.stringify(e2eConfig)}`);
+  console.log(
+    `Updating e2e tests ${file} with: ${JSON.stringify(e2eConfig, null, 2)}`,
+  );
 
   await fs.writeJSON(e2eConfigFile, e2eConfig, { spaces: 2 });
 };
