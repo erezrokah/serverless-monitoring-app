@@ -4,17 +4,22 @@ plugins:
   - serverless-single-page-app-plugin
   - serverless-plugin-tracing
   - '@anttiviljami/serverless-stack-output'
+  - serverless-scriptable-plugin
   - serverless-s3-remover
 
 custom:
   defaultStage: dev
   currentStage: ${opt:stage, self:custom.defaultStage}
-  currentRegion: ${file(../services/common/environment/config.${self:custom.currentStage}.json):region}
+  currentRegion: ${file(../services/monitoring-common/environment/config.${self:custom.currentStage}.json):region}
 
   s3Bucket: monitoring-frontend-app-bucket-${self:custom.currentStage}
 
   output:
     handler: ./scripts/stackOutput.handler
+
+  scriptHooks:
+    after:deploy:finalize:
+      - scripts/envSetup.js
 
   remover:
     buckets:

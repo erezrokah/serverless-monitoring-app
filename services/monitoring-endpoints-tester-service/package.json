@@ -35,6 +35,7 @@
     "fs-extra": "^7.0.1",
     "jest": "23.6.0",
     "mockdate": "^2.0.2",
+    "serverless-scriptable-plugin": "1.0.1",
     "serverless-iam-roles-per-function": "^1.0.4",
     "serverless-plugin-tracing": "^2.0.0",
     "serverless-pseudo-parameters": "^2.4.0",

@@ -41,4 +41,6 @@ cache:
   paths:
     - 'node_modules/**/*'
     - 'frontend/node_modules/**/*'
-    - 'services/monitoring-service/node_modules/**/*'
+    - 'services/monitoring-appsync-service/node_modules/**/*'
+    - 'services/monitoring-common/node_modules/**/*'
+    - 'services/monitoring-endpoints-tester-service/node_modules/**/*'

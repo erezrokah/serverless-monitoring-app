@@ -2,6 +2,22 @@ type Query {
   getDataEntries: DataEntryConnection
 }
 
+type Mutation {
+  updateDataEntry(
+    id: String!
+    name: String!
+    url: String!
+    averageLatencyMs: Float!
+    lastSample: String!
+    status: String!
+    logo: String!
+  ): DataEntry!
+}
+
+type Subscription {
+  updateDataEntry: DataEntry @aws_subscribe(mutations: ["updateDataEntry"])
+}
+
 type DataEntry {
   id: String!
   name: String!
@@ -19,4 +35,6 @@ type DataEntryConnection {
 
 schema {
   query: Query
+  mutation: Mutation
+  subscription: Subscription
 }

@@ -3,12 +3,11 @@ service: monitoring-appsync-service
 plugins:
   - serverless-appsync-plugin
   - serverless-plugin-tracing
-  - '@anttiviljami/serverless-stack-output'
 
 custom:
   defaultStage: dev
   currentStage: ${opt:stage, self:custom.defaultStage}
-  currentRegion: ${file(../common/environment/config.${self:custom.currentStage}.json):region}
+  currentRegion: ${file(../monitoring-common/environment/config.${self:custom.currentStage}.json):region}
 
   monitoringCommonServiceName: ${file(../monitoring-common/serverless.yml):service}
 
@@ -47,8 +46,14 @@ custom:
       - dataSource: DataEntries
         type: Query
         field: getDataEntries
-        request: 'data-entry-request-mapping-template.txt'
-        response: 'data-entry-response-mapping-template.txt'
+        request: 'getDataEntries-request-mapping-template.vtl'
+        response: 'getDataEntries-response-mapping-template.vtl'
+
+      - dataSource: DataEntries
+        type: Mutation
+        field: updateDataEntry
+        request: 'updateDataEntry-request-mapping-template.vtl'
+        response: 'updateDataEntry-response-mapping-template.vtl'
 
 provider:
   name: aws

@@ -1,4 +1,4 @@
 Outputs:
-  GraphQlApiArn:
+  GraphQLApiArn:
     Value:
-      Ref: GraphQlApi
+      Ref: GraphQLApi

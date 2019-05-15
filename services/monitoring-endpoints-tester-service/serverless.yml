@@ -7,11 +7,12 @@ plugins:
   - serverless-plugin-tracing
   - '@anttiviljami/serverless-stack-output'
   - serverless-iam-roles-per-function
+  - serverless-scriptable-plugin
 
 custom:
   defaultStage: dev
   currentStage: ${opt:stage, self:custom.defaultStage}
-  currentRegion: ${file(../common/environment/config.${self:custom.currentStage}.json):region}
+  currentRegion: ${file(../monitoring-common/environment/config.${self:custom.currentStage}.json):region}
 
   monitoringCommonServiceName: ${file(../monitoring-common/serverless.yml):service}
   monitoringAppSyncServiceName: ${file(../monitoring-appsync-service/serverless.yml):service}
@@ -31,6 +32,10 @@ custom:
 
   output:
     handler: ./scripts/stackOutput.handler
+
+  scriptHooks:
+    after:deploy:finalize:
+      - scripts/envSetup.js
 
   webpack:
     webpackConfig: 'webpack.config.js'

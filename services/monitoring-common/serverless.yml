@@ -2,7 +2,6 @@ service: monitoring-common
 
 plugins:
   - serverless-plugin-tracing
-  - '@anttiviljami/serverless-stack-output'
 
 custom:
   defaultStage: dev
