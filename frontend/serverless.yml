@@ -12,6 +12,8 @@ custom:
   currentStage: ${opt:stage, self:custom.defaultStage}
   currentRegion: ${file(../services/monitoring-common/environment/config.${self:custom.currentStage}.json):region}
 
+  monitoringCommonServiceName: ${file(../services/monitoring-common/serverless.yml):service}
+
   s3Bucket: monitoring-frontend-app-bucket-${self:custom.currentStage}
 
   output:

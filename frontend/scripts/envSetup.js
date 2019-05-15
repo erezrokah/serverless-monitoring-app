@@ -50,7 +50,7 @@ const setupFrontendEnvFile = async () => {
       stage,
     ),
     getStackName(
-      path.join(servicesDir, 'monitoring-appsync-service', 'serverless.yml'),
+      path.join(servicesDir, 'monitoring-tester-service', 'serverless.yml'),
       stage,
     ),
   ]);
