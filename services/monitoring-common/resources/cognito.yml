@@ -17,3 +17,8 @@ Outputs:
       Ref: UserPool
     Export:
       Name: '${self:service}:${self:custom.currentStage}:UserPoolId'
+  UserPoolArn:
+    Value:
+      'Fn::GetAtt': [UserPool, Arn]
+    Export:
+      Name: '${self:service}:${self:custom.currentStage}:UserPoolArn'

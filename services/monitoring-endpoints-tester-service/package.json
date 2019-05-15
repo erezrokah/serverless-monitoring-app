@@ -1,5 +1,5 @@
 {
-  "name": "monitoring-service",
+  "name": "monitoring-endpoints-tester-service",
   "version": "0.0.1",
   "private": true,
   "description": "Monitoring Service",
@@ -29,7 +29,8 @@
     "@types/node": "^10.10.3",
     "aws-testing-library": "^1.0.0",
     "chai": "^4.2.0",
-    "common": "file:./../common",
+    "monitoring-common": "file:./../monitoring-common",
+    "monitoring-appsync-service": "file:./../monitoring-appsync-service",
     "dotenv": "^6.2.0",
     "fs-extra": "^7.0.1",
     "jest": "23.6.0",

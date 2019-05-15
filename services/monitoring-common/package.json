@@ -1,0 +1,20 @@
+{
+  "name": "monitoring-common",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Shared Services Code",
+  "author": "Erez Rokah",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "serverless deploy",
+    "remove": "serverless remove",
+    "print:name": "echo ${npm_package_name}"
+  },
+  "devDependencies": {
+    "@anttiviljami/serverless-stack-output": "^0.3.1",
+    "dotenv": "^6.2.0",
+    "fs-extra": "^7.0.1",
+    "serverless-appsync-plugin": "^1.0.9",
+    "serverless-plugin-tracing": "^2.0.0"
+  }
+}

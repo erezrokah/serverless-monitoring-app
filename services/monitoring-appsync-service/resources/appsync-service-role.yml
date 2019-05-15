@@ -2,7 +2,7 @@ Resources:
   AppSyncServiceRole:
     Type: 'AWS::IAM::Role'
     Properties:
-      RoleName: 'Dynamo-AppSyncServiceRole-${self:custom.currentStage}'
+      RoleName: ${self:custom.serviceRole}
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -13,7 +13,7 @@ Resources:
             Action:
               - 'sts:AssumeRole'
       Policies:
-        - PolicyName: 'Dynamo-AppSyncServiceRole-Policy-${self:custom.currentStage}'
+        - PolicyName: ${self:custom.serviceRolePolicy}
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
@@ -23,8 +23,8 @@ Resources:
                   - 'dynamodb:GetItem'
                   - 'dynamodb:Scan'
                 Resource:
-                  - Fn::ImportValue: 'monitoring-service:${self:custom.currentStage}:MonitoringDataTableArn'
+                  - Fn::ImportValue: '${self:custom.monitoringCommonServiceName}:${self:custom.currentStage}:MonitoringDataTableArn'
                   - Fn::Join:
                       - ''
-                      - - 'Fn::ImportValue': 'monitoring-service:${self:custom.currentStage}:MonitoringDataTableArn'
+                      - - 'Fn::ImportValue': '${self:custom.monitoringCommonServiceName}:${self:custom.currentStage}:MonitoringDataTableArn'
                         - '/*'

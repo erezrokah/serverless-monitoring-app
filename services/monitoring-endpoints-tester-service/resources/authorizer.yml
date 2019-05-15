@@ -5,6 +5,6 @@ Resources:
       IdentitySource: 'method.request.header.Authorization'
       Name: ${self:service}-${self:custom.currentStage}-cognito-authorizer
       ProviderARNs:
-        - 'Fn::GetAtt': [UserPool, Arn]
+        - Fn::ImportValue: '${self:custom.monitoringCommonServiceName}:${self:custom.currentStage}:UserPoolArn'
       RestApiId: { Ref: ApiGatewayRestApi }
       Type: COGNITO_USER_POOLS

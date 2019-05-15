@@ -33,8 +33,6 @@ const handler = async (data, serverless) => {
   const {
     EndpointsTableName,
     ServiceEndpoint,
-    UserPoolId,
-    MonitoringDataTableName,
     CheckEndpointStepFunctionArn,
     NotificationsTopicArn,
   } = data;
@@ -54,23 +52,13 @@ const handler = async (data, serverless) => {
     });
   }
 
-  if (UserPoolId) {
-    const region = serverless.variables.service.custom.currentRegion;
-    await replaceInEnvFile('.env.local', {
-      REACT_APP_USER_POOL_ID: UserPoolId,
-      REACT_APP_COGNITO_REGION: region,
-    });
-  }
-
-  if (
-    MonitoringDataTableName &&
-    CheckEndpointStepFunctionArn &&
-    NotificationsTopicArn
-  ) {
+  if (CheckEndpointStepFunctionArn && NotificationsTopicArn) {
+    const e2eConfigFile = path.join(__dirname, '..', 'e2e', 'config.json');
+    const current = (await fs.readJson(e2eConfigFile, { throws: false })) || {};
     await fs.writeJSON(
-      path.join(__dirname, '..', 'e2e', 'config.json'),
+      e2eConfigFile,
       {
-        MonitoringDataTableName,
+        ...current,
         CheckEndpointStepFunctionArn,
         NotificationsTopicArn,
         Region: serverless.variables.service.custom.currentRegion,

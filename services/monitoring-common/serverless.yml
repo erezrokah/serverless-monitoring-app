@@ -1,24 +1,15 @@
-service: monitoring-frontend-app
+service: monitoring-common
 
 plugins:
-  - serverless-single-page-app-plugin
   - serverless-plugin-tracing
   - '@anttiviljami/serverless-stack-output'
-  - serverless-s3-remover
 
 custom:
   defaultStage: dev
   currentStage: ${opt:stage, self:custom.defaultStage}
-  currentRegion: ${file(../services/common/environment/config.${self:custom.currentStage}.json):region}
+  currentRegion: ${file(./environment/config.${self:custom.currentStage}.json):region}
 
-  s3Bucket: monitoring-frontend-app-bucket-${self:custom.currentStage}
-
-  output:
-    handler: ./scripts/stackOutput.handler
-
-  remover:
-    buckets:
-      - ${self:custom.s3Bucket}
+  dataTableName: ${self:service}-data-table-${self:custom.currentStage}
 
 provider:
   name: aws
@@ -37,5 +28,5 @@ provider:
         - '*'
 
 resources:
-  - ${file(resources/cloudfront.yml)}
   - ${file(resources/cognito.yml)}
+  - ${file(resources/dynamoDb.yml)}

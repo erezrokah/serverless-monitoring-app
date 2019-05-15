@@ -1,0 +1,4 @@
+Outputs:
+  GraphQlApiArn:
+    Value:
+      Ref: GraphQlApi

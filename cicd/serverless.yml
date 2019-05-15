@@ -1,4 +1,4 @@
-service: cicd
+service: monitoring-cicd
 plugins:
   - serverless-plugin-cicd
 

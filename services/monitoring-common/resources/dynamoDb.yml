@@ -10,17 +10,6 @@ Resources:
           KeyType: HASH
       BillingMode: 'PAY_PER_REQUEST'
       TableName: ${self:custom.dataTableName}
-  EndpointsTable:
-    Type: 'AWS::DynamoDB::Table'
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-      KeySchema:
-        - AttributeName: id
-          KeyType: HASH
-      BillingMode: 'PAY_PER_REQUEST'
-      TableName: ${self:custom.endpointsTableName}
 
 Outputs:
   MonitoringDataTableName:
@@ -34,9 +23,3 @@ Outputs:
       'Fn::GetAtt': [MonitoringDataTable, Arn]
     Export:
       Name: '${self:service}:${self:custom.currentStage}:MonitoringDataTableArn'
-
-  EndpointsTableName:
-    Value:
-      Ref: EndpointsTable
-    Export:
-      Name: '${self:service}:${self:custom.currentStage}:EndpointsTableName'
