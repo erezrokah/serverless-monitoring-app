@@ -51,7 +51,7 @@ const setupFrontendEnvFile = async () => {
   ]);
 
   const [
-    { GraphQlApiUrl },
+    { GraphQLApiUrl },
     { UserPoolId },
     { ServiceEndpoint },
   ] = await Promise.all([
@@ -64,7 +64,7 @@ const setupFrontendEnvFile = async () => {
     REACT_APP_COGNITO_REGION: region,
     REACT_APP_APPSYNC_REGION: region,
     REACT_APP_USER_POOL_ID: UserPoolId,
-    REACT_APP_GRAPHQL_API_URL: GraphQlApiUrl,
+    REACT_APP_GRAPHQL_API_URL: GraphQLApiUrl,
     REACT_APP_REST_API: ServiceEndpoint,
   });
 };

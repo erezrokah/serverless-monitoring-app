@@ -27,7 +27,7 @@
     "jest-dom": "^3.1.2",
     "minimist": "^1.2.0",
     "monitoring-appsync-service": "file:./../services/monitoring-appsync-service",
-    "monitoring-endpoints-tester-service": "file:./../services/monitoring-endpoints-tester-service",
+    "monitoring-tester-service": "file:./../services/monitoring-tester-service",
     "react-test-renderer": "^16.8.2",
     "react-testing-library": "^5.9.0",
     "serverless-appsync-plugin": "^1.0.9",

@@ -43,4 +43,4 @@ cache:
     - 'frontend/node_modules/**/*'
     - 'services/monitoring-appsync-service/node_modules/**/*'
     - 'services/monitoring-common/node_modules/**/*'
-    - 'services/monitoring-endpoints-tester-service/node_modules/**/*'
+    - 'services/monitoring-tester-service/node_modules/**/*'

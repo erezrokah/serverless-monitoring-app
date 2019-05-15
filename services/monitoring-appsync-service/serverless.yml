@@ -1,4 +1,4 @@
-service: monitoring-appsync-service
+service: monitoring-appsync
 
 plugins:
   - serverless-appsync-plugin

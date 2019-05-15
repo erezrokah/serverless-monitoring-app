@@ -21,6 +21,7 @@ Resources:
                 Action:
                   - 'dynamodb:Query'
                   - 'dynamodb:GetItem'
+                  - 'dynamodb:PutItem'
                   - 'dynamodb:Scan'
                 Resource:
                   - Fn::ImportValue: '${self:custom.monitoringCommonServiceName}:${self:custom.currentStage}:MonitoringDataTableArn'

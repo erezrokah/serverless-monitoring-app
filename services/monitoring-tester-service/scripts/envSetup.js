@@ -20,6 +20,7 @@ const getStackOutputs = async (provider, stackName, stage, region) => {
   const outputs = result.Stacks[0].Outputs.map(
     ({ OutputKey, OutputValue }) => ({ [OutputKey]: OutputValue }),
   );
+  return outputs;
 };
 
 const setupE2eTestsConfig = async () => {

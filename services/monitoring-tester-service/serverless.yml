@@ -1,4 +1,4 @@
-service: monitoring-endpoints-tester-service
+service: monitoring-tester
 
 plugins:
   - serverless-pseudo-parameters
@@ -23,7 +23,7 @@ custom:
   notificationsTopicName: ${self:service}-notifications-topic-${self:custom.currentStage}
   notificationsTopicArn: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.notificationsTopicName}
 
-  adminEmail: ${file(../common/environment/config.${self:custom.currentStage}.json):adminEmail}
+  adminEmail: ${file(../monitoring-common/environment/config.${self:custom.currentStage}.json):adminEmail}
 
   endpointsTableName: ${self:service}-endpoints-table-${self:custom.currentStage}
 
@@ -156,7 +156,7 @@ functions:
     handler: src/persistResultsHandler.persistResults
     environment:
       GRAPHQL_ENDPOINT_URL:
-        Fn::ImportValue: '${self:custom.monitoringAppSyncServiceName}:${self:custom.currentStage}:GraphQlApiUrl'
+        Fn::ImportValue: '${self:custom.monitoringAppSyncServiceName}:${self:custom.currentStage}:GraphQLApiUrl'
     iamRoleStatementsInherit: true
     iamRoleStatements:
       - Effect: 'Allow'
@@ -165,8 +165,8 @@ functions:
         Resource:
           - Fn::Join:
               - ''
-              - - 'Fn::ImportValue': '${self:custom.monitoringAppSyncServiceName}:${self:custom.currentStage}:GraphQlApiArn'
-                - '/types/Mutation/fields/addUser'
+              - - 'Fn::ImportValue': '${self:custom.monitoringAppSyncServiceName}:${self:custom.currentStage}:GraphQLApiArn'
+                - '/types/Mutation/fields/updateDataEntry'
 
   fanout:
     handler: src/fanoutHandler.fanout
