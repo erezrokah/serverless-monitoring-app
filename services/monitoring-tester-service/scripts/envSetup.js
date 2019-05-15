@@ -16,9 +16,14 @@ const getStackOutputs = async (provider, stackName, stage, region) => {
     stage,
     region,
   );
-  const outputs = result.Stacks[0].Outputs.map(
-    ({ OutputKey, OutputValue }) => ({ [OutputKey]: OutputValue }),
-  );
+
+  const outputsArray = result.Stacks[0].Outputs;
+
+  let outputs = {};
+  for (let i = 0; i < outputsArray.length; i++) {
+    outputs[outputsArray[i].OutputKey] = outputsArray[i].OutputValue;
+  }
+
   return outputs;
 };
 
