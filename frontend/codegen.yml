@@ -1,0 +1,8 @@
+overwrite: true
+schema: '../services/monitoring-appsync-service/appsync/schema.graphql'
+documents: '**/*.graphql'
+generates:
+  src/graphql/types.d.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'

@@ -9,21 +9,20 @@ import {
   Statistic,
   Table,
 } from 'semantic-ui-react';
-import { ListEvents } from '../queries';
+import * as Observable from 'zen-observable';
+import { listEvents } from '../graphql/queries';
+import { onUpdateDataEntry } from '../graphql/subscriptions';
+import { DataEntry, Query, Subscription } from '../graphql/types';
 
-export interface IEntry {
-  id: string;
-  name: string;
-  url: string;
-  averageLatencyMs: number;
-  lastSample: string;
-  status: string;
-  logo: string;
-}
-
-interface IGraphQlResult {
-  getDataEntries: { items: IEntry[] };
-}
+const emptyEntry: DataEntry = {
+  averageLatencyMs: 1,
+  id: 'id',
+  lastSample: '1',
+  logo: 'logo',
+  name: 'name',
+  status: 'ERROR',
+  url: 'url',
+};
 
 const SiteStatus = ({ status }: { status: string }) => {
   if (status === 'PASS') {
@@ -52,7 +51,7 @@ const SiteStatus = ({ status }: { status: string }) => {
   }
 };
 
-const Row = (props: IEntry) => {
+const Row = (props: DataEntry) => {
   const { averageLatencyMs, id, lastSample, logo, name, status, url } = props;
   const lastSampleDate = new Date(lastSample);
 
@@ -78,26 +77,48 @@ const Row = (props: IEntry) => {
   );
 };
 
+const setSortedEntries = (
+  entries: DataEntry[],
+  setEntries: React.Dispatch<React.SetStateAction<DataEntry[]>>,
+) => {
+  setEntries(entries.sort((a, b) => a.name.localeCompare(b.name)));
+};
+
 const DataTable = () => {
   const [loading, setLoading] = useState(true);
-  const [entries, setEntries] = useState([] as IEntry[]);
+  const [entries, setEntries] = useState([] as DataEntry[]);
 
   const fetchData = async () => {
     const { data } = (await API.graphql(
-      graphqlOperation(ListEvents),
+      graphqlOperation(listEvents),
     )) as GraphQLResult;
 
-    const result = data as IGraphQlResult;
+    const result = data as Query;
+    const getDataEntries = result.getDataEntries || { items: [] };
 
-    setEntries(
-      result.getDataEntries.items.sort((a, b) => a.name.localeCompare(b.name)),
-    );
+    setSortedEntries(getDataEntries.items, setEntries);
     setLoading(false);
   };
 
   useEffect(() => {
-    const interval = setInterval(fetchData, 1000);
-    return () => clearInterval(interval);
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const subscription = (API.graphql(
+      graphqlOperation(onUpdateDataEntry),
+    ) as Observable<object>).subscribe({
+      next: (result: { value: { data: Subscription } }) => {
+        const entry = result.value.data.updateDataEntry || emptyEntry;
+        const index = entries.findIndex(e => e.id === entry.id);
+        if (index >= 0) {
+          entries.splice(index, 1);
+        }
+        setSortedEntries([...entries, entry], setEntries);
+      },
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   return (
