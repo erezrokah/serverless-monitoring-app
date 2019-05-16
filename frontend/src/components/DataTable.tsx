@@ -1,6 +1,6 @@
 import { GraphQLResult } from '@aws-amplify/api/lib/types';
 import { API, graphqlOperation } from 'aws-amplify';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import {
   Header,
   Icon,
@@ -15,25 +15,16 @@ import { listEvents } from '../graphql/queries';
 import { onUpdateDataEntry } from '../graphql/subscriptions';
 import { DataEntry, Query, Subscription } from '../graphql/types';
 
-const emptyEntry: DataEntry = {
-  averageLatencyMs: 1,
-  id: 'id',
-  lastSample: '1',
-  logo: 'logo',
-  name: 'name',
-  status: 'ERROR',
-  url: 'url',
-};
-
 interface IDataError {
   message: string;
 }
 
-const MessageError = ({ errors }: { errors: IDataError[] }) => (
+const ErrorMessages = ({ errors }: { errors: IDataError[] }) => (
   <Message
     error={true}
     header="Error loading data"
     list={errors.map(({ message }) => message)}
+    data-testid="error-messages"
   />
 );
 
@@ -90,17 +81,53 @@ const Row = (props: DataEntry) => {
   );
 };
 
-const setSortedEntries = (
-  entries: DataEntry[],
-  setEntries: React.Dispatch<React.SetStateAction<DataEntry[]>>,
+const sortEntries = (entries: DataEntry[]) => {
+  return entries.sort((a, b) => a.name.localeCompare(b.name));
+};
+
+interface IState {
+  entries: DataEntry[];
+  errors?: IDataError[];
+  loading: boolean;
+}
+
+const initialState: IState = { entries: [], loading: true };
+
+export const reducer = (
+  state: IState,
+  action: { type: string; payload: any },
 ) => {
-  setEntries(entries.sort((a, b) => a.name.localeCompare(b.name)));
+  switch (action.type) {
+    case 'updateSingleEntry': {
+      const entry = action.payload as DataEntry;
+      const newEntries = [...state.entries];
+      const index = newEntries.findIndex(e => e.id === entry.id);
+      if (index >= 0) {
+        newEntries.splice(index, 1);
+      }
+      newEntries.push(entry);
+      return { ...state, entries: sortEntries(newEntries) };
+    }
+    case 'setAllEntries': {
+      const newEntries = action.payload as DataEntry[];
+      return { ...state, entries: sortEntries(newEntries) };
+    }
+    case 'setLoading': {
+      const loading = action.payload as boolean;
+      return { ...state, loading };
+    }
+    case 'setErrors': {
+      const errors = action.payload as IDataError[];
+      return { ...state, errors };
+    }
+    default: {
+      return state;
+    }
+  }
 };
 
 const DataTable = () => {
-  const [loading, setLoading] = useState(true);
-  const [entries, setEntries] = useState([] as DataEntry[]);
-  const [errors, setErrors] = useState(null);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const fetchData = async () => {
     try {
@@ -111,12 +138,12 @@ const DataTable = () => {
       const result = data as Query;
       const getDataEntries = result.getDataEntries || { items: [] };
 
-      setSortedEntries(getDataEntries.items, setEntries);
+      dispatch({ type: 'setAllEntries', payload: getDataEntries.items });
     } catch ({ errors }) {
-      setErrors(errors);
+      dispatch({ type: 'setErrors', payload: errors });
     }
 
-    setLoading(false);
+    dispatch({ type: 'setLoading', payload: false });
   };
 
   useEffect(() => {
@@ -128,17 +155,17 @@ const DataTable = () => {
       graphqlOperation(onUpdateDataEntry),
     ) as Observable<object>).subscribe({
       next: (result: { value: { data: Subscription } }) => {
-        const entry = result.value.data.updateDataEntry || emptyEntry;
-        const index = entries.findIndex(e => e.id === entry.id);
-        if (index >= 0) {
-          entries.splice(index, 1);
+        if (result.value.data.updateDataEntry) {
+          const entry = result.value.data.updateDataEntry;
+          dispatch({ type: 'updateSingleEntry', payload: entry });
         }
-        setSortedEntries([...entries, entry], setEntries);
       },
     });
 
     return () => subscription.unsubscribe();
   }, []);
+
+  const { loading, errors, entries } = state;
 
   return (
     <Segment loading={loading} basic={true}>
@@ -155,7 +182,7 @@ const DataTable = () => {
 
         <Table.Body>{entries.map(Row)}</Table.Body>
       </Table>
-      {errors ? <MessageError errors={errors} /> : null}
+      {errors ? <ErrorMessages errors={errors} /> : null}
     </Segment>
   );
 };
