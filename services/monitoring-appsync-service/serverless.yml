@@ -23,6 +23,8 @@ custom:
   appSync:
     name: ${self:service}-${self:custom.currentStage}
     authenticationType: AMAZON_COGNITO_USER_POOLS
+    additionalAuthenticationProviders:
+      - authenticationType: AWS_IAM
     userPoolConfig:
       awsRegion: ${self:custom.currentRegion}
       defaultAction: ALLOW
