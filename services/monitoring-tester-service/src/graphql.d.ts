@@ -18,15 +18,16 @@ export type DataEntry = {
   logo: Scalars['String'];
 };
 
-export type DataEntryConnection = {
-  items: Array<DataEntry>;
-  nextToken?: Maybe<Scalars['String']>;
+export type Mutation = {
+  updateDataEntry: DataEntry;
 };
 
-export type Query = {
-  getDataEntries?: Maybe<DataEntryConnection>;
-};
-
-export type Subscription = {
-  updateDataEntry?: Maybe<DataEntry>;
+export type MutationUpdateDataEntryArgs = {
+  id: Scalars['String'];
+  name: Scalars['String'];
+  url: Scalars['String'];
+  averageLatencyMs: Scalars['Float'];
+  lastSample: Scalars['String'];
+  status: Scalars['String'];
+  logo: Scalars['String'];
 };

@@ -15,7 +15,7 @@ interface IAggregatorData extends IEndpointData {
 }
 
 interface IAggregatedResults extends IEndpointData {
-  averageLatencyMs: string;
+  averageLatencyMs: number;
   lastSample: string;
   status: string;
 }

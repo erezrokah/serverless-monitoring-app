@@ -2,23 +2,25 @@ type Query {
   getDataEntries: DataEntryConnection
 }
 
-type Mutation {
-  updateDataEntry(
-    id: String!
-    name: String!
-    url: String!
-    averageLatencyMs: Float!
-    lastSample: String!
-    status: String!
-    logo: String!
-  ): DataEntry!
+input DataEntryInput @aws_iam {
+  id: String!
+  name: String!
+  url: String!
+  averageLatencyMs: Float!
+  lastSample: String!
+  status: String!
+  logo: String!
+}
+
+type Mutation @aws_iam {
+  updateDataEntry(input: DataEntryInput): DataEntry!
 }
 
 type Subscription {
   updateDataEntry: DataEntry @aws_subscribe(mutations: ["updateDataEntry"])
 }
 
-type DataEntry {
+type DataEntry @aws_iam {
   id: String!
   name: String!
   url: String!
