@@ -5,6 +5,7 @@ import {
   Header,
   Icon,
   Image,
+  Message,
   Segment,
   Statistic,
   Table,
@@ -23,6 +24,18 @@ const emptyEntry: DataEntry = {
   status: 'ERROR',
   url: 'url',
 };
+
+interface IDataError {
+  message: string;
+}
+
+const MessageError = ({ errors }: { errors: IDataError[] }) => (
+  <Message
+    error={true}
+    header="Error loading data"
+    list={errors.map(({ message }) => message)}
+  />
+);
 
 const SiteStatus = ({ status }: { status: string }) => {
   if (status === 'PASS') {
@@ -87,16 +100,22 @@ const setSortedEntries = (
 const DataTable = () => {
   const [loading, setLoading] = useState(true);
   const [entries, setEntries] = useState([] as DataEntry[]);
+  const [errors, setErrors] = useState(null);
 
   const fetchData = async () => {
-    const { data } = (await API.graphql(
-      graphqlOperation(listEvents),
-    )) as GraphQLResult;
+    try {
+      const { data } = (await API.graphql(
+        graphqlOperation(listEvents),
+      )) as GraphQLResult;
 
-    const result = data as Query;
-    const getDataEntries = result.getDataEntries || { items: [] };
+      const result = data as Query;
+      const getDataEntries = result.getDataEntries || { items: [] };
 
-    setSortedEntries(getDataEntries.items, setEntries);
+      setSortedEntries(getDataEntries.items, setEntries);
+    } catch ({ errors }) {
+      setErrors(errors);
+    }
+
     setLoading(false);
   };
 
@@ -136,6 +155,7 @@ const DataTable = () => {
 
         <Table.Body>{entries.map(Row)}</Table.Body>
       </Table>
+      {errors ? <MessageError errors={errors} /> : null}
     </Segment>
   );
 };

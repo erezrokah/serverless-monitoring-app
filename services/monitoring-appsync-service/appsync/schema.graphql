@@ -2,7 +2,7 @@ type Query {
   getDataEntries: DataEntryConnection
 }
 
-input DataEntryInput @aws_iam {
+input DataEntryInput {
   id: String!
   name: String!
   url: String!
@@ -12,15 +12,15 @@ input DataEntryInput @aws_iam {
   logo: String!
 }
 
-type Mutation @aws_iam {
-  updateDataEntry(input: DataEntryInput): DataEntry!
+type Mutation {
+  updateDataEntry(input: DataEntryInput): DataEntry! @aws_iam
 }
 
 type Subscription {
   updateDataEntry: DataEntry @aws_subscribe(mutations: ["updateDataEntry"])
 }
 
-type DataEntry @aws_iam {
+type DataEntry @aws_iam @aws_cognito_user_pools {
   id: String!
   name: String!
   url: String!
