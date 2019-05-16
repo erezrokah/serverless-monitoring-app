@@ -2,7 +2,7 @@ import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api/lib/types';
 import Amplify, { API } from 'aws-amplify';
 import { Callback, Context, Handler } from 'aws-lambda';
 
-const updateDataEntry = `mutation updateDataEntry($input: DataEntryInput) {
+export const updateDataEntry = `mutation updateDataEntry($input: DataEntryInput) {
   updateDataEntry(input: $input) {
     id
     url,
