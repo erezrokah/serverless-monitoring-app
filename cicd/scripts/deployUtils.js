@@ -80,7 +80,7 @@ const getRegion = async stage => {
     path.join(
       process.cwd(),
       'services',
-      'common',
+      'monitoring-common',
       'environment',
       `config.${stage}.json`,
     ),
