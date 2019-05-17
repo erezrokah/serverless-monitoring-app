@@ -14,7 +14,7 @@
     "dotenv": "^6.2.0",
     "fs-extra": "^7.0.1",
     "monitoring-common": "file:./../monitoring-common",
-    "serverless-appsync-plugin": "^1.0.9",
+    "serverless-appsync-plugin": "https://github.com/erezrokah/serverless-appsync-plugin#3798a71a77dc5fa3fe9783c2689827f8cad80f0f",
     "serverless-plugin-tracing": "^2.0.0"
   }
 }
