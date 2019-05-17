@@ -47,7 +47,7 @@ sed -i 's/ADMIN_EMAIL_VALUE/your@email.address/g' services/common/environment/co
 Deploy all services and frontend
 
 ```bash
-yarn deploy:all:dev
+yarn deployAndRunE2eTests --commitId "0000000000000000" --stage dev --forceAll true
 ```
 
 ## Run Prettier
