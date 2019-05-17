@@ -1,0 +1,31 @@
+service: monitoring-common
+
+plugins:
+  - serverless-plugin-tracing
+
+custom:
+  defaultStage: dev
+  currentStage: ${opt:stage, self:custom.defaultStage}
+  currentRegion: ${file(./environment/config.${self:custom.currentStage}.json):region}
+
+  dataTableName: ${self:service}-data-table-${self:custom.currentStage}
+
+provider:
+  name: aws
+  stage: ${self:custom.currentStage}
+  region: ${self:custom.currentRegion}
+
+  logRetentionInDays: 7
+
+  tracing: true # enable tracing
+  iamRoleStatements:
+    - Effect: 'Allow' # xray permissions (required)
+      Action:
+        - 'xray:PutTraceSegments'
+        - 'xray:PutTelemetryRecords'
+      Resource:
+        - '*'
+
+resources:
+  - ${file(resources/cognito.yml)}
+  - ${file(resources/dynamoDb.yml)}

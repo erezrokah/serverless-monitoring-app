@@ -1,0 +1,42 @@
+type Query {
+  getDataEntries: DataEntryConnection
+}
+
+input DataEntryInput {
+  id: String!
+  name: String!
+  url: String!
+  averageLatencyMs: Float!
+  lastSample: String!
+  status: String!
+  logo: String!
+}
+
+type Mutation {
+  updateDataEntry(input: DataEntryInput): DataEntry! @aws_iam
+}
+
+type Subscription {
+  updateDataEntry: DataEntry @aws_subscribe(mutations: ["updateDataEntry"])
+}
+
+type DataEntry @aws_iam @aws_cognito_user_pools {
+  id: String!
+  name: String!
+  url: String!
+  averageLatencyMs: Float!
+  lastSample: String!
+  status: String!
+  logo: String!
+}
+
+type DataEntryConnection {
+  items: [DataEntry!]!
+  nextToken: String
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}

@@ -7,7 +7,7 @@ Resources:
       ClientName: ${self:service}-${self:custom.currentStage}-appsync-client
       GenerateSecret: false
       UserPoolId:
-        Fn::ImportValue: '${self:custom.monitoringServiceName}:${self:custom.currentStage}:UserPoolId'
+        Fn::ImportValue: '${self:custom.monitoringCommonServiceName}:${self:custom.currentStage}:UserPoolId'
 
 Outputs:
   UserPoolClientId:

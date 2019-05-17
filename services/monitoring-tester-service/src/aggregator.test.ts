@@ -8,7 +8,7 @@ describe('aggregator', () => {
   test('should return status ERROR on many errors', () => {
     const results = new Array(15).fill({ error: true, duration: -1 });
     expect(aggregate(results)).toEqual({
-      averageLatencyMs: '-1',
+      averageLatencyMs: -1,
       lastSample: new Date().toISOString(),
       status: 'ERROR',
     });
@@ -17,7 +17,7 @@ describe('aggregator', () => {
   test('should return status WARNING on average latency >= 2000', () => {
     const results = new Array(15).fill({ error: false, duration: 3000 });
     expect(aggregate(results)).toEqual({
-      averageLatencyMs: '3000',
+      averageLatencyMs: 3000,
       lastSample: new Date().toISOString(),
       status: 'WARNING',
     });
@@ -26,7 +26,7 @@ describe('aggregator', () => {
   test('should return status PASS on average latency < 2000', () => {
     const results = new Array(15).fill({ error: false, duration: 1000 });
     expect(aggregate(results)).toEqual({
-      averageLatencyMs: '1000',
+      averageLatencyMs: 1000,
       lastSample: new Date().toISOString(),
       status: 'PASS',
     });

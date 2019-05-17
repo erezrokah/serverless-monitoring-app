@@ -3,61 +3,32 @@ service: monitoring-frontend-app
 plugins:
   - serverless-single-page-app-plugin
   - serverless-plugin-tracing
-  - serverless-appsync-plugin
   - '@anttiviljami/serverless-stack-output'
+  - serverless-scriptable-plugin
   - serverless-s3-remover
 
 custom:
   defaultStage: dev
   currentStage: ${opt:stage, self:custom.defaultStage}
-  currentRegion: ${file(../services/common/environment/config.${self:custom.currentStage}.json):region}
+  currentRegion: ${file(../services/monitoring-common/environment/config.${self:custom.currentStage}.json):region}
 
-  monitoringServiceName: ${file(../services/monitoring-service/serverless.yml):service}
+  monitoringCommonServiceName: ${file(../services/monitoring-common/serverless.yml):service}
 
   s3Bucket: monitoring-frontend-app-bucket-${self:custom.currentStage}
 
   output:
     handler: ./scripts/stackOutput.handler
 
+  scriptHooks:
+    after:deploy:finalize:
+      - scripts/envSetup.js
+
   remover:
     buckets:
       - ${self:custom.s3Bucket}
 
-  appSync:
-    name: monitoring-data-endpoint
-    authenticationType: AMAZON_COGNITO_USER_POOLS
-    userPoolConfig:
-      awsRegion: ${self:custom.currentRegion}
-      defaultAction: ALLOW
-      userPoolId:
-        Fn::ImportValue: '${self:custom.monitoringServiceName}:${self:custom.currentStage}:UserPoolId'
-    serviceRole: Dynamo-AppSyncServiceRole-${self:custom.currentStage}
-    dataSources:
-      - type: AMAZON_DYNAMODB
-        name: DataEntries
-        description: 'Monitoring Data Entries Source'
-        config:
-          tableName:
-            Fn::ImportValue: '${self:custom.monitoringServiceName}:${self:custom.currentStage}:MonitoringDataTableName'
-          serviceRoleArn:
-            Fn::Join:
-              - ''
-              - - 'arn:aws:iam::'
-                - Ref: AWS::AccountId
-                - ':role/${self:custom.appSync.serviceRole}'
-
-    mappingTemplatesLocation: ./appsync/mapping-templates
-    schema: ./appsync/schema.graphql
-    mappingTemplates:
-      - dataSource: DataEntries
-        type: Query
-        field: getDataEntries
-        request: 'data-entry-request-mapping-template.txt'
-        response: 'data-entry-response-mapping-template.txt'
-
 provider:
   name: aws
-  runtime: nodejs10.x
   stage: ${self:custom.currentStage}
   region: ${self:custom.currentRegion}
 
@@ -74,5 +45,4 @@ provider:
 
 resources:
   - ${file(resources/cloudfront.yml)}
-  - ${file(resources/appsync-service-role.yml)}
   - ${file(resources/cognito.yml)}

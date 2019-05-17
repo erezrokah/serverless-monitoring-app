@@ -1,0 +1,11 @@
+Outputs:
+  GraphQLApiUrl:
+    Value:
+      'Fn::GetAtt': [GraphQlApi, GraphQLUrl]
+    Export:
+      Name: '${self:service}:${self:custom.currentStage}:GraphQLApiUrl'
+  GraphQLApiArn:
+    Value:
+      Ref: GraphQlApi
+    Export:
+      Name: '${self:service}:${self:custom.currentStage}:GraphQLApiArn'

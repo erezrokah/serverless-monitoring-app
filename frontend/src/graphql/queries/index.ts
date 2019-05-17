@@ -1,4 +1,4 @@
-export const ListEvents = `query GetAllEntries {
+export const listEvents = `query GetAllEntries {
     getDataEntries {
       items {
         id

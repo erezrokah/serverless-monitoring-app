@@ -20,9 +20,9 @@ phases:
       - echo performing pre_build phase
       - yarn install
       - echo configuring environment variables
-      - cp -f services/common/environment/config.example.json services/common/environment/config.$STAGE.json
-      - sed -i "s/REGION_VALUE/${AWS_REGION}/g" services/common/environment/config.$STAGE.json
-      - sed -i "s/ADMIN_EMAIL_VALUE/${admin_email}/g" services/common/environment/config.$STAGE.json
+      - cp -f services/monitoring-common/environment/config.example.json services/monitoring-common/environment/config.$STAGE.json
+      - sed -i "s/REGION_VALUE/${AWS_REGION}/g" services/monitoring-common/environment/config.$STAGE.json
+      - sed -i "s/ADMIN_EMAIL_VALUE/${admin_email}/g" services/monitoring-common/environment/config.$STAGE.json
   build:
     commands:
       - echo performing build phase
@@ -41,4 +41,6 @@ cache:
   paths:
     - 'node_modules/**/*'
     - 'frontend/node_modules/**/*'
-    - 'services/monitoring-service/node_modules/**/*'
+    - 'services/monitoring-appsync-service/node_modules/**/*'
+    - 'services/monitoring-common/node_modules/**/*'
+    - 'services/monitoring-tester-service/node_modules/**/*'

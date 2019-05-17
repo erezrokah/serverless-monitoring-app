@@ -1,0 +1,15 @@
+{
+    "version" : "2017-02-28",
+    "operation" : "PutItem",
+    "key" : {
+        "id" : { "S" : "${context.arguments.input.id}" }
+    },
+    "attributeValues" : {        
+        "name": { "S": "${context.arguments.input.name}" },
+        "url": { "S": "${context.arguments.input.url}" },
+        "averageLatencyMs": { "N": ${context.arguments.input.averageLatencyMs} },
+        "lastSample": { "S": "${context.arguments.input.lastSample}" },
+        "status": { "S": "${context.arguments.input.status}" },
+        "logo": { "S": "${context.arguments.input.logo}" }
+    }
+}

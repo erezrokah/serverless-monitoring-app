@@ -1,29 +1,32 @@
 import { GraphQLResult } from '@aws-amplify/api/lib/types';
 import { API, graphqlOperation } from 'aws-amplify';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import {
   Header,
   Icon,
   Image,
+  Message,
   Segment,
   Statistic,
   Table,
 } from 'semantic-ui-react';
-import { ListEvents } from '../queries';
+import * as Observable from 'zen-observable';
+import { listEvents } from '../graphql/queries';
+import { onUpdateDataEntry } from '../graphql/subscriptions';
+import { DataEntry, Query, Subscription } from '../graphql/types';
 
-export interface IEntry {
-  id: string;
-  name: string;
-  url: string;
-  averageLatencyMs: number;
-  lastSample: string;
-  status: string;
-  logo: string;
+interface IDataError {
+  message: string;
 }
 
-interface IGraphQlResult {
-  getDataEntries: { items: IEntry[] };
-}
+const ErrorMessages = ({ errors }: { errors: IDataError[] }) => (
+  <Message
+    error={true}
+    header="Error loading data"
+    list={errors.map(({ message }) => message)}
+    data-testid="error-messages"
+  />
+);
 
 const SiteStatus = ({ status }: { status: string }) => {
   if (status === 'PASS') {
@@ -52,7 +55,7 @@ const SiteStatus = ({ status }: { status: string }) => {
   }
 };
 
-const Row = (props: IEntry) => {
+const Row = (props: DataEntry) => {
   const { averageLatencyMs, id, lastSample, logo, name, status, url } = props;
   const lastSampleDate = new Date(lastSample);
 
@@ -78,27 +81,91 @@ const Row = (props: IEntry) => {
   );
 };
 
+const sortEntries = (entries: DataEntry[]) => {
+  return entries.sort((a, b) => a.name.localeCompare(b.name));
+};
+
+interface IState {
+  entries: DataEntry[];
+  errors?: IDataError[];
+  loading: boolean;
+}
+
+const initialState: IState = { entries: [], loading: true };
+
+export const reducer = (
+  state: IState,
+  action: { type: string; payload: any },
+) => {
+  switch (action.type) {
+    case 'updateSingleEntry': {
+      const entry = action.payload as DataEntry;
+      const newEntries = [...state.entries];
+      const index = newEntries.findIndex(e => e.id === entry.id);
+      if (index >= 0) {
+        newEntries.splice(index, 1);
+      }
+      newEntries.push(entry);
+      return { ...state, entries: sortEntries(newEntries) };
+    }
+    case 'setAllEntries': {
+      const newEntries = action.payload as DataEntry[];
+      return { ...state, entries: sortEntries(newEntries) };
+    }
+    case 'setLoading': {
+      const loading = action.payload as boolean;
+      return { ...state, loading };
+    }
+    case 'setErrors': {
+      const errors = action.payload as IDataError[];
+      return { ...state, errors };
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
 const DataTable = () => {
-  const [loading, setLoading] = useState(true);
-  const [entries, setEntries] = useState([] as IEntry[]);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const fetchData = async () => {
-    const { data } = (await API.graphql(
-      graphqlOperation(ListEvents),
-    )) as GraphQLResult;
+    try {
+      const { data } = (await API.graphql(
+        graphqlOperation(listEvents),
+      )) as GraphQLResult;
 
-    const result = data as IGraphQlResult;
+      const result = data as Query;
+      const getDataEntries = result.getDataEntries || { items: [] };
 
-    setEntries(
-      result.getDataEntries.items.sort((a, b) => a.name.localeCompare(b.name)),
-    );
-    setLoading(false);
+      dispatch({ type: 'setAllEntries', payload: getDataEntries.items });
+    } catch ({ errors }) {
+      dispatch({ type: 'setErrors', payload: errors });
+    }
+
+    dispatch({ type: 'setLoading', payload: false });
   };
 
   useEffect(() => {
-    const interval = setInterval(fetchData, 1000);
-    return () => clearInterval(interval);
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    const subscription = (API.graphql(
+      graphqlOperation(onUpdateDataEntry),
+    ) as Observable<object>).subscribe({
+      next: (result: { value: { data: Subscription } }) => {
+        if (result.value.data.updateDataEntry) {
+          const entry = result.value.data.updateDataEntry;
+          dispatch({ type: 'updateSingleEntry', payload: entry });
+        }
+      },
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const { loading, errors, entries } = state;
 
   return (
     <Segment loading={loading} basic={true}>
@@ -115,6 +182,7 @@ const DataTable = () => {
 
         <Table.Body>{entries.map(Row)}</Table.Body>
       </Table>
+      {errors ? <ErrorMessages errors={errors} /> : null}
     </Segment>
   );
 };

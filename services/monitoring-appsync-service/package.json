@@ -1,0 +1,20 @@
+{
+  "name": "monitoring-appsync-service",
+  "private": true,
+  "version": "0.0.1",
+  "description": "AppSync services for managing monitoring data",
+  "scripts": {
+    "deploy": "serverless deploy",
+    "remove": "serverless remove",
+    "print:name": "echo ${npm_package_name}"
+  },
+  "author": "Erez Rokah",
+  "license": "MIT",
+  "devDependencies": {
+    "dotenv": "^6.2.0",
+    "fs-extra": "^7.0.1",
+    "monitoring-common": "file:./../monitoring-common",
+    "serverless-appsync-plugin": "https://github.com/erezrokah/serverless-appsync-plugin#3798a71a77dc5fa3fe9783c2689827f8cad80f0f",
+    "serverless-plugin-tracing": "^2.0.0"
+  }
+}

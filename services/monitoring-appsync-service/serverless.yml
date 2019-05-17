@@ -1,0 +1,88 @@
+service: monitoring-appsync
+
+plugins:
+  - serverless-appsync-plugin
+  - serverless-plugin-tracing
+
+custom:
+  defaultStage: dev
+  currentStage: ${opt:stage, self:custom.defaultStage}
+  currentRegion: ${file(../monitoring-common/environment/config.${self:custom.currentStage}.json):region}
+
+  monitoringCommonServiceName: ${file(../monitoring-common/serverless.yml):service}
+
+  serviceRole: ${self:service}-dynamo-${self:custom.currentStage}
+  serviceRolePolicy: ${self:service}-dynamo-policy-${self:custom.currentStage}
+
+  logsRole: ${self:service}-logs-${self:custom.currentStage}
+  logsRolePolicy: ${self:service}-logs-policy-${self:custom.currentStage}
+
+  output:
+    handler: ./scripts/stackOutput.handler
+
+  appSync:
+    name: ${self:service}-${self:custom.currentStage}
+    authenticationType: AMAZON_COGNITO_USER_POOLS
+    additionalAuthenticationProviders:
+      - authenticationType: AWS_IAM
+    userPoolConfig:
+      awsRegion: ${self:custom.currentRegion}
+      defaultAction: ALLOW
+      userPoolId:
+        Fn::ImportValue: '${self:custom.monitoringCommonServiceName}:${self:custom.currentStage}:UserPoolId'
+    serviceRole: ${self:custom.serviceRole}
+
+    logConfig:
+      loggingRoleArn: { Fn::GetAtt: [AppSyncLogsRole, Arn] }
+      level: ERROR
+
+    dataSources:
+      - type: AMAZON_DYNAMODB
+        name: DataEntries
+        description: 'Monitoring Data Entries Source'
+        config:
+          tableName:
+            Fn::ImportValue: '${self:custom.monitoringCommonServiceName}:${self:custom.currentStage}:MonitoringDataTableName'
+          serviceRoleArn:
+            Fn::Join:
+              - ''
+              - - 'arn:aws:iam::'
+                - Ref: AWS::AccountId
+                - ':role/${self:custom.appSync.serviceRole}'
+
+    mappingTemplatesLocation: ./appsync/mapping-templates
+    schema: ./appsync/schema.graphql
+    mappingTemplates:
+      - dataSource: DataEntries
+        type: Query
+        field: getDataEntries
+        request: 'getDataEntries-request-mapping-template.vtl'
+        response: 'getDataEntries-response-mapping-template.vtl'
+
+      - dataSource: DataEntries
+        type: Mutation
+        field: updateDataEntry
+        request: 'updateDataEntry-request-mapping-template.vtl'
+        response: 'updateDataEntry-response-mapping-template.vtl'
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: ${self:custom.currentStage}
+  region: ${self:custom.currentRegion}
+
+  logRetentionInDays: 7
+
+  tracing: true # enable tracing
+  iamRoleStatements:
+    - Effect: 'Allow' # xray permissions (required)
+      Action:
+        - 'xray:PutTraceSegments'
+        - 'xray:PutTelemetryRecords'
+      Resource:
+        - '*'
+
+resources:
+  - ${file(resources/appsync-logs-role.yml)}
+  - ${file(resources/appsync-service-role.yml)}
+  - ${file(resources/outputs.yml)}

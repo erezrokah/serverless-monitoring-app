@@ -1,4 +1,4 @@
-service: monitoring-service
+service: monitoring-tester
 
 plugins:
   - serverless-pseudo-parameters
@@ -7,11 +7,15 @@ plugins:
   - serverless-plugin-tracing
   - '@anttiviljami/serverless-stack-output'
   - serverless-iam-roles-per-function
+  - serverless-scriptable-plugin
 
 custom:
   defaultStage: dev
   currentStage: ${opt:stage, self:custom.defaultStage}
-  currentRegion: ${file(../common/environment/config.${self:custom.currentStage}.json):region}
+  currentRegion: ${file(../monitoring-common/environment/config.${self:custom.currentStage}.json):region}
+
+  monitoringCommonServiceName: ${file(../monitoring-common/serverless.yml):service}
+  monitoringAppSyncServiceName: ${file(../monitoring-appsync-service/serverless.yml):service}
 
   alarmsTopicName: ${self:service}-alarms-topic-${self:custom.currentStage}
   alarmsTopicArn: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.alarmsTopicName}
@@ -19,16 +23,19 @@ custom:
   notificationsTopicName: ${self:service}-notifications-topic-${self:custom.currentStage}
   notificationsTopicArn: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.notificationsTopicName}
 
-  adminEmail: ${file(../common/environment/config.${self:custom.currentStage}.json):adminEmail}
+  adminEmail: ${file(../monitoring-common/environment/config.${self:custom.currentStage}.json):adminEmail}
 
-  dataTableName: ${self:service}-data-table-${self:custom.currentStage}
   endpointsTableName: ${self:service}-endpoints-table-${self:custom.currentStage}
 
-  checkEndpointStepFunction: check-endpoint-step-function-${self:service}-${self:custom.currentStage}
-  checkEndpointStepFunctionId: CheckDashendpointDashstepDashfunctionDashmonitoringDashserviceDash${self:custom.currentStage}
+  checkEndpointStepFunction: ${self:service}-check-endpoint-step-function-${self:custom.currentStage}
+  checkEndpointStepFunctionId: MonitoringDashtesterDashcheckDashendpointDashstepDashfunctionDash${self:custom.currentStage}
 
   output:
     handler: ./scripts/stackOutput.handler
+
+  scriptHooks:
+    after:deploy:finalize:
+      - scripts/envSetup.js
 
   webpack:
     webpackConfig: 'webpack.config.js'
@@ -50,7 +57,7 @@ stepFunctions:
         - schedule:
             rate: rate(2 hours)
             enabled: false
-      name: fan-out-step-function-${self:service}-${self:custom.currentStage}
+      name: ${self:service}-fan-out-step-function-${self:custom.currentStage}
       definition:
         Comment: 'A step function to fan-out several other step functions'
         StartAt: Fanout
@@ -61,7 +68,6 @@ stepFunctions:
             End: true
       dependsOn:
         - EndpointsTable
-        - UserPool
         - ApiGatewayAuthorizer
 
     checkEndpointStepFunction:
@@ -90,17 +96,7 @@ stepFunctions:
                 States:
                   PersistResults:
                     Type: Task
-                    Resource: 'arn:aws:states:::dynamodb:putItem'
-                    Parameters:
-                      TableName: ${self:custom.dataTableName}
-                      Item:
-                        'id': { 'S.$': '$.id' }
-                        'name': { 'S.$': '$.name' }
-                        'url': { 'S.$': '$.url' }
-                        'averageLatencyMs': { 'N.$': '$.averageLatencyMs' }
-                        'lastSample': { 'S.$': '$.lastSample' }
-                        'status': { 'S.$': '$.status' }
-                        'logo': { 'S.$': '$.logo' }
+                    Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:custom.currentStage}-persistResults
                     End: true
               - StartAt: CheckResults
                 States:
@@ -135,7 +131,6 @@ stepFunctions:
       dependsOn:
         # - AlarmsTopic
         - NotificationsTopic
-        - MonitoringDataTable
 
       # alarms:
       #   topics:
@@ -153,8 +148,26 @@ functions:
   checkEndpoint:
     handler: src/checkEndpointHandler.checkEndpoint
     timeout: 15
+
   aggregateData:
     handler: src/aggregateDataHandler.aggregateData
+
+  persistResults:
+    handler: src/persistResultsHandler.persistResults
+    environment:
+      GRAPHQL_ENDPOINT_URL:
+        Fn::ImportValue: '${self:custom.monitoringAppSyncServiceName}:${self:custom.currentStage}:GraphQLApiUrl'
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: 'Allow'
+        Action:
+          - 'appsync:GraphQL'
+        Resource:
+          - Fn::Join:
+              - ''
+              - - 'Fn::ImportValue': '${self:custom.monitoringAppSyncServiceName}:${self:custom.currentStage}:GraphQLApiArn'
+                - '/types/Mutation/fields/updateDataEntry'
+
   fanout:
     handler: src/fanoutHandler.fanout
     environment:
@@ -200,6 +213,5 @@ provider:
 resources:
   - ${file(resources/dynamoDb.yml)}
   - ${file(resources/snsTopics.yml)}
-  - ${file(resources/cognito.yml)}
   - ${file(resources/authorizer.yml)}
   - ${file(resources/outputs.yml)}
