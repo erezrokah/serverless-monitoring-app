@@ -71,6 +71,7 @@ const setupFrontendEnvFile = async () => {
     REACT_APP_USER_POOL_ID: UserPoolId,
     REACT_APP_GRAPHQL_API_URL: GraphQLApiUrl,
     REACT_APP_REST_API: ServiceEndpoint,
+    GENERATE_SOURCEMAP: stage !== 'prod',
   });
 };
 
