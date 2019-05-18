@@ -16,6 +16,16 @@ custom:
 
   s3Bucket: monitoring-frontend-app-bucket-${self:custom.currentStage}
 
+  bucketCacheControl:
+    fileExtensions:
+      - 'jpg'
+      - 'gif'
+      - 'png'
+      - 'gif'
+      - 'css'
+      - 'js'
+    cacheControl: 'public, max-age=31536000'
+
   output:
     handler: ./scripts/stackOutput.handler
 

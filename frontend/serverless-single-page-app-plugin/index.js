@@ -10,6 +10,10 @@ class ServerlessPlugin {
         usage: 'Deploys the `app` directory to your bucket',
         lifecycleEvents: ['sync'],
       },
+      setCacheControl: {
+        usage: 'Set cache control',
+        lifecycleEvents: ['setCacheControl'],
+      },
       domainInfo: {
         usage: 'Fetches and prints out the deployed CloudFront domain names',
         lifecycleEvents: ['domainInfo'],
@@ -26,6 +30,7 @@ class ServerlessPlugin {
 
     this.hooks = {
       'syncToS3:sync': this.syncDirectory.bind(this),
+      'setCacheControl:setCacheControl': this.setCacheControl.bind(this),
       'domainInfo:domainInfo': this.domainInfo.bind(this),
       'invalidateCloudFrontCache:invalidateCache': this.invalidateCache.bind(
         this,
@@ -79,6 +84,37 @@ class ServerlessPlugin {
       this.serverless.cli.log('Successfully synced to the S3 bucket');
     } else {
       throw new Error('Failed syncing to the S3 bucket');
+    }
+  }
+
+  async setCacheControl() {
+    const {
+      s3Bucket,
+      bucketCacheControl,
+    } = this.serverless.variables.service.custom;
+    const { fileExtensions, cacheControl } = bucketCacheControl;
+
+    const toCache = fileExtensions.map(ext => ['--include', `*.${ext}`]);
+    const merged = [].concat.apply([], toCache);
+    const args = [
+      's3',
+      'cp',
+      `s3://${s3Bucket}/`,
+      `s3://${s3Bucket}/`,
+      '--metadata-directive',
+      'REPLACE',
+      '--exclude',
+      '*',
+      ...merged,
+      '--recursive',
+      '--cache-control',
+      cacheControl,
+    ];
+    const exitCode = await this.runAwsCommand(args);
+    if (!exitCode) {
+      this.serverless.cli.log('Successfully set Cache Control');
+    } else {
+      throw new Error('Failed setting Cache Control');
     }
   }
 
@@ -157,6 +193,7 @@ class ServerlessPlugin {
 
   async publishSite() {
     await this.syncDirectory();
+    await this.setCacheControl();
     await this.invalidateCache();
   }
 }
