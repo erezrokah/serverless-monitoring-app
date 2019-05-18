@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import { Header, Segment } from 'semantic-ui-react';
 import { DataTable, Refresh } from './components';
+import './semanticUI';
 
 const title = 'Elections Monitoring App';
 

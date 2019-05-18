@@ -3,7 +3,11 @@ import renderer from 'react-test-renderer';
 import { render } from 'react-testing-library';
 import Refresh from './Refresh';
 
-jest.mock('aws-amplify');
+jest.mock('@aws-amplify/auth', () => {
+  return { currentSession: jest.fn() };
+});
+
+import Auth from '@aws-amplify/auth';
 
 const fetch = jest.fn();
 // @ts-ignore
@@ -11,8 +15,6 @@ global.fetch = fetch;
 
 const api = 'api';
 process.env.REACT_APP_REST_API = api;
-
-jest.useFakeTimers();
 
 describe('Refresh', () => {
   beforeEach(() => {
@@ -30,13 +32,13 @@ describe('Refresh', () => {
   });
 
   test('calls api on button click', async () => {
-    const { Auth } = require('aws-amplify');
-
     const idToken = 'idToken';
     const getJwtToken = jest.fn(() => idToken);
     const getIdToken = jest.fn(() => ({ getJwtToken }));
     const credentials = { getIdToken };
-    Auth.currentSession.mockReturnValue(Promise.resolve(credentials));
+    (Auth.currentSession as jest.Mock<any>).mockReturnValue(
+      Promise.resolve(credentials),
+    );
 
     const promise = Promise.resolve();
     fetch.mockReturnValue(promise);

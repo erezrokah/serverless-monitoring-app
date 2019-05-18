@@ -1,5 +1,6 @@
+import API, { graphqlOperation } from '@aws-amplify/api';
 import { GraphQLResult } from '@aws-amplify/api/lib/types';
-import { API, graphqlOperation } from 'aws-amplify';
+import '@aws-amplify/pubsub';
 import React, { useEffect, useReducer } from 'react';
 import {
   Header,
