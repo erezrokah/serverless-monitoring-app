@@ -46,9 +46,9 @@
     "typescript": "^3.3.3"
   },
   "scripts": {
-    "analyze": "source-map-explorer build/static/js/main.*",
+    "analyze": "source-map-explorer",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && node postBuild.js",
     "test": "TZ=GMT CI=true react-scripts test --verbose",
     "test:watch": "TZ=GMT react-scripts test",
     "test:ci": "TZ=GMT CI=true JEST_JUNIT_OUTPUT=../reports/junit/${npm_package_name}-test-results.xml yarn test --runInBand --ci --reporters=jest-junit --reporters=default",

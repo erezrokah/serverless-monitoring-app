@@ -1,10 +1,8 @@
-import Amplify from 'aws-amplify';
+import Amplify from '@aws-amplify/core';
 import { withAuthenticator } from 'aws-amplify-react';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import './index.css';
-import './semanticUI';
 import * as serviceWorker from './serviceWorker';
 
 Amplify.configure({
@@ -18,8 +16,38 @@ Amplify.configure({
   aws_appsync_region: process.env.REACT_APP_APPSYNC_REGION,
 });
 
+interface IState {
+  component: any;
+}
+
+class LazyLoadApp extends React.Component<{}, IState, any> {
+  public state: IState;
+
+  constructor(props: any) {
+    super(props);
+
+    this.state = {
+      component: null,
+    };
+  }
+
+  public render() {
+    const C = this.state.component;
+
+    return C ? <C {...this.props} /> : null;
+  }
+
+  public async componentDidMount() {
+    const { default: component } = await import('./App');
+
+    this.setState({
+      component,
+    });
+  }
+}
+
 // withAuthenticator(Comp, includeGreetings = false, authenticatorComponents = [], federated = null, theme = null, signUpConfig = {})
-const AuthApp = withAuthenticator(App, true, null, null, null, {
+const AuthApp = withAuthenticator(LazyLoadApp, true, null, null, null, {
   hideAllDefaults: true,
   signUpFields: [
     {

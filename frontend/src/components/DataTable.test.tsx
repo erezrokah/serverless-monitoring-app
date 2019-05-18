@@ -5,21 +5,17 @@ import { listEvents } from '../graphql/queries';
 import { onUpdateDataEntry } from '../graphql/subscriptions';
 import { DataEntry } from '../graphql/types';
 
-jest.mock('aws-amplify', () => {
-  const graphqlOperation = jest.fn(args => args);
-
+jest.mock('@aws-amplify/api', () => {
   const subscription = { unsubscribe: jest.fn() };
   const graphqlResult = { subscribe: jest.fn(() => subscription), data: {} };
   return {
-    API: {
-      graphql: jest.fn(() => graphqlResult),
-    },
     __esModule: true,
-    default: { configure: jest.fn() },
-    graphqlOperation,
+    default: { graphql: jest.fn(() => graphqlResult) },
+    graphqlOperation: jest.fn(args => args),
   };
 });
 
+import API, { graphqlOperation } from '@aws-amplify/api';
 import DataTable, { fetchListEffectCallback, reducer } from './DataTable';
 
 describe('DataTable', () => {
@@ -38,8 +34,6 @@ describe('DataTable', () => {
   });
 
   test('updates data from graphql query', async () => {
-    const { API, graphqlOperation } = require('aws-amplify');
-
     const entries: DataEntry[] = [
       {
         averageLatencyMs: -1,
@@ -86,7 +80,7 @@ describe('DataTable', () => {
       subscribe: jest.fn(() => subscription),
     };
 
-    API.graphql.mockImplementation((args: any) => {
+    (API.graphql as jest.Mock<any>).mockImplementation((args: any) => {
       if (args === listEvents) {
         return graphqlQueryResult;
       }
@@ -121,8 +115,6 @@ describe('DataTable', () => {
   });
 
   test('updates data from graphql subscription', async () => {
-    const { API } = require('aws-amplify');
-
     const entries: DataEntry[] = [
       {
         averageLatencyMs: -1,
@@ -142,7 +134,7 @@ describe('DataTable', () => {
       subscribe: jest.fn(() => subscription),
     };
 
-    API.graphql.mockImplementation((args: any) => {
+    (API.graphql as jest.Mock<any>).mockImplementation((args: any) => {
       if (args === listEvents) {
         return graphqlQueryResult;
       }
@@ -198,8 +190,6 @@ describe('DataTable', () => {
   });
 
   test('handles graphql query errors', async () => {
-    const { API } = require('aws-amplify');
-
     const errors = [{ message: 'Unauthorized' }];
 
     const subscription = { unsubscribe: jest.fn() };
@@ -207,7 +197,7 @@ describe('DataTable', () => {
       subscribe: jest.fn(() => subscription),
     };
 
-    API.graphql.mockImplementation((args: any) => {
+    (API.graphql as jest.Mock<any>).mockImplementation((args: any) => {
       if (args === listEvents) {
         return Promise.reject({ errors });
       }

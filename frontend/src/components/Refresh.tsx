@@ -1,4 +1,4 @@
-import { Auth } from 'aws-amplify';
+import Auth from '@aws-amplify/auth';
 import React, { useState } from 'react';
 import { Button, Container } from 'semantic-ui-react';
 
