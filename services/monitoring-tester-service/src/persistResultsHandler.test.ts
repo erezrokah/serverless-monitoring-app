@@ -1,6 +1,12 @@
-jest.mock('aws-amplify', () => {
+jest.mock('@aws-amplify/api', () => {
   return {
-    API: { graphql: jest.fn() },
+    __esModule: true,
+    default: { graphql: jest.fn() },
+  };
+});
+
+jest.mock('@aws-amplify/core', () => {
+  return {
     __esModule: true,
     default: { configure: jest.fn() },
   };
@@ -12,7 +18,8 @@ const AWS_REGION = 'stateMachinAWS_REGIONeArn';
 process.env.GRAPHQL_ENDPOINT_URL = GRAPHQL_ENDPOINT_URL;
 process.env.AWS_REGION = AWS_REGION;
 
-import Amplify, { API } from 'aws-amplify';
+import API from '@aws-amplify/api';
+import Amplify from '@aws-amplify/core';
 import { persistResults, updateDataEntry } from './persistResultsHandler';
 
 jest.spyOn(console, 'log');
