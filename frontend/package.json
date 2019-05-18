@@ -34,7 +34,6 @@
     "monitoring-tester-service": "file:./../services/monitoring-tester-service",
     "react-test-renderer": "^16.8.2",
     "react-testing-library": "^5.9.0",
-    "serverless-appsync-plugin": "^1.0.9",
     "serverless-plugin-tracing": "^2.0.0",
     "serverless-s3-remover": "^0.6.0",
     "serverless-scriptable-plugin": "1.0.1",

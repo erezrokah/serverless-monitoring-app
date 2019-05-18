@@ -12967,7 +12967,7 @@ serve-static@1.14.1:
     parseurl "~1.3.3"
     send "0.17.1"
 
-serverless-appsync-plugin@^1.0.9, "serverless-appsync-plugin@https://github.com/erezrokah/serverless-appsync-plugin#3798a71a77dc5fa3fe9783c2689827f8cad80f0f":
+"serverless-appsync-plugin@https://github.com/erezrokah/serverless-appsync-plugin#3798a71a77dc5fa3fe9783c2689827f8cad80f0f":
   version "1.1.1"
   resolved "https://github.com/erezrokah/serverless-appsync-plugin#3798a71a77dc5fa3fe9783c2689827f8cad80f0f"
   dependencies:
