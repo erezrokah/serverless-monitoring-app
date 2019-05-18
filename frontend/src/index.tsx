@@ -2,9 +2,9 @@ import Amplify from 'aws-amplify';
 import { withAuthenticator } from 'aws-amplify-react';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'semantic-ui-css/semantic.min.css';
 import App from './App';
 import './index.css';
+import './semanticUI';
 import * as serviceWorker from './serviceWorker';
 
 Amplify.configure({
