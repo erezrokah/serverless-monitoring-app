@@ -1,6 +1,6 @@
 import { GraphQLResult } from '@aws-amplify/api/lib/types';
 import { API, graphqlOperation } from 'aws-amplify';
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import {
   Header,
   Icon,
@@ -126,30 +126,51 @@ export const reducer = (
   }
 };
 
-const DataTable = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+const fetchList = async () => {
+  try {
+    const { data } = (await API.graphql(
+      graphqlOperation(listEvents),
+    )) as GraphQLResult;
 
-  const fetchData = async () => {
-    try {
-      const { data } = (await API.graphql(
-        graphqlOperation(listEvents),
-      )) as GraphQLResult;
+    const result = data as Query;
+    const getDataEntries = result.getDataEntries || { items: null };
 
-      const result = data as Query;
-      const getDataEntries = result.getDataEntries || { items: [] };
+    return { items: getDataEntries.items };
+  } catch ({ errors }) {
+    return { errors };
+  }
+};
 
-      dispatch({ type: 'setAllEntries', payload: getDataEntries.items });
-    } catch ({ errors }) {
-      dispatch({ type: 'setErrors', payload: errors });
+type FetchListType = typeof fetchList;
+
+interface IDispatch extends React.Dispatch<{ type: string; payload: any }> {}
+
+export const fetchListEffectCallback = (
+  fetchData: FetchListType,
+  dispatch: IDispatch,
+) => {
+  let isSubscribed = true;
+  fetchData().then(result => {
+    if (isSubscribed) {
+      if (result.items) {
+        dispatch({ type: 'setAllEntries', payload: result.items });
+      } else if (result.errors) {
+        dispatch({ type: 'setErrors', payload: result.errors });
+      }
+      dispatch({ type: 'setLoading', payload: false });
     }
+  });
 
-    dispatch({ type: 'setLoading', payload: false });
+  return () => {
+    isSubscribed = false;
   };
+};
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+const useFetchListEffect = (dispatch: IDispatch) => {
+  useEffect(() => fetchListEffectCallback(fetchList, dispatch), []);
+};
 
+const useSubscriptionEffect = (dispatch: IDispatch) => {
   useEffect(() => {
     const subscription = (API.graphql(
       graphqlOperation(onUpdateDataEntry),
@@ -164,6 +185,13 @@ const DataTable = () => {
 
     return () => subscription.unsubscribe();
   }, []);
+};
+
+const DataTable = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useFetchListEffect(dispatch);
+  useSubscriptionEffect(dispatch);
 
   const { loading, errors, entries } = state;
 

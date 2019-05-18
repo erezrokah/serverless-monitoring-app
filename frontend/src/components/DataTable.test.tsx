@@ -20,7 +20,7 @@ jest.mock('aws-amplify', () => {
   };
 });
 
-import DataTable, { reducer } from './DataTable';
+import DataTable, { fetchListEffectCallback, reducer } from './DataTable';
 
 describe('DataTable', () => {
   beforeEach(() => {
@@ -227,6 +227,59 @@ describe('DataTable', () => {
     });
 
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('fetchListEffectCallback dispatches when subscribed', async () => {
+    const fetchData = jest.fn();
+    const dispatch = jest.fn();
+
+    let resolver = () => {
+      return;
+    };
+    const promise = new Promise(resolve => {
+      resolver = resolve;
+    });
+    fetchData.mockImplementation(() => {
+      resolver();
+      return Promise.resolve({ items: [] });
+    });
+
+    fetchListEffectCallback(fetchData, dispatch);
+
+    await promise;
+
+    expect(dispatch).toHaveBeenCalledTimes(2);
+    expect(dispatch.mock.calls[0][0]).toEqual({
+      payload: [],
+      type: 'setAllEntries',
+    });
+    expect(dispatch.mock.calls[1][0]).toEqual({
+      payload: false,
+      type: 'setLoading',
+    });
+  });
+
+  test("fetchListEffectCallback doesn't dispatch when unsubscribed", async () => {
+    const fetchData = jest.fn();
+    const dispatch = jest.fn();
+
+    let resolver = () => {
+      return;
+    };
+    const promise = new Promise(resolve => {
+      resolver = resolve;
+    });
+    fetchData.mockImplementation(() => {
+      resolver();
+      return Promise.resolve();
+    });
+
+    const unsubscribe = fetchListEffectCallback(fetchData, dispatch);
+    unsubscribe();
+
+    await promise;
+
+    expect(dispatch).toHaveBeenCalledTimes(0);
   });
 
   test('reducer default path', () => {
