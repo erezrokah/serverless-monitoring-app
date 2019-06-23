@@ -103,6 +103,19 @@ const follow = async (token, owner, repo) => {
 };
 
 const setEnvs = async (token, owner, repo, envs) => {
+  log(`Deleting existing environment vars for project ${repo}`);
+  const { data: existing } = await axios.get(
+    `${api}/${owner}/${repo}/envvar?circle-token=${token}`,
+  );
+  await Promise.all(
+    existing.map(({ name }) =>
+      axios.delete(
+        `${api}/${owner}/${repo}/envvar/${name}?circle-token=${token}`,
+      ),
+    ),
+  );
+  log(`Done deleting existing environment vars for project ${repo}`);
+
   log(`Setting environment vars for project ${repo}`);
   await Promise.all(
     envs.map(({ name, value }) =>
