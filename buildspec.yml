@@ -40,6 +40,7 @@ phases:
 cache:
   paths:
     - 'node_modules/**/*'
+    - 'cicd/node_modules/**/*'
     - 'frontend/node_modules/**/*'
     - 'services/monitoring-appsync-service/node_modules/**/*'
     - 'services/monitoring-common/node_modules/**/*'

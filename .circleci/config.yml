@@ -31,6 +31,7 @@ aliases:
       paths:
         - node_modules
         - frontend/node_modules
+        - 'cicd/node_modules'
         - 'services/monitoring-appsync-service/node_modules'
         - 'services/monitoring-common/node_modules'
         - 'services/monitoring-tester-service/node_modules'
@@ -52,6 +53,9 @@ aliases:
     run:
       name: Install Serverless CLI
       command: sudo npm i -g serverless
+
+  - &setup_path_env
+    run: echo 'export PATH=/home/circleci/.local/bin:$PATH' >> $BASH_ENV
 
   - &install_aws_cli
     run:
@@ -125,6 +129,7 @@ jobs:
     steps:
       - *attach_workspace
       - *install_serverless_cli
+      - *setup_path_env
       - *install_aws_cli
       - run:
           name: Define Staging Environment Variables
@@ -141,6 +146,7 @@ jobs:
     steps:
       - *attach_workspace
       - *install_serverless_cli
+      - *setup_path_env
       - *install_aws_cli
       - run:
           name: Define Prod Environment Variables
