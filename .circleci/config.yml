@@ -1,4 +1,7 @@
-version: 2
+version: 2.1
+
+orbs:
+  aws-cli: circleci/aws-cli@0.1.13
 
 aliases:
   - &container_config
@@ -58,14 +61,11 @@ aliases:
     run: echo 'export PATH=/home/circleci/.local/bin:$PATH' >> $BASH_ENV
 
   - &install_aws_cli
-    run:
-      name: Install awscli
-      command: |
-        sudo apt-get update
-        sudo apt-get install python3.5-dev
-        curl -O https://bootstrap.pypa.io/get-pip.py
-        python3.5 get-pip.py --user
-        pip install awscli --upgrade --user
+    aws-cli/install:
+
+  - &configure_aws_cli
+    aws-cli/configure:
+      configure-default-region: false
 
   - &run_linter
     run:
@@ -94,6 +94,7 @@ aliases:
     run:
       name: Run Deploy and E2e Tests
       command: yarn deployAndRunE2eTests --commitId "${CIRCLE_SHA1}" --stage $STAGE --forceAll "${FORCE_DEPLOY_ALL:-false}"
+      no_output_timeout: 30m
 
   - &store_test_results
     store_test_results:
