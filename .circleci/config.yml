@@ -1,0 +1,177 @@
+version: 2
+
+aliases:
+  - &container_config
+    docker:
+      - image: circleci/node:carbon
+
+    working_directory: ~/repo
+
+  - &checkout checkout
+
+  - &test_only_filters
+    filters:
+      branches:
+        ignore: /master/
+
+  - &test_and_deploy_staging_filters
+    filters:
+      branches:
+        only: master
+
+  - &test_and_deploy_prod_filters
+    filters:
+      tags:
+        only: /^v.*/
+      branches:
+        ignore: /.*/
+
+  - &save_cache
+    save_cache:
+      paths:
+        - node_modules
+        - frontend/node_modules
+        - 'services/monitoring-appsync-service/node_modules'
+        - 'services/monitoring-common/node_modules'
+        - 'services/monitoring-tester-service/node_modules'
+      key: dependencies-cache-{{ checksum "yarn.lock" }}
+
+  - &restore_cache
+    restore_cache:
+      keys:
+        - dependencies-cache-{{ checksum "yarn.lock" }}
+        # fallback to using the latest cache if no exact match is found
+        - dependencies-cache
+
+  - &install_dependencies
+    run:
+      name: Install Dependencies
+      command: yarn install
+
+  - &install_serverless_cli
+    run:
+      name: Install Serverless CLI
+      command: sudo npm i -g serverless
+
+  - &install_aws_cli
+    run:
+      name: Install awscli
+      command: |
+        sudo apt-get update
+        sudo apt-get install python3.5-dev
+        curl -O https://bootstrap.pypa.io/get-pip.py
+        python3.5 get-pip.py --user
+        pip install awscli --upgrade --user
+
+  - &run_linter
+    run:
+      name: Run Linter
+      command: yarn lint
+
+  - &run_prettier
+    run:
+      name: Run Prettier
+      command: yarn prettier:ci
+
+  - &run_tests
+    run:
+      name: Run Tests
+      command: yarn test:ci
+
+  - &setup_environment_json
+    run:
+      name: Setup environment json
+      command: |
+        cp -f services/monitoring-common/environment/config.example.json services/monitoring-common/environment/config.$STAGE.json
+        sed -i "s/REGION_VALUE/${AWS_REGION}/g" services/monitoring-common/environment/config.$STAGE.json
+        sed -i "s/ADMIN_EMAIL_VALUE/${ADMIN_EMAIL}/g" services/monitoring-common/environment/config.$STAGE.json
+
+  - &run_deploy_and_e2e_tests
+    run:
+      name: Run Deploy and E2e Tests
+      command: yarn deployAndRunE2eTests --commitId "${CIRCLE_SHA1}" --stage $STAGE --forceAll "${FORCE_DEPLOY_ALL:-false}"
+
+  - &store_test_results
+    store_test_results:
+      path: reports/junit
+
+  - &persist_to_workspace
+    persist_to_workspace:
+      root: ~/repo
+      paths: .
+
+  - &attach_workspace
+    attach_workspace:
+      at: ~/repo
+
+jobs:
+  test:
+    <<: *container_config
+
+    steps:
+      - *checkout
+      - *restore_cache
+      - *install_dependencies
+      - *save_cache
+      - *run_linter
+      - *run_prettier
+      - *run_tests
+      - *store_test_results
+      - *persist_to_workspace
+
+  deploy-staging:
+    <<: *container_config
+
+    steps:
+      - *attach_workspace
+      - *install_serverless_cli
+      - *install_aws_cli
+      - run:
+          name: Define Staging Environment Variables
+          command: |
+            echo 'export STAGE=staging' >> $BASH_ENV
+            echo 'export AWS_REGION=$STAGING_REGION' >> $BASH_ENV
+            echo 'export ADMIN_EMAIL=$STAGING_ADMIN_EMAIL' >> $BASH_ENV
+      - *setup_environment_json
+      - *run_deploy_and_e2e_tests
+
+  deploy-prod:
+    <<: *container_config
+
+    steps:
+      - *attach_workspace
+      - *install_serverless_cli
+      - *install_aws_cli
+      - run:
+          name: Define Prod Environment Variables
+          command: |
+            echo 'export STAGE=prod' >> $BASH_ENV
+            echo 'export AWS_REGION=$PROD_REGION' >> $BASH_ENV
+            echo 'export ADMIN_EMAIL=$PROD_ADMIN_EMAIL' >> $BASH_ENV
+      - *setup_environment_json
+      - *run_deploy_and_e2e_tests
+
+workflows:
+  version: 2
+  test-only:
+    jobs:
+      - test:
+          <<: *test_only_filters
+
+  test-and-deploy-staging:
+    jobs:
+      - test:
+          <<: *test_and_deploy_staging_filters
+      - deploy-staging:
+          requires:
+            - test
+          <<: *test_and_deploy_staging_filters
+
+  test-and-deploy-prod:
+    jobs:
+      - test:
+          <<: *test_and_deploy_prod_filters
+      - deploy-prod:
+          requires:
+            - test
+          <<: *test_and_deploy_prod_filters

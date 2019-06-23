@@ -8,6 +8,7 @@
   "license": "MIT",
   "devDependencies": {
     "aws-sdk": "^2.453.0",
+    "axios": "^0.19.0",
     "colors": "^1.3.3",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.2.0",
@@ -21,6 +22,8 @@
   "scripts": {
     "setup": "serverless deploy",
     "remove": "serverless remove",
+    "setup:circleci": "node scripts/circleci.js setup --stagingRegion $npm_package_regions_staging --prodRegion $npm_package_regions_prod",
+    "remove:circleci": "node scripts/circleci.js remove",
     "connectToGitHubStaging": "aws codebuild import-source-credentials --server-type GITHUB --auth-type PERSONAL_ACCESS_TOKEN --region $npm_package_regions_staging",
     "storeAdminEmailStaging": "aws ssm put-parameter --name admin-email --type String --region $npm_package_regions_staging",
     "connectToGitHubProd": "aws codebuild import-source-credentials --server-type GITHUB --auth-type PERSONAL_ACCESS_TOKEN --region $npm_package_regions_prod",
