@@ -140,8 +140,8 @@ jobs:
           name: Debug some stuff
           command: |
             cat services/monitoring-common/environment/config.staging.json
-            cat ~/.aws/config
             cat ~/.aws/credentials
+            cat ~/.aws/config
       - *run_deploy_and_e2e_tests
 
   deploy-prod:
