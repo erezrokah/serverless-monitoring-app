@@ -65,9 +65,7 @@ describe('checkEndpointStepFunction', () => {
       message =>
         message.Subject === 'Monitoring Service Notification' &&
         message.Message ===
-          `The endpoint for service '${
-            data.name
-          }' is at 'ERROR' status, Please check!`,
+          `The endpoint for service '${data.name}' is at 'ERROR' status, Please check!`,
     );
   });
 

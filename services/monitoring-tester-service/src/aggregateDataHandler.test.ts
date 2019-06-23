@@ -33,9 +33,7 @@ describe('aggregateDataHandler', () => {
     expect(callback).toHaveBeenCalledWith(null, {
       ...rest,
       ...result,
-      message: `The endpoint for service '${event.name}' is at '${
-        result.status
-      }' status, Please check!`,
+      message: `The endpoint for service '${event.name}' is at '${result.status}' status, Please check!`,
     });
   });
 });
