@@ -57,14 +57,11 @@ aliases:
       name: Install Serverless CLI
       command: sudo npm i -g serverless
 
-  - &setup_path_env
-    run: echo 'export PATH=/home/circleci/.local/bin:$PATH' >> $BASH_ENV
-
-  - &install_aws_cli
-    aws-cli/install:
-
   - &configure_aws_cli
     aws-cli/configure:
+      profile-name: default
+      aws-access-key-id: AWS_ACCESS_KEY_ID
+      aws-secret-access-key: AWS_SECRET_ACCESS_KEY
       configure-default-region: false
 
   - &run_linter
@@ -130,8 +127,8 @@ jobs:
     steps:
       - *attach_workspace
       - *install_serverless_cli
-      - *setup_path_env
-      - *install_aws_cli
+      - aws-cli/install
+      - *configure_aws_cli
       - run:
           name: Define Staging Environment Variables
           command: |
@@ -147,8 +144,8 @@ jobs:
     steps:
       - *attach_workspace
       - *install_serverless_cli
-      - *setup_path_env
-      - *install_aws_cli
+      - aws-cli/install
+      - *configure_aws_cli
       - run:
           name: Define Prod Environment Variables
           command: |
