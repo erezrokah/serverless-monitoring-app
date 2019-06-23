@@ -136,12 +136,6 @@ jobs:
             echo 'export AWS_REGION=$STAGING_REGION' >> $BASH_ENV
             echo 'export ADMIN_EMAIL=$STAGING_ADMIN_EMAIL' >> $BASH_ENV
       - *setup_environment_json
-      - run:
-          name: Debug some stuff
-          command: |
-            cat services/monitoring-common/environment/config.staging.json
-            cat ~/.aws/credentials
-            cat ~/.aws/config
       - *run_deploy_and_e2e_tests
 
   deploy-prod:
