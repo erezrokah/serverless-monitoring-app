@@ -20,7 +20,7 @@ phases:
   pre_build:
     commands:
       - echo performing pre_build phase
-      - yarn install
+      - yarn install --frozen-lockfile
       - echo configuring environment variables
       - cp -f services/monitoring-common/environment/config.example.json services/monitoring-common/environment/config.$STAGE.json
       - sed -i "s/REGION_VALUE/${AWS_REGION}/g" services/monitoring-common/environment/config.$STAGE.json

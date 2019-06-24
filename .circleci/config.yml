@@ -50,7 +50,7 @@ aliases:
   - &install_dependencies
     run:
       name: Install Dependencies
-      command: yarn install
+      command: yarn install --frozen-lockfile
 
   - &install_serverless_cli
     run:
