@@ -168,7 +168,7 @@ export const fetchListEffectCallback = (
 };
 
 const useFetchListEffect = (dispatch: IDispatch) => {
-  useEffect(() => fetchListEffectCallback(fetchList, dispatch), []);
+  useEffect(() => fetchListEffectCallback(fetchList, dispatch), [dispatch]);
 };
 
 const useSubscriptionEffect = (dispatch: IDispatch) => {
@@ -185,7 +185,7 @@ const useSubscriptionEffect = (dispatch: IDispatch) => {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [dispatch]);
 };
 
 const DataTable = () => {
