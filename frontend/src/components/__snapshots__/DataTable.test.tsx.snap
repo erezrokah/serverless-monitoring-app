@@ -219,7 +219,7 @@ exports[`DataTable updates data from graphql query 1`] = `
         <td
           class=""
         >
-          Wed Jan 01 1947 00:00:00 GMT+0000 (GMT)
+          Wed Jan 01 1947 00:00:00 GMT+0000 (Greenwich Mean Time)
         </td>
       </tr>
       <tr
@@ -278,7 +278,7 @@ exports[`DataTable updates data from graphql query 1`] = `
         <td
           class=""
         >
-          Thu Jan 01 1948 00:00:00 GMT+0000 (GMT)
+          Thu Jan 01 1948 00:00:00 GMT+0000 (Greenwich Mean Time)
         </td>
       </tr>
       <tr
@@ -337,7 +337,7 @@ exports[`DataTable updates data from graphql query 1`] = `
         <td
           class=""
         >
-          Sat Jan 01 1949 00:00:00 GMT+0000 (GMT)
+          Sat Jan 01 1949 00:00:00 GMT+0000 (Greenwich Mean Time)
         </td>
       </tr>
       <tr
@@ -392,7 +392,7 @@ exports[`DataTable updates data from graphql query 1`] = `
         <td
           class=""
         >
-          Sun Jan 01 1950 00:00:00 GMT+0000 (GMT)
+          Sun Jan 01 1950 00:00:00 GMT+0000 (Greenwich Mean Time)
         </td>
       </tr>
     </tbody>
@@ -500,7 +500,7 @@ exports[`DataTable updates data from graphql subscription 1`] = `
         <td
           class=""
         >
-          Wed Jan 01 1947 00:00:00 GMT+0000 (GMT)
+          Wed Jan 01 1947 00:00:00 GMT+0000 (Greenwich Mean Time)
         </td>
       </tr>
       <tr
@@ -559,7 +559,7 @@ exports[`DataTable updates data from graphql subscription 1`] = `
         <td
           class=""
         >
-          Thu Jan 01 1948 00:00:00 GMT+0000 (GMT)
+          Thu Jan 01 1948 00:00:00 GMT+0000 (Greenwich Mean Time)
         </td>
       </tr>
     </tbody>
