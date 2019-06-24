@@ -1,4 +1,6 @@
 // https://circleci.com/account/api
+const { spawnSync } = require('child_process');
+const { EOL } = require('os');
 
 const { error, log } = require('./log');
 const yargs = require('yargs');
@@ -183,6 +185,45 @@ const remove = async token => {
   }
 };
 
+const getLatestTag = (owner, repo) => {
+  const result = spawnSync('git', [
+    'ls-remote',
+    '--tags',
+    '--sort=v:refname',
+    `git://github.com/${owner}/${repo}.git`,
+  ]);
+  const { stdout } = result;
+  const lines = stdout
+    .toString()
+    .trim()
+    .split(EOL);
+  const tag = lines[lines.length - 1].split('/')[2];
+  return tag;
+};
+
+const triggerBuild = async (token, stage) => {
+  const { owner, repo } = require('./githubConfig')();
+
+  try {
+    // https://circleci.com/docs/api/#trigger-a-new-build-by-project-preview
+
+    const options =
+      stage === 'prod'
+        ? { tag: getLatestTag(owner, repo) }
+        : { branch: 'master' };
+
+    log(`Triggering manual build for repo ${repo} under owner ${owner}`);
+    await axios.post(
+      `${api}/${owner}/${repo}/build?circle-token=${token}`,
+      options,
+    );
+    log(`Done triggering manual build for repo ${repo} under owner ${owner}`);
+  } catch (e) {
+    error(e);
+    process.exit(1);
+  }
+};
+
 yargs
   .command({
     command: 'setup',
@@ -255,6 +296,31 @@ yargs
       }),
     handler: async ({ token }) => {
       await remove(token);
+    },
+  })
+  .command({
+    command: 'trigger',
+    aliases: ['t'],
+    desc: 'Trigger a manual build',
+    builder: yargs =>
+      yargs
+        .option('token', {
+          alias: 't',
+          describe: 'Api Token',
+          demandOption: true,
+          string: true,
+          requiresArg: true,
+        })
+        .option('stage', {
+          alias: 's',
+          describe: 'Deployment stage',
+          demandOption: true,
+          string: true,
+          requiresArg: true,
+          choices: ['staging', 'prod'],
+        }),
+    handler: async ({ token, stage }) => {
+      await triggerBuild(token, stage);
     },
   })
   .demandCommand(1)
