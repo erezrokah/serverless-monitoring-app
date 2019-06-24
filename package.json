@@ -27,8 +27,5 @@
   },
   "author": "Erez Rokah",
   "license": "MIT",
-  "name": "serverless-monitoring-app",
-  "resolutions": {
-    "@types/react": "16.8.3"
-  }
+  "name": "serverless-monitoring-app"
 }

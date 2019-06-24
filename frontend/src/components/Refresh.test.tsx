@@ -1,6 +1,6 @@
+import { render } from '@testing-library/react';
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { render } from 'react-testing-library';
 import Refresh from './Refresh';
 
 jest.mock('@aws-amplify/auth', () => {

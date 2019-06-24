@@ -17,23 +17,23 @@
     "print:name": "echo ${npm_package_name}"
   },
   "dependencies": {
-    "aws-amplify": "^1.1.28",
-    "aws-sdk": "^2.405.0",
-    "axios": "^0.18.0"
+    "aws-amplify": "^1.1.29",
+    "aws-sdk": "^2.480.0",
+    "axios": "^0.19.0"
   },
   "devDependencies": {
     "@anttiviljami/serverless-stack-output": "^0.3.1",
-    "@types/aws-lambda": "^8.10.19",
+    "@types/aws-lambda": "^8.10.27",
     "@types/chai": "^4.1.7",
-    "@types/jest": "^23.3.2",
+    "@types/jest": "^24.0.15",
     "@types/mockdate": "^2.0.0",
-    "@types/node": "^10.10.3",
-    "aws-testing-library": "^1.0.1",
+    "@types/node": "^12.0.10",
+    "aws-testing-library": "^1.0.6",
     "chai": "^4.2.0",
-    "dotenv": "^6.2.0",
-    "fs-extra": "^7.0.1",
-    "jest": "23.6.0",
-    "mockdate": "^2.0.2",
+    "dotenv": "^8.0.0",
+    "fs-extra": "^8.0.1",
+    "jest": "24.7.1",
+    "mockdate": "2.0.2",
     "monitoring-appsync-service": "file:./../monitoring-appsync-service",
     "monitoring-common": "file:./../monitoring-common",
     "serverless-iam-roles-per-function": "^1.0.4",
@@ -44,10 +44,10 @@
     "serverless-webpack": "^5.2.0",
     "ts-jest": "^23.10.5",
     "ts-loader": "^5.3.3",
-    "tslint": "^5.12.1",
+    "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.3.3",
-    "webpack": "^4.29.5"
+    "typescript": "^3.5.2",
+    "webpack": "^4.35.0"
   },
   "author": "Erez Rokah",
   "license": "MIT"

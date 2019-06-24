@@ -1,6 +1,6 @@
+import { render, waitForElement } from '@testing-library/react';
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { render, waitForElement } from 'react-testing-library';
 import { listEvents } from '../graphql/queries';
 import { onUpdateDataEntry } from '../graphql/subscriptions';
 import { DataEntry } from '../graphql/types';
