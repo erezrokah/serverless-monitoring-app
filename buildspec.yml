@@ -6,6 +6,8 @@ env:
 
 phases:
   install:
+    runtime-versions:
+      nodejs: 10
     commands:
       - echo performing install phase
       # Setup for Serverless
