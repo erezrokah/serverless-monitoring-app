@@ -1,4 +1,3 @@
-const DynamoDB = require('aws-sdk/clients/dynamodb');
 const { writeItems } = require('aws-testing-library/lib/utils/dynamoDb');
 const { updateE2eTestsConfig } = require('./utils');
 
@@ -11,7 +10,6 @@ const handler = async (data, serverless) => {
   } = data;
 
   const region = serverless.variables.service.custom.currentRegion;
-  const db = new DynamoDB.DocumentClient({ region });
   const items = require('./seed.json');
 
   console.log(`Seeding ${EndpointsTableName} with ${items.length} items`);
