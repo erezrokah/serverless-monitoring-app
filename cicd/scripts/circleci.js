@@ -133,7 +133,11 @@ const setEnvs = async (token, owner, repo, envs) => {
 const updateProjectSettings = async (token, owner, repo) => {
   log(`Updating settings for project ${repo}`);
   await axios.put(`${api}/${owner}/${repo}/settings?circle-token=${token}`, {
-    feature_flags: { 'build-prs-only': true },
+    feature_flags: {
+      'build-prs-only': true,
+      'build-fork-prs': false,
+      'forks-receive-secret-env-vars': false,
+    },
   });
   log(`Done updating settings for project ${repo}`);
 };
