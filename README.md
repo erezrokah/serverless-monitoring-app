@@ -37,9 +37,9 @@ yarn install
 Setup environment file
 
 ```bash
-cp -f services/common/environment/config.example.json services/common/environment/config.dev.json
-sed -i 's/REGION_VALUE/us-east-1/g' services/common/environment/config.dev.json
-sed -i 's/ADMIN_EMAIL_VALUE/your@email.address/g' services/common/environment/config.dev.json
+cp -f services/monitoring-common/environment/config.example.json services/monitoring-common/environment/config.dev.json
+sed -i 's/REGION_VALUE/us-east-1/g' services/monitoring-common/environment/config.dev.json
+sed -i 's/ADMIN_EMAIL_VALUE/your@email.address/g' services/monitoring-common/environment/config.dev.json
 ```
 
 ## Deploy
