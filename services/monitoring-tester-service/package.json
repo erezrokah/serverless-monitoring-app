@@ -12,8 +12,8 @@
     "coverage": "yarn test --coverage",
     "deploy": "serverless deploy",
     "remove": "serverless remove",
-    "prettier": "prettier --write src/**/*.ts e2e/**/*.ts scripts/*.js",
-    "prettier:ci": "prettier --list-different src/**/*.ts e2e/**/*.ts scripts/*.js",
+    "prettier": "prettier --write 'src/**/*.ts' 'e2e/**/*.ts' 'scripts/*.js'",
+    "prettier:ci": "prettier --list-different 'src/**/*.ts' 'e2e/**/*.ts' 'scripts/*.js'",
     "print:name": "echo ${npm_package_name}"
   },
   "dependencies": {

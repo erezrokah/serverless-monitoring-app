@@ -34,8 +34,8 @@
     "test:watch": "jest --watch",
     "test:ci": "JEST_JUNIT_OUTPUT=../../reports/junit/${npm_package_name}-test-results.xml yarn test --runInBand --ci",
     "coverage": "yarn test --coverage",
-    "prettier": "prettier --write scripts/**/*.js serverless-plugin-cicd/*.js jest.config.js",
-    "prettier:ci": "prettier --list-different scripts/**/*.js serverless-plugin-cicd/*.js jest.config.js",
+    "prettier": "prettier --write 'scripts/**/*.js' 'serverless-plugin-cicd/*.js' 'jest.config.js'",
+    "prettier:ci": "prettier --list-different 'scripts/**/*.js' 'serverless-plugin-cicd/*.js' 'jest.config.js'",
     "print:name": "echo ${npm_package_name}"
   },
   "regions": {

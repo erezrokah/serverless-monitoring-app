@@ -59,8 +59,8 @@
     "deploy:stack": "serverless deploy",
     "remove": "serverless remove",
     "publish": "serverless publishSite",
-    "prettier": "prettier --write src/**/*.ts src/**/*.tsx serverless-single-page-app-plugin/*.js scripts/*.js",
-    "prettier:ci": "prettier --list-different src/**/*.ts src/**/*.tsx serverless-single-page-app-plugin/*.js scripts/*.js",
+    "prettier": "prettier --write 'src/**/*.ts' 'src/**/*.tsx' 'serverless-single-page-app-plugin/*.js' 'scripts/*.js'",
+    "prettier:ci": "prettier --list-different 'src/**/*.ts' 'src/**/*.tsx' 'serverless-single-page-app-plugin/*.js' 'scripts/*.js'",
     "print:name": "echo ${npm_package_name}",
     "graphql:codegen": "graphql-codegen --config codegen.yml"
   },
