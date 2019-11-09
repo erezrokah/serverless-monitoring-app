@@ -38,8 +38,8 @@ Setup environment file
 
 ```bash
 cp -f services/monitoring-common/environment/config.example.json services/monitoring-common/environment/config.dev.json
-sed -i 's/REGION_VALUE/us-east-1/g' services/monitoring-common/environment/config.dev.json
-sed -i 's/ADMIN_EMAIL_VALUE/your@email.address/g' services/monitoring-common/environment/config.dev.json
+sed -i '' 's/REGION_VALUE/us-east-1/g' services/monitoring-common/environment/config.dev.json
+sed -i '' 's/ADMIN_EMAIL_VALUE/your@email.address/g' services/monitoring-common/environment/config.dev.json
 ```
 
 ## Deploy
