@@ -11,15 +11,6 @@ describe('githubConfig', () => {
 
   const { spawnSync } = require('child_process');
 
-  afterEach(() => {
-    expect(spawnSync).toHaveBeenCalledTimes(1);
-    expect(spawnSync).toHaveBeenCalledWith('git', [
-      'remote',
-      'get-url',
-      'origin',
-    ]);
-  });
-
   test('should return owner and repo on https url', () => {
     spawnSync.mockReturnValueOnce({
       stdout: Buffer.from('https://github.com/USERNAME/REPOSITORY.git'),
@@ -29,6 +20,12 @@ describe('githubConfig', () => {
       owner: 'USERNAME',
       repo: 'REPOSITORY',
     });
+    expect(spawnSync).toHaveBeenCalledTimes(1);
+    expect(spawnSync).toHaveBeenCalledWith('git', [
+      'remote',
+      'get-url',
+      'origin',
+    ]);
   });
 
   test('should return owner and repo on ssh url', () => {
@@ -40,5 +37,11 @@ describe('githubConfig', () => {
       owner: 'USERNAME',
       repo: 'REPOSITORY',
     });
+    expect(spawnSync).toHaveBeenCalledTimes(1);
+    expect(spawnSync).toHaveBeenCalledWith('git', [
+      'remote',
+      'get-url',
+      'origin',
+    ]);
   });
 });
