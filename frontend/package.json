@@ -6,7 +6,7 @@
   "dependencies": {
     "@graphql-codegen/typescript-resolvers": "^1.8.3",
     "aws-amplify": "^2.0.0",
-    "aws-amplify-react": "^2.5.4",
+    "aws-amplify-react": "^3.0.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-helmet": "^5.2.1",
