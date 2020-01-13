@@ -38,7 +38,7 @@
     "react-test-renderer": "^16.11.0",
     "serverless-plugin-tracing": "^2.0.0",
     "serverless-s3-remover": "^0.6.0",
-    "serverless-scriptable-plugin": "1.0.4",
+    "serverless-scriptable-plugin": "1.0.5",
     "serverless-single-page-app-plugin": "file:./serverless-single-page-app-plugin",
     "source-map-explorer": "^2.1.0",
     "tslint": "^5.20.1",
