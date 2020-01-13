@@ -4337,15 +4337,20 @@ bl@^1.0.0:
     readable-stream "^2.3.5"
     safe-buffer "^5.1.1"
 
-bluebird@3.7.1, bluebird@^3.7.1:
-  version "3.7.1"
-  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.1.tgz#df70e302b471d7473489acf26a93d63b53f874de"
-  integrity sha512-DdmyoGCleJnkbp3nkbxTLJ18rjDsE4yCggEwKNXkeV123sPNfOCYeDoeuOY+F2FrSjO1YXcTU+dsy96KMy+gcg==
+bluebird@3.7.2:
+  version "3.7.2"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
+  integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
 
 bluebird@^3.4.0, bluebird@^3.5.1, bluebird@^3.5.3, bluebird@^3.5.4, bluebird@^3.5.5:
   version "3.5.5"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
   integrity sha512-5am6HnnfN+urzt4yfg7IgTbotDjIT/u8AJpEt0sIU9FtXfVeezXAPKswrG+xKUCOYAINpSdgZVDU6QFh+cuH3w==
+
+bluebird@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.1.tgz#df70e302b471d7473489acf26a93d63b53f874de"
+  integrity sha512-DdmyoGCleJnkbp3nkbxTLJ18rjDsE4yCggEwKNXkeV123sPNfOCYeDoeuOY+F2FrSjO1YXcTU+dsy96KMy+gcg==
 
 bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
   version "4.11.8"
@@ -14400,12 +14405,12 @@ serverless-s3-remover@^0.6.0:
     chalk "^2.1.0"
     prompt "^1.0.0"
 
-serverless-scriptable-plugin@1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/serverless-scriptable-plugin/-/serverless-scriptable-plugin-1.0.4.tgz#913d9286f4e7a63bf0f65b85fa922d6aa2e7163b"
-  integrity sha512-bQQ2iY1GbZlDndXnnCN7TWunLN4tjIv0u3PXueW00bxpzFCBqag8UkDN+nUCls9qK9yaaiuV3zpAp7wiq5qOIA==
+serverless-scriptable-plugin@1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/serverless-scriptable-plugin/-/serverless-scriptable-plugin-1.0.5.tgz#0950ad2761cde4a6da90ccb848319b3ff6f796eb"
+  integrity sha512-g4DFVeitfxHdZeSoS6eWsQcj0hCASWmZTzECKOnXe/kM/ooX3ITOJIL9SBM6b//YOiiWeIbMdLv5zqTxF31FUQ==
   dependencies:
-    bluebird "3.7.1"
+    bluebird "3.7.2"
 
 "serverless-single-page-app-plugin@file:./frontend/serverless-single-page-app-plugin":
   version "1.0.0"
