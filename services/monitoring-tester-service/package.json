@@ -17,7 +17,7 @@
     "print:name": "echo ${npm_package_name}"
   },
   "dependencies": {
-    "aws-amplify": "^1.2.4",
+    "aws-amplify": "^2.0.0",
     "aws-sdk": "^2.568.0",
     "axios": "^0.19.0"
   },
