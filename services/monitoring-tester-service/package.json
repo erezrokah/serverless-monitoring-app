@@ -42,7 +42,7 @@
     "serverless-scriptable-plugin": "1.0.5",
     "serverless-step-functions": "^2.11.0",
     "serverless-webpack": "^5.2.0",
-    "ts-jest": "^24.1.0",
+    "ts-jest": "^25.0.0",
     "ts-loader": "^6.2.1",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
