@@ -25,7 +25,7 @@
     "@anttiviljami/serverless-stack-output": "^0.3.1",
     "@types/aws-lambda": "^8.10.35",
     "@types/chai": "^4.2.4",
-    "@types/jest": "^24.0.22",
+    "@types/jest": "^25.0.0",
     "@types/mockdate": "^2.0.0",
     "@types/node": "^12.12.7",
     "aws-testing-library": "^1.0.9",
