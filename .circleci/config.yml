@@ -6,7 +6,7 @@ orbs:
 aliases:
   - &container_config
     docker:
-      - image: circleci/node:dubnium
+      - image: circleci/node:lts
 
     working_directory: ~/repo
 
