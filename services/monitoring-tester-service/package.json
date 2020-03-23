@@ -31,7 +31,7 @@
     "aws-testing-library": "^1.0.9",
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.0",
     "jest": "24.9.0",
     "mockdate": "2.0.5",
     "monitoring-appsync-service": "file:./../monitoring-appsync-service",
