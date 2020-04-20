@@ -43,7 +43,7 @@
     "serverless-step-functions": "^2.11.0",
     "serverless-webpack": "^5.2.0",
     "ts-jest": "^25.0.0",
-    "ts-loader": "^6.2.1",
+    "ts-loader": "^7.0.0",
     "tslint": "^6.0.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.7.2",
