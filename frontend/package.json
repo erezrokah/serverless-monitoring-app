@@ -5,7 +5,7 @@
   "description": "Frontend",
   "dependencies": {
     "@graphql-codegen/typescript-resolvers": "^1.8.3",
-    "aws-amplify": "^2.0.0",
+    "aws-amplify": "^3.0.0",
     "aws-amplify-react": "^4.0.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
