@@ -44,7 +44,7 @@
     "source-map-explorer": "^2.1.0",
     "tslint": "^6.0.0",
     "tslint-config-prettier": "^1.18.0",
-    "tslint-react": "^4.1.0",
+    "tslint-react": "^5.0.0",
     "typescript": "^3.7.2"
   },
   "scripts": {
