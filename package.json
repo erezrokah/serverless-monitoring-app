@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "jest-junit": "^10.0.0",
-    "lerna": "3.15.0",
+    "lerna": "3.22.1",
     "prettier": "^1.19.1"
   },
   "author": "Erez Rokah",
