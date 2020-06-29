@@ -3,7 +3,7 @@ const fs = require('fs-extra');
 const dotenv = require('dotenv');
 const os = require('os');
 
-const replaceInEnvFile = async envs => {
+const replaceInEnvFile = async (envs) => {
   const keys = Object.keys(envs);
   if (keys.length <= 0) {
     return;
@@ -14,13 +14,13 @@ const replaceInEnvFile = async envs => {
   const content = await fs.readFile(envFile);
   const envConfig = await dotenv.parse(content);
 
-  keys.forEach(key => {
+  keys.forEach((key) => {
     envConfig[key] = envs[key];
   });
 
   await fs.remove(envFile);
   await Promise.all(
-    Object.keys(envConfig).map(key =>
+    Object.keys(envConfig).map((key) =>
       fs.appendFile(envFile, `${key}=${envConfig[key]}${os.EOL}`),
     ),
   );

@@ -26,7 +26,7 @@ export const fanout: Handler = async (
   const items = scanResult.Items || [];
 
   const result = await Promise.all(
-    items.map(data =>
+    items.map((data) =>
       stepFunctions
         .startExecution({ stateMachineArn, input: JSON.stringify(data) })
         .promise(),

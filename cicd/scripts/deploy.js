@@ -44,7 +44,7 @@ const deploy = async (stage, commitId, forceAll) => {
       toDeploy = [...new Set([...changed, ...notDeployed])];
     }
 
-    toDeploy = toDeploy.filter(service => service !== CICD);
+    toDeploy = toDeploy.filter((service) => service !== CICD);
 
     if (toDeploy.length > 0) {
       info('Services to deploy:', JSON.stringify(toDeploy));
@@ -64,7 +64,7 @@ const deploy = async (stage, commitId, forceAll) => {
   }
 };
 
-const remove = async stage => {
+const remove = async (stage) => {
   try {
     log('Received remove arguments:', `stage=${stage}`);
 
@@ -91,7 +91,7 @@ yargs
     command: 'deploy',
     aliases: ['d'],
     desc: 'Deploy services',
-    builder: yargs =>
+    builder: (yargs) =>
       yargs
         .option('stage', {
           alias: 's',
@@ -129,7 +129,7 @@ yargs
     command: 'remove',
     aliases: ['r'],
     desc: 'Remove all services',
-    builder: yargs =>
+    builder: (yargs) =>
       yargs.option('stage', {
         alias: 's',
         describe: 'Stage',

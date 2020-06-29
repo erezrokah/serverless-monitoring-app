@@ -8,10 +8,7 @@ const extractGithubData = () => {
   // or
   // git@github.com:USERNAME/REPOSITORY.git
   // to USERNAME/REPOSITORY.git
-  const stripped = stdout
-    .toString()
-    .split('github.com')[1]
-    .substring(1);
+  const stripped = stdout.toString().split('github.com')[1].substring(1);
 
   // splits USERNAME/REPOSITORY.git
   const parts = stripped.split('/');

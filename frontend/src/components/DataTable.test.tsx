@@ -11,7 +11,7 @@ jest.mock('@aws-amplify/api', () => {
   return {
     __esModule: true,
     default: { graphql: jest.fn(() => graphqlResult) },
-    graphqlOperation: jest.fn(args => args),
+    graphqlOperation: jest.fn((args) => args),
   };
 });
 
@@ -226,7 +226,7 @@ describe('DataTable', () => {
     let resolver = () => {
       return;
     };
-    const promise = new Promise(resolve => {
+    const promise = new Promise((resolve) => {
       resolver = resolve;
     });
     fetchData.mockImplementation(() => {
@@ -256,7 +256,7 @@ describe('DataTable', () => {
     let resolver = () => {
       return;
     };
-    const promise = new Promise(resolve => {
+    const promise = new Promise((resolve) => {
       resolver = resolve;
     });
     fetchData.mockImplementation(() => {

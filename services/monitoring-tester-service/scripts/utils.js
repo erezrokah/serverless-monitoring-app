@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 
-const updateE2eTestsConfig = async config => {
+const updateE2eTestsConfig = async (config) => {
   const file = path.join('e2e', 'config.json');
   const e2eConfigFile = path.join(__dirname, '..', file);
   await fs.ensureFile(e2eConfigFile);

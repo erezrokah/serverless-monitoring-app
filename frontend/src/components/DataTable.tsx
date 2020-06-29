@@ -102,7 +102,7 @@ export const reducer = (
     case 'updateSingleEntry': {
       const entry = action.payload as DataEntry;
       const newEntries = [...state.entries];
-      const index = newEntries.findIndex(e => e.id === entry.id);
+      const index = newEntries.findIndex((e) => e.id === entry.id);
       if (index >= 0) {
         newEntries.splice(index, 1);
       }
@@ -151,7 +151,7 @@ export const fetchListEffectCallback = (
   dispatch: IDispatch,
 ) => {
   let isSubscribed = true;
-  fetchData().then(result => {
+  fetchData().then((result) => {
     if (isSubscribed) {
       if (result.items) {
         dispatch({ type: 'setAllEntries', payload: result.items });

@@ -55,7 +55,7 @@ describe('checkEndpointStepFunction', () => {
     await expect({ region, stateMachineArn }).toHaveState('SendNotification');
 
     await expect({ region, queueUrl }).toHaveMessage(
-      message =>
+      (message) =>
         message.Subject === 'Monitoring Service Notification' &&
         message.Message ===
           `The endpoint for service '${data.name}' is at 'ERROR' status, Please check!`,
