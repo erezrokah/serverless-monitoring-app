@@ -14,7 +14,7 @@ const SERVICES = 'services';
 const CICD = 'cicd';
 const lerna = path.join('node_modules', '.bin', 'lerna');
 
-const getChangedServices = commitId => {
+const getChangedServices = (commitId) => {
   const result = spawnSync('git', [
     'diff-tree',
     '-m',
@@ -33,20 +33,17 @@ const getChangedServices = commitId => {
     throw new Error("'diff-tree' command exited with status: " + status);
   }
 
-  const changedFiles = stdout
-    .toString()
-    .trim()
-    .split(os.EOL);
+  const changedFiles = stdout.toString().trim().split(os.EOL);
 
   const changedServices = changedFiles
     .filter(
-      f =>
+      (f) =>
         f.startsWith(FRONTEND) || f.startsWith(SERVICES) || f.startsWith(CICD),
     )
-    .map(f =>
+    .map((f) =>
       f.startsWith(SERVICES) ? f.slice(SERVICES.length + path.sep.length) : f,
     )
-    .map(file => path.dirname(file).split(path.sep)[0]);
+    .map((file) => path.dirname(file).split(path.sep)[0]);
 
   const unique = [...new Set(changedServices)].sort();
 
@@ -61,21 +58,18 @@ const getPackages = async () => {
 
 const getServerlessYamls = async () => {
   const project = new Project(process.cwd());
-  const mapper = serverlessYaml => {
-    const service = path
-      .dirname(serverlessYaml)
-      .split(path.sep)
-      .pop();
+  const mapper = (serverlessYaml) => {
+    const service = path.dirname(serverlessYaml).split(path.sep).pop();
     return { service, serverlessYaml };
   };
 
-  const yamls = await project.fileFinder('serverless.yml', filePaths =>
+  const yamls = await project.fileFinder('serverless.yml', (filePaths) =>
     filePaths.map(mapper),
   );
   return yamls;
 };
 
-const getRegion = async stage => {
+const getRegion = async (stage) => {
   const { region } = await readJSON(
     path.join(
       process.cwd(),
@@ -102,7 +96,7 @@ const getAllStacks = async (stage, region) => {
   const yamls = await getServerlessYamls();
   const services = await Promise.all(
     yamls.map(({ service, serverlessYaml }) => {
-      return readFile(serverlessYaml).then(content => ({
+      return readFile(serverlessYaml).then((content) => ({
         service,
         stack: `${yaml.safeLoad(content).service}-${stage}`,
       }));
@@ -110,7 +104,7 @@ const getAllStacks = async (stage, region) => {
   );
   const allStacks = await Promise.all(
     services.map(({ service, stack }) =>
-      isStackExists(stack, region).then(exists => ({ service, exists })),
+      isStackExists(stack, region).then((exists) => ({ service, exists })),
     ),
   );
   return allStacks;
@@ -148,15 +142,15 @@ const runSpawnCommand = async (command, args) => {
       terminal: false,
     });
 
-    stdout.on('line', line => {
+    stdout.on('line', (line) => {
       console.log(line);
     });
 
-    stderr.on('line', line => {
+    stderr.on('line', (line) => {
       console.log(line);
     });
 
-    proc.on('close', code => {
+    proc.on('close', (code) => {
       if (code) {
         reject(code);
       } else {
@@ -185,7 +179,7 @@ const batchCommand = async (batched, toProcess, command) => {
 const batchDeployCommand = async (packages, toDeploy, stage) => {
   log('Deploying services');
   const batched = batchPackages(packages, true);
-  await batchCommand(batched, toDeploy, name => {
+  await batchCommand(batched, toDeploy, (name) => {
     log('Deploying service', `'${name}'`);
     return runSpawnCommand(lerna, [
       'run',
@@ -203,7 +197,7 @@ const batchDeployCommand = async (packages, toDeploy, stage) => {
 const batchE2ETestCommand = async (packages, toTest) => {
   log('Running e2e tests');
   const batched = batchPackages(packages, true);
-  await batchCommand(batched, toTest, name => {
+  await batchCommand(batched, toTest, (name) => {
     log('Running e2e tests for service', `'${name}'`);
     return runSpawnCommand(lerna, [
       'run',
@@ -220,7 +214,7 @@ const batchE2ETestCommand = async (packages, toTest) => {
 const batchRemoveCommand = async (packages, toRemove, stage) => {
   log('Removing services');
   const batched = batchPackages(packages, true).reverse();
-  await batchCommand(batched, toRemove, name => {
+  await batchCommand(batched, toRemove, (name) => {
     log('Removing service', `'${name}'`);
     return runSpawnCommand(lerna, [
       'run',

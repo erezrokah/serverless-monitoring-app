@@ -10,9 +10,9 @@ const { IAM } = require('aws-sdk');
 const api = 'https://circleci.com/api/v1.1/project/github';
 const policyArn = 'arn:aws:iam::aws:policy/AdministratorAccess';
 
-const getIamUserName = repo => `circle-ci-${repo}`;
+const getIamUserName = (repo) => `circle-ci-${repo}`;
 
-const deleteAllKeys = async userName => {
+const deleteAllKeys = async (userName) => {
   log(`Deleting all access keys for user ${userName}`);
   const iam = new IAM();
   const result = await iam.listAccessKeys({ UserName: userName }).promise();
@@ -25,7 +25,7 @@ const deleteAllKeys = async userName => {
   log(`Done deleting all access keys for user ${userName}`);
 };
 
-const createIamUser = async userName => {
+const createIamUser = async (userName) => {
   const iam = new IAM();
 
   try {
@@ -62,7 +62,7 @@ const createIamUser = async userName => {
   return { accessKeyId, secretAccessKey };
 };
 
-const deleteIamUser = async userName => {
+const deleteIamUser = async (userName) => {
   const iam = new IAM();
 
   try {
@@ -176,7 +176,7 @@ const unfollow = async (token, owner, repo) => {
   }
 };
 
-const remove = async token => {
+const remove = async (token) => {
   try {
     const { owner, repo } = require('./githubConfig')();
     await unfollow(token, owner, repo);
@@ -197,10 +197,7 @@ const getLatestTag = (owner, repo) => {
     `git://github.com/${owner}/${repo}.git`,
   ]);
   const { stdout } = result;
-  const lines = stdout
-    .toString()
-    .trim()
-    .split(EOL);
+  const lines = stdout.toString().trim().split(EOL);
   const tag = lines[lines.length - 1].split('/')[2];
   return tag;
 };
@@ -233,7 +230,7 @@ yargs
     command: 'setup',
     aliases: ['s'],
     desc: 'Setup circle ci project',
-    builder: yargs =>
+    builder: (yargs) =>
       yargs
         .option('token', {
           alias: 't',
@@ -290,7 +287,7 @@ yargs
     command: 'remove',
     aliases: ['r'],
     desc: 'Remove circle ci project setup',
-    builder: yargs =>
+    builder: (yargs) =>
       yargs.option('token', {
         alias: 't',
         describe: 'Api Token',
@@ -306,7 +303,7 @@ yargs
     command: 'trigger',
     aliases: ['t'],
     desc: 'Trigger a manual build',
-    builder: yargs =>
+    builder: (yargs) =>
       yargs
         .option('token', {
           alias: 't',

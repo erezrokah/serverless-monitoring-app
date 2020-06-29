@@ -40,7 +40,7 @@ class ServerlessPlugin {
   }
 
   async runSpawnCommand(command, args) {
-    const promise = new Promise(resolve => {
+    const promise = new Promise((resolve) => {
       const proc = spawn(command, args);
 
       const stdout = readline.createInterface({
@@ -53,15 +53,15 @@ class ServerlessPlugin {
         terminal: false,
       });
 
-      stdout.on('line', line => {
+      stdout.on('line', (line) => {
         this.serverless.cli.log(line);
       });
 
-      stderr.on('line', line => {
+      stderr.on('line', (line) => {
         this.serverless.cli.log(line);
       });
 
-      proc.on('close', code => {
+      proc.on('close', (code) => {
         resolve(code);
       });
     });
@@ -94,7 +94,7 @@ class ServerlessPlugin {
     } = this.serverless.variables.service.custom;
     const { fileExtensions, cacheControl } = bucketCacheControl;
 
-    const toCache = fileExtensions.map(ext => ['--include', `*.${ext}`]);
+    const toCache = fileExtensions.map((ext) => ['--include', `*.${ext}`]);
     const merged = [].concat.apply([], toCache);
     const args = [
       's3',
@@ -132,7 +132,7 @@ class ServerlessPlugin {
 
     const outputs = result.Stacks[0].Outputs;
     const output = outputs.find(
-      entry => entry.OutputKey === 'WebAppCloudFrontDistributionOutput',
+      (entry) => entry.OutputKey === 'WebAppCloudFrontDistributionOutput',
     );
 
     if (output.OutputValue) {
@@ -162,7 +162,7 @@ class ServerlessPlugin {
 
     const distributions = result.DistributionList.Items;
     const distribution = distributions.find(
-      entry => entry.DomainName === domain,
+      (entry) => entry.DomainName === domain,
     );
 
     if (distribution) {

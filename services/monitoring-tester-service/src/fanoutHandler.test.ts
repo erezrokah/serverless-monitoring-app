@@ -78,7 +78,7 @@ describe('fanoutHandler', () => {
     expect(stepFunctions.startExecution).toHaveBeenCalledTimes(
       scanResult.Items.length,
     );
-    scanResult.Items.forEach(data => {
+    scanResult.Items.forEach((data) => {
       expect(stepFunctions.startExecution).toHaveBeenCalledWith({
         input: JSON.stringify(data),
         stateMachineArn,

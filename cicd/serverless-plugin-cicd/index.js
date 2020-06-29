@@ -251,7 +251,7 @@ class CICDPlugin {
     let topicPolicy = {};
     let cloudWatch = {};
     if (emailNotifications && emailNotifications.length > 0) {
-      const subscriptions = emailNotifications.map(email => ({
+      const subscriptions = emailNotifications.map((email) => ({
         Endpoint: email,
         Protocol: 'email',
       }));

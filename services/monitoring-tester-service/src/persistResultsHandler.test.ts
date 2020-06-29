@@ -6,9 +6,11 @@ jest.mock('@aws-amplify/api', () => {
 });
 
 jest.mock('@aws-amplify/core', () => {
+  const actual = jest.requireActual('@aws-amplify/core');
   return {
     __esModule: true,
-    default: { configure: jest.fn() },
+    ...actual,
+    default: { ...actual, register: jest.fn(), configure: jest.fn() },
   };
 });
 
