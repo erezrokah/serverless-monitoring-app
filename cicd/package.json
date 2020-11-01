@@ -8,7 +8,7 @@
   "license": "MIT",
   "devDependencies": {
     "aws-sdk": "^2.706.0",
-    "axios": "^0.21.0",
+    "axios": "^0.20.0",
     "colors": "^1.4.0",
     "eslint": "^7.3.1",
     "eslint-config-prettier": "^6.5.0",
@@ -17,7 +17,7 @@
     "jest": "^25.0.0",
     "js-yaml": "^3.13.1",
     "serverless-plugin-cicd": "file:./serverless-plugin-cicd",
-    "yargs": "^15.0.0"
+    "yargs": "^16.0.0"
   },
   "scripts": {
     "setup": "serverless deploy",
