@@ -36,7 +36,7 @@
     "mockdate": "3.0.2",
     "monitoring-appsync-service": "file:./../monitoring-appsync-service",
     "monitoring-common": "file:./../monitoring-common",
-    "serverless-iam-roles-per-function": "^2.0.2",
+    "serverless-iam-roles-per-function": "^3.0.0",
     "serverless-plugin-tracing": "^2.0.0",
     "serverless-pseudo-parameters": "^2.5.0",
     "serverless-scriptable-plugin": "1.0.5",
