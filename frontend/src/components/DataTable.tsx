@@ -173,18 +173,25 @@ const useFetchListEffect = (dispatch: IDispatch) => {
 
 const useSubscriptionEffect = (dispatch: IDispatch) => {
   useEffect(() => {
-    const subscription = (API.graphql(
-      graphqlOperation(onUpdateDataEntry),
-    ) as Observable<object>).subscribe({
-      next: (result: { value: { data: Subscription } }) => {
-        if (result.value.data.updateDataEntry) {
-          const entry = result.value.data.updateDataEntry;
-          dispatch({ type: 'updateSingleEntry', payload: entry });
-        }
-      },
-    });
+    let subscription: ZenObservable.Subscription;
+    const getSubscription = async () => {
+      const observable = (await API.graphql(
+        graphqlOperation(onUpdateDataEntry),
+      )) as Observable<object>;
 
-    return () => subscription.unsubscribe();
+      subscription = observable.subscribe({
+        next: (result: { value: { data: Subscription } }) => {
+          if (result.value.data.updateDataEntry) {
+            const entry = result.value.data.updateDataEntry;
+            dispatch({ type: 'updateSingleEntry', payload: entry });
+          }
+        },
+      });
+      return subscription;
+    };
+    getSubscription();
+
+    return () => subscription && subscription.unsubscribe();
   }, [dispatch]);
 };
 
