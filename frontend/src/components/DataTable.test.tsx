@@ -1,9 +1,11 @@
-import { render, waitForElement } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { listEvents } from '../graphql/queries';
 import { onUpdateDataEntry } from '../graphql/subscriptions';
 import { DataEntry } from '../graphql/types';
+import API, { graphqlOperation } from '@aws-amplify/api';
+import DataTable, { fetchListEffectCallback, reducer } from './DataTable';
 
 jest.mock('@aws-amplify/api', () => {
   const subscription = { unsubscribe: jest.fn() };
@@ -14,9 +16,6 @@ jest.mock('@aws-amplify/api', () => {
     graphqlOperation: jest.fn((args) => args),
   };
 });
-
-import API, { graphqlOperation } from '@aws-amplify/api';
-import DataTable, { fetchListEffectCallback, reducer } from './DataTable';
 
 describe('DataTable', () => {
   beforeEach(() => {
@@ -90,9 +89,9 @@ describe('DataTable', () => {
       return null;
     });
 
-    const { container, getByTestId, unmount } = render(<DataTable />);
+    const { container, unmount } = render(<DataTable />);
 
-    await waitForElement(() => getByTestId(entries[0].id));
+    await screen.findAllByTestId(entries[0].id);
 
     expect(API.graphql).toHaveBeenCalledTimes(2);
     expect(API.graphql).toHaveBeenCalledWith(listEvents);
@@ -146,9 +145,9 @@ describe('DataTable', () => {
 
     const { container, getByTestId } = render(<DataTable />);
 
-    await waitForElement(() => getByTestId(entries[0].id));
+    await screen.findAllByTestId(entries[0].id);
 
-    expect(graphqlSubscriptionResult.subscribe).toHaveBeenCalledTimes(1);
+    expect(graphqlSubscriptionResult.subscribe).toHaveBeenCalledTimes(2);
     expect(graphqlSubscriptionResult.subscribe).toHaveBeenCalledWith({
       next: expect.any(Function),
     });
@@ -178,7 +177,7 @@ describe('DataTable', () => {
     subscribeArguments.next({ value: { data: { updateDataEntry: newEntry } } });
     subscribeArguments.next({ value: { data: {} } });
 
-    await waitForElement(() => getByTestId(newEntry.id));
+    await screen.findAllByTestId(newEntry.id);
 
     expect(container.firstChild).toMatchSnapshot();
 
@@ -207,9 +206,9 @@ describe('DataTable', () => {
       return null;
     });
 
-    const { container, getByTestId } = render(<DataTable />);
+    const { container } = render(<DataTable />);
 
-    await waitForElement(() => getByTestId('error-messages'));
+    await screen.findAllByTestId('error-messages');
 
     expect(graphqlSubscriptionResult.subscribe).toHaveBeenCalledTimes(1);
     expect(graphqlSubscriptionResult.subscribe).toHaveBeenCalledWith({
@@ -226,7 +225,7 @@ describe('DataTable', () => {
     let resolver = () => {
       return;
     };
-    const promise = new Promise((resolve) => {
+    const promise = new Promise<void>((resolve) => {
       resolver = resolve;
     });
     fetchData.mockImplementation(() => {
@@ -256,7 +255,7 @@ describe('DataTable', () => {
     let resolver = () => {
       return;
     };
-    const promise = new Promise((resolve) => {
+    const promise = new Promise<void>((resolve) => {
       resolver = resolve;
     });
     fetchData.mockImplementation(() => {
