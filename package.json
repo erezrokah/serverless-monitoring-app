@@ -29,6 +29,6 @@
   "license": "MIT",
   "name": "serverless-monitoring-app",
   "resolutions": {
-    "jest": "24.9.0"
+    "jest": "26.6.0"
   }
 }

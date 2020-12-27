@@ -4,22 +4,21 @@ import renderer from 'react-test-renderer';
 import { listEvents } from '../graphql/queries';
 import { onUpdateDataEntry } from '../graphql/subscriptions';
 import { DataEntry } from '../graphql/types';
-import API, { graphqlOperation } from '@aws-amplify/api';
 import DataTable, { fetchListEffectCallback, reducer } from './DataTable';
-
-jest.mock('@aws-amplify/api', () => {
-  const subscription = { unsubscribe: jest.fn() };
-  const graphqlResult = { subscribe: jest.fn(() => subscription), data: {} };
-  return {
-    __esModule: true,
-    default: { graphql: jest.fn(() => graphqlResult) },
-    graphqlOperation: jest.fn((args) => args),
-  };
-});
 
 describe('DataTable', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
+
+    const API = require('@aws-amplify/api').default;
+    const api = require('@aws-amplify/api');
+    const subscription = { unsubscribe: jest.fn() };
+    const graphqlResult = {
+      subscribe: jest.fn(() => subscription),
+      data: {},
+    };
+    API.graphql = jest.fn().mockImplementation(() => graphqlResult);
+    api.graphqlOperation = jest.fn().mockImplementation((args: any) => args);
   });
 
   test('renders without crashing', () => {
@@ -79,6 +78,7 @@ describe('DataTable', () => {
       subscribe: jest.fn(() => subscription),
     };
 
+    const API = require('@aws-amplify/api').default;
     (API.graphql as jest.Mock<any>).mockImplementation((args: any) => {
       if (args === listEvents) {
         return graphqlQueryResult;
@@ -96,10 +96,6 @@ describe('DataTable', () => {
     expect(API.graphql).toHaveBeenCalledTimes(2);
     expect(API.graphql).toHaveBeenCalledWith(listEvents);
     expect(API.graphql).toHaveBeenCalledWith(onUpdateDataEntry);
-
-    expect(graphqlOperation).toHaveBeenCalledTimes(2);
-    expect(graphqlOperation).toHaveBeenCalledWith(listEvents);
-    expect(graphqlOperation).toHaveBeenCalledWith(onUpdateDataEntry);
 
     expect(graphqlSubscriptionResult.subscribe).toHaveBeenCalledTimes(1);
     expect(graphqlSubscriptionResult.subscribe).toHaveBeenCalledWith({
@@ -133,6 +129,7 @@ describe('DataTable', () => {
       subscribe: jest.fn(() => subscription),
     };
 
+    const API = require('@aws-amplify/api').default;
     (API.graphql as jest.Mock<any>).mockImplementation((args: any) => {
       if (args === listEvents) {
         return graphqlQueryResult;
@@ -196,6 +193,7 @@ describe('DataTable', () => {
       subscribe: jest.fn(() => subscription),
     };
 
+    const API = require('@aws-amplify/api').default;
     (API.graphql as jest.Mock<any>).mockImplementation((args: any) => {
       if (args === listEvents) {
         return Promise.reject({ errors });
