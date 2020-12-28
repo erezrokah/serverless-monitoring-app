@@ -1,6 +1,5 @@
-import API from '@aws-amplify/api';
-import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api/lib/types';
-import Amplify from '@aws-amplify/core';
+import { API, Amplify } from 'aws-amplify';
+import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { Callback, Context, Handler } from 'aws-lambda';
 
 export const updateDataEntry = `mutation updateDataEntry($input: DataEntryInput) {

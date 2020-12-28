@@ -1,10 +1,10 @@
 const path = require('path');
-const { readFile } = require('fs-extra');
+const { readFile } = require('fs/promises');
 const yaml = require('js-yaml');
 const { updateE2eTestsConfig } = require('./utils');
 
 const getStackName = async (serverlessYaml, stage) => {
-  const content = await readFile(serverlessYaml);
+  const content = await readFile(serverlessYaml, 'utf8');
   return `${yaml.safeLoad(content).service}-${stage}`;
 };
 

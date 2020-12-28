@@ -1,22 +1,29 @@
 const path = require('path');
-const fs = require('fs-extra');
+const { readFile, writeFile } = require('fs/promises');
+
+const readJson = async (file) => {
+  try {
+    const content = await readFile(file, 'utf8');
+    return JSON.parse(content);
+  } catch (e) {
+    return {};
+  }
+};
 
 const updateE2eTestsConfig = async (config) => {
-  const file = path.join('e2e', 'config.json');
-  const e2eConfigFile = path.join(__dirname, '..', file);
-  await fs.ensureFile(e2eConfigFile);
-  const current = (await fs.readJson(e2eConfigFile, { throws: false })) || {};
+  const e2eConfigFile = `${__dirname}/../e2e/config.json`;
+  const current = await readJson(e2eConfigFile);
 
   const e2eConfig = {
     ...current,
     ...config,
   };
 
+  const stringified = JSON.stringify(e2eConfig, null, 2);
   console.log(
-    `Updating e2e tests ${file} with: ${JSON.stringify(e2eConfig, null, 2)}`,
+    `Updating e2e tests ${path.basename(e2eConfigFile)} with: ${stringified}`,
   );
-
-  await fs.writeJSON(e2eConfigFile, e2eConfig, { spaces: 2 });
+  await writeFile(e2eConfigFile, stringified);
 };
 
 module.exports = { updateE2eTestsConfig };

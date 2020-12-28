@@ -38,14 +38,14 @@ aliases:
         - 'services/monitoring-appsync-service/node_modules'
         - 'services/monitoring-common/node_modules'
         - 'services/monitoring-tester-service/node_modules'
-      key: dependencies-cache-v2-{{ checksum "yarn.lock" }}
+      key: dependencies-cache-v3-{{ checksum "yarn.lock" }}
 
   - &restore_cache
     restore_cache:
       keys:
-        - dependencies-cache-v2-{{ checksum "yarn.lock" }}
+        - dependencies-cache-v3-{{ checksum "yarn.lock" }}
         # fallback to using the latest cache if no exact match is found
-        - dependencies-cache-v2
+        - dependencies-cache-v3
 
   - &install_dependencies
     run:

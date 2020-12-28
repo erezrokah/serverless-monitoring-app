@@ -1,5 +1,6 @@
-import Amplify from '@aws-amplify/core';
+import { Amplify } from 'aws-amplify';
 import { withAuthenticator } from 'aws-amplify-react';
+import '@aws-amplify/ui/dist/style.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';

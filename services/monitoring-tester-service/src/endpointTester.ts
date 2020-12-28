@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const sendSingleRequest = async (endpoint: string) => {
-  const start = new Date().getTime();
+  const start = Date.now();
   let error = true;
   try {
     const { status } = await axios.get(endpoint, { timeout: 10000 });
@@ -11,7 +11,7 @@ export const sendSingleRequest = async (endpoint: string) => {
     console.error(e);
     error = true;
   }
-  const end = new Date().getTime();
+  const end = Date.now();
 
   return { error, duration: end - start };
 };
