@@ -15,10 +15,10 @@ custom:
     emailNotifications: ['{{resolve:ssm:admin-email:1}}']
 
     staging:
-      # build on pull requests where master is the base branch
-      buildOnPullRequest: master
-      # build on push events to master
-      buildOnPush: master
+      # build on pull requests where main is the base branch
+      buildOnPullRequest: main
+      # build on push events to main
+      buildOnPush: main
     prod:
       # build on tags starting with 'v'
       buildOnTag: 'v.*'

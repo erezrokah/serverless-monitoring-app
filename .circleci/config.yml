@@ -15,12 +15,12 @@ aliases:
   - &test_only_filters
     filters:
       branches:
-        ignore: /master/
+        ignore: /main/
 
   - &test_and_deploy_staging_filters
     filters:
       branches:
-        only: master
+        only: main
 
   - &test_and_deploy_prod_filters
     filters:

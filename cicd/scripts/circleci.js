@@ -211,7 +211,7 @@ const triggerBuild = async (token, stage) => {
     const options =
       stage === 'prod'
         ? { tag: getLatestTag(owner, repo) }
-        : { branch: 'master' };
+        : { branch: 'main' };
 
     log(`Triggering manual build for repo ${repo} under owner ${owner}`);
     await axios.post(
