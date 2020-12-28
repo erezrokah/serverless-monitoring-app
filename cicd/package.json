@@ -14,7 +14,7 @@
     "eslint-config-prettier": "^7.1.0",
     "eslint-plugin-jest": "^24.0.0",
     "fs-extra": "^9.0.0",
-    "jest": "^26.6.3",
+    "jest": "^26.6.2",
     "js-yaml": "^3.13.1",
     "serverless-plugin-cicd": "file:./serverless-plugin-cicd",
     "yargs": "^16.0.0"

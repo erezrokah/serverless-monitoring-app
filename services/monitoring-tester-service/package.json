@@ -32,7 +32,7 @@
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
     "fs-extra": "^9.0.0",
-    "jest": "^26.6.3",
+    "jest": "^26.6.2",
     "mockdate": "3.0.2",
     "monitoring-appsync-service": "file:./../monitoring-appsync-service",
     "monitoring-common": "file:./../monitoring-common",
