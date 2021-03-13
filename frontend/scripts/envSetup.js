@@ -5,7 +5,7 @@ const { replaceInEnvFile } = require('./utils');
 
 const getStackName = async (serverlessYaml, stage) => {
   const content = await readFile(serverlessYaml);
-  return `${yaml.safeLoad(content).service}-${stage}`;
+  return `${yaml.load(content).service}-${stage}`;
 };
 
 const getStackOutputs = async (provider, stackName, stage, region) => {

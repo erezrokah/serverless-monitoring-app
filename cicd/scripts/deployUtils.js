@@ -98,7 +98,7 @@ const getAllStacks = async (stage, region) => {
     yamls.map(({ service, serverlessYaml }) => {
       return readFile(serverlessYaml).then((content) => ({
         service,
-        stack: `${yaml.safeLoad(content).service}-${stage}`,
+        stack: `${yaml.load(content).service}-${stage}`,
       }));
     }),
   );
