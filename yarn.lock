@@ -7142,9 +7142,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001125, caniuse-lite@^1.0.30001181:
-  version "1.0.30001199"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001199.tgz#062afccaad21023e2e647d767bac4274b8b8fd7f"
-  integrity sha512-ifbK2eChUCFUwGhlEzIoVwzFt1+iriSjyKKFYNfv6hN34483wyWpLLavYQXhnR036LhkdUYaSDpHg1El++VgHQ==
+  version "1.0.30001200"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001200.tgz#25435af6ba907c2a9c86d21ce84950d4824e6620"
+  integrity sha512-ic/jXfa6tgiPBAISWk16jRI2q8YfjxHnSG7ddSL1ptrIP8Uy11SayFrjXRAk3NumHpDb21fdTkbTxb/hOrFrnQ==
 
 capital-case@^1.0.4:
   version "1.0.4"
@@ -9148,9 +9148,9 @@ eslint-module-utils@^2.6.0:
     pkg-dir "^2.0.0"
 
 eslint-plugin-flowtype@^5.2.0:
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-5.3.1.tgz#df6227e28c61d967b825c1327a27818bbb2ad325"
-  integrity sha512-mziJD+zw+VTwLtF9qLIxYac0GJCbSEDyqMLP5ENzQeNY5EOxbAfitMFLo+UItjYOISQdh1BCobwE2d4i1o+9Rw==
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-5.4.0.tgz#a559526e56403cb97b470b524957fc526e2485fe"
+  integrity sha512-O0s0iTT5UxYuoOpHMLSIO2qZMyvrb9shhk1EM5INNGtJ2CffrfUmsnh6TVsnoT41fkXIEndP630WNovhoO87xQ==
   dependencies:
     lodash "^4.17.15"
     string-natural-compare "^3.0.1"
@@ -9175,9 +9175,9 @@ eslint-plugin-import@^2.22.1:
     tsconfig-paths "^3.9.0"
 
 eslint-plugin-jest@^24.0.0, eslint-plugin-jest@^24.1.0:
-  version "24.2.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-24.2.1.tgz#7e84f16a3ca6589b86be9732a93d71367a4ed627"
-  integrity sha512-s24ve8WUu3DLVidvlSzaqlOpTZre9lTkZTAO+a7X0WMtj8HraWTiTEkW3pbDT1xVxqEHMWSv+Kx7MyqR50nhBw==
+  version "24.3.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-24.3.1.tgz#c8df037847b83397940bef7fbc2cc168ab466bcc"
+  integrity sha512-RQt59rfMSHyvedImT72iaf8JcvCcR4P7Uq499dALtjY8mrCjbwWrFi1UceG4sid2wVIeDi+0tjxXZ8CZEVO7Zw==
   dependencies:
     "@typescript-eslint/experimental-utils" "^4.0.1"
 
@@ -9636,9 +9636,9 @@ fast-levenshtein@^2.0.6, fast-levenshtein@~2.0.6:
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
 
 fast-xml-parser@^3.16.0:
-  version "3.18.0"
-  resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-3.18.0.tgz#b77f4a494cd64e6f44aadfa68fbde30cd922b2df"
-  integrity sha512-tRrwShhppv0K5GKEtuVs92W0VGDaVltZAwtHbpjNF+JOT7cjIFySBGTEOmdBslXYyWYaZwEX/g4Su8ZeKg0LKQ==
+  version "3.19.0"
+  resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-3.19.0.tgz#cb637ec3f3999f51406dd8ff0e6fc4d83e520d01"
+  integrity sha512-4pXwmBplsCPv8FOY1WRakF970TjNGnGnfbOnLqjlYvMiF1SR3yOHyxMR/YCXpPTOspNF5gwudqktIP4VsWkvBg==
 
 fastq@^1.6.0:
   version "1.11.0"
@@ -19001,9 +19001,9 @@ webpack@4.44.2:
     webpack-sources "^1.4.1"
 
 webpack@^5.0.0:
-  version "5.25.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.25.0.tgz#f9409977f0f3b6d4b9c4f73adc7d7cb9603a09e9"
-  integrity sha512-jqQZopNCzt9c4K6Qa7j6kIhzHfR9wgF84go58VoNp4JbZrBr2D2l5lcv72CW80yc6NJl8CR6OY8xctnIs0r2uw==
+  version "5.25.1"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.25.1.tgz#d3564440ed2569253fa45864405a313916bef6f6"
+  integrity sha512-dzFTJwehoLZkeHUkvMSwAgVdGL+PerfX0mke9tOWjJs4OzFctkxCqD8Zj5J387jLkC4gNqSin0/EurhH28boCg==
   dependencies:
     "@types/eslint-scope" "^3.7.0"
     "@types/estree" "^0.0.46"
@@ -19494,9 +19494,9 @@ yaml-ast-parser@^0.0.43:
   integrity sha512-2PTINUwsRqSd+s8XxKaJWQlUuEMHJQyEuh2edBbW8KNJz0SJPwUSD2zRWqezFEdN7IzAgeuYHFUCF7o8zRdZ0A==
 
 yaml@^1.10.0, yaml@^1.7.2:
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.1.tgz#bb13d805ed104fba38f533570f3441027eeeca22"
-  integrity sha512-z/asvd+V08l1ywhaemZVirCwjdzLo6O1/0j2JbYCsGjiezupNQqjs5IIPyNtctbHjPEckqzVGd4jvpU5Lr25vQ==
+  version "1.10.2"
+  resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
+  integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
 
 yamljs@^0.3.0:
   version "0.3.0"
