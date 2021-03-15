@@ -34,7 +34,7 @@
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "jest-junit": "^12.0.0",
     "js-yaml": "^4.0.0",
-    "lerna": "3.22.1",
+    "lerna": "4.0.0",
     "minimist": "^1.2.0",
     "monitoring-appsync-service": "file:./../services/monitoring-appsync-service",
     "monitoring-tester-service": "file:./../services/monitoring-tester-service",
