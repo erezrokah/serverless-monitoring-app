@@ -16955,10 +16955,10 @@ serverless-s3-remover@^0.6.0:
     chalk "^2.1.0"
     prompt "^1.0.0"
 
-serverless-scriptable-plugin@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/serverless-scriptable-plugin/-/serverless-scriptable-plugin-1.1.0.tgz#67f28ddbfdfa3afdd52c50c16605357df4788101"
-  integrity sha512-Oc099NF34FrZSEj8JKASGxMuNTflWiVw4LhPIxF8uGI+2m1b60Qgjd1QjU+5weUsUsK2kBGFRIGaUBAaHHDHog==
+serverless-scriptable-plugin@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/serverless-scriptable-plugin/-/serverless-scriptable-plugin-1.2.1.tgz#0d3d28e5c4ab9335eb25f65edd3cdca8fa29230a"
+  integrity sha512-oHRZjU3TmI48RKczmGqgrT5+/VcMRzhp92Oqn84VqkiiAPYS23kAu6RIULTzX7bsxxDMyMwlqQDnPLolM38mfw==
   dependencies:
     bluebird "3.7.2"
 
