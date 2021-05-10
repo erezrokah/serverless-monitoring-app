@@ -28,7 +28,7 @@
     "@types/react-helmet": "^6.0.0",
     "@types/react-test-renderer": "^17.0.0",
     "@types/zen-observable": "^0.8.0",
-    "dotenv": "^8.2.0",
+    "dotenv": "^9.0.0",
     "fs-extra": "^10.0.0",
     "jest-dom": "^4.0.0",
     "jest-environment-jsdom-sixteen": "^1.0.3",
