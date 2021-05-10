@@ -36,34 +36,28 @@ const setupFrontendEnvFile = async () => {
   console.log(`stage = ${stage}, region = ${region}`);
 
   const servicesDir = path.join(__dirname, '..', '..', 'services');
-  const [
-    appSyncServiceStack,
-    commonServiceStack,
-    endpointsTesterStack,
-  ] = await Promise.all([
-    getStackName(
-      path.join(servicesDir, 'monitoring-appsync-service', 'serverless.yml'),
-      stage,
-    ),
-    getStackName(
-      path.join(servicesDir, 'monitoring-common', 'serverless.yml'),
-      stage,
-    ),
-    getStackName(
-      path.join(servicesDir, 'monitoring-tester-service', 'serverless.yml'),
-      stage,
-    ),
-  ]);
+  const [appSyncServiceStack, commonServiceStack, endpointsTesterStack] =
+    await Promise.all([
+      getStackName(
+        path.join(servicesDir, 'monitoring-appsync-service', 'serverless.yml'),
+        stage,
+      ),
+      getStackName(
+        path.join(servicesDir, 'monitoring-common', 'serverless.yml'),
+        stage,
+      ),
+      getStackName(
+        path.join(servicesDir, 'monitoring-tester-service', 'serverless.yml'),
+        stage,
+      ),
+    ]);
 
-  const [
-    { GraphQLApiUrl },
-    { UserPoolId },
-    { ServiceEndpoint },
-  ] = await Promise.all([
-    getStackOutputs(provider, appSyncServiceStack, stage, region),
-    getStackOutputs(provider, commonServiceStack, stage, region),
-    getStackOutputs(provider, endpointsTesterStack, stage, region),
-  ]);
+  const [{ GraphQLApiUrl }, { UserPoolId }, { ServiceEndpoint }] =
+    await Promise.all([
+      getStackOutputs(provider, appSyncServiceStack, stage, region),
+      getStackOutputs(provider, commonServiceStack, stage, region),
+      getStackOutputs(provider, endpointsTesterStack, stage, region),
+    ]);
 
   await replaceInEnvFile({
     REACT_APP_COGNITO_REGION: region,
