@@ -274,8 +274,7 @@ class CICDPlugin {
               Version: '2012-10-17',
               Statement: [
                 {
-                  Sid:
-                    'TrustCloudWatchEventsToPublishEventsToBuildProgressTopic',
+                  Sid: 'TrustCloudWatchEventsToPublishEventsToBuildProgressTopic',
                   Effect: 'Allow',
                   Principal: { Service: ['events.amazonaws.com'] },
                   Action: 'sns:Publish',

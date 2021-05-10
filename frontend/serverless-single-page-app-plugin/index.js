@@ -32,9 +32,8 @@ class ServerlessPlugin {
       'syncToS3:sync': this.syncDirectory.bind(this),
       'setCacheControl:setCacheControl': this.setCacheControl.bind(this),
       'domainInfo:domainInfo': this.domainInfo.bind(this),
-      'invalidateCloudFrontCache:invalidateCache': this.invalidateCache.bind(
-        this,
-      ),
+      'invalidateCloudFrontCache:invalidateCache':
+        this.invalidateCache.bind(this),
       'publishSite:publishSite': this.publishSite.bind(this),
     };
   }
@@ -88,10 +87,8 @@ class ServerlessPlugin {
   }
 
   async setCacheControl() {
-    const {
-      s3Bucket,
-      bucketCacheControl,
-    } = this.serverless.variables.service.custom;
+    const { s3Bucket, bucketCacheControl } =
+      this.serverless.variables.service.custom;
     const { fileExtensions, cacheControl } = bucketCacheControl;
 
     const toCache = fileExtensions.map((ext) => ['--include', `*.${ext}`]);
