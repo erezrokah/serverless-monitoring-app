@@ -11,7 +11,7 @@
   "author": "Erez Rokah",
   "license": "MIT",
   "devDependencies": {
-    "dotenv": "^9.0.0",
+    "dotenv": "^10.0.0",
     "fs-extra": "^10.0.0",
     "monitoring-common": "file:./../monitoring-common",
     "serverless-appsync-plugin": "^1.1.2",
