@@ -17,7 +17,7 @@
     "jest": "^26.6.3",
     "js-yaml": "^4.0.0",
     "serverless-plugin-cicd": "file:./serverless-plugin-cicd",
-    "yargs": "^16.0.0"
+    "yargs": "^17.0.0"
   },
   "scripts": {
     "setup": "serverless deploy",
