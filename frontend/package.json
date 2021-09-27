@@ -21,7 +21,7 @@
     "@graphql-codegen/typescript-operations": "^1.17.13",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.0.0",
-    "@types/jest": "^26.0.13",
+    "@types/jest": "^27.0.0",
     "@types/node": "^14.14.16",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
