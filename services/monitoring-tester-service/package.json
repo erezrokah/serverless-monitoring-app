@@ -27,7 +27,7 @@
     "@types/chai": "^4.2.12",
     "@types/jest": "^26.0.13",
     "@types/mockdate": "^2.0.0",
-    "@types/node": "^14.14.16",
+    "@types/node": "^16.0.0",
     "aws-testing-library": "^1.0.9",
     "chai": "^4.2.0",
     "dotenv": "^10.0.0",
