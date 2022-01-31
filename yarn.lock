@@ -6527,9 +6527,7 @@ aws-sign2@~0.7.0:
   integrity sha1-tG6JCTSpWR8tL2+G1+ap8bP+dqg=
 
 aws-testing-library@^1.0.9:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/aws-testing-library/-/aws-testing-library-1.1.2.tgz#d2c5a70458d905c3eb0ea09caf0cba3d461e1147"
-  integrity sha512-5KV8aze1fD8tv3njdTaBprvkyjxkYg7NdncdDrlZc1fZ/lzt5EXreyhmenXvBniUCFfiJQWtYk51pX3BN6k2CQ==
+  version: "1.1.6"
   dependencies:
     aws-sdk "^2.678.0"
     axios "^0.21.0"
