@@ -8,7 +8,7 @@
 
 ## Prerequisites
 
-[Nodejs](https://nodejs.org/en/) (at least version 10)
+[Nodejs](https://nodejs.org/en/) (at least version 16)
 
 [Yarn](https://yarnpkg.com/lang/en/)
 
