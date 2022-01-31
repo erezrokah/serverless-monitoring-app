@@ -4,7 +4,7 @@
   "private": true,
   "description": "Frontend",
   "dependencies": {
-    "@graphql-codegen/typescript-resolvers": "^1.18.1",
+    "@graphql-codegen/typescript-resolvers": "^2.0.0",
     "aws-amplify": "^3.0.18",
     "aws-amplify-react": "^4.1.17",
     "react": "^17.0.0",
@@ -16,9 +16,9 @@
   },
   "devDependencies": {
     "@anttiviljami/serverless-stack-output": "^0.3.1",
-    "@graphql-codegen/cli": "^1.15.4",
-    "@graphql-codegen/typescript": "^1.15.4",
-    "@graphql-codegen/typescript-operations": "^1.17.13",
+    "@graphql-codegen/cli": "^2.0.0",
+    "@graphql-codegen/typescript": "^2.0.0",
+    "@graphql-codegen/typescript-operations": "^2.0.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^12.0.0",
     "@types/jest": "^26.0.13",

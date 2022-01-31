@@ -5,6 +5,9 @@
     "frontend",
     "cicd"
   ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
     "build:frontend": "lerna run build --scope frontend",
     "lint": "lerna run lint --parallel",
