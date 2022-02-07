@@ -2554,9 +2554,7 @@
   integrity sha512-82cpyJyKRoQoRi+14ibCeGPu0CwypgtBAdBhq1WfvagpCZNKqwXbKwXllYSMG91DhmG4jt9gN8eP6lGOtozuaw==
 
 "@graphql-codegen/cli@^2.0.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/cli/-/cli-2.4.0.tgz#7df3ee2bdd5b88a5904ee6f52eafeb370ef70e51"
-  integrity sha512-4iiHH2AxBE17lX5cFdFg6+kh7I6uKQLYG0IZRalRbW/grKL7kuVp/RDUjmVB2GNJTJEhjxYLMJFJZocUmAUBlw==
+  version: "2.5.0"
   dependencies:
     "@graphql-codegen/core" "2.4.0"
     "@graphql-codegen/plugin-helpers" "^2.3.2"
@@ -2631,9 +2629,7 @@
     tslib "~2.3.0"
 
 "@graphql-codegen/typescript-operations@^2.0.0":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-operations/-/typescript-operations-2.2.2.tgz#028f2850ae85021d8932b5670e5feca7b0d5c767"
-  integrity sha512-J50AuTA37RYv67hP2oHbfr3iGxexTCoadQsbr5pEUGucrIupCA0hLEJH2W+9/h6YNh0UlZT3kRTJp81ARoAjOA==
+  version: "2.2.4"
   dependencies:
     "@graphql-codegen/plugin-helpers" "^2.3.2"
     "@graphql-codegen/typescript" "^2.4.2"
@@ -2642,9 +2638,7 @@
     tslib "~2.3.0"
 
 "@graphql-codegen/typescript-resolvers@^2.0.0":
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-resolvers/-/typescript-resolvers-2.4.3.tgz#556dbaf23eac0ff9c321d3ce7126d96a839f793f"
-  integrity sha512-4m3E0zKLSXjGirZcYHHaZ0bxjy/gxvuumShFCKFmYTkHwTfqBaeh/pMhWqLkwC9wimrH6mQoPIYSQHLaF6Eqng==
+  version: "2.5.0"
   dependencies:
     "@graphql-codegen/plugin-helpers" "^2.3.2"
     "@graphql-codegen/typescript" "^2.4.2"
@@ -2654,9 +2648,7 @@
     tslib "~2.3.0"
 
 "@graphql-codegen/typescript@^2.0.0", "@graphql-codegen/typescript@^2.4.2":
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript/-/typescript-2.4.2.tgz#a239d5fd8f11140d5d4c81cfae7ff02054b724dc"
-  integrity sha512-8ajWidiFqF1KNAywtb/692SjwTyjzrDHo1sf2Q7Z+rh9qDEIrh83VHB8naT/1CefOvxj3MS6GbcsvJMizaE/AQ==
+  version: "2.4.3"
   dependencies:
     "@graphql-codegen/plugin-helpers" "^2.3.2"
     "@graphql-codegen/schema-ast" "^2.4.1"
@@ -4887,9 +4879,7 @@
     pretty-format "^27.0.2"
 
 "@testing-library/jest-dom@^5.11.4":
-  version "5.16.1"
-  resolved "https://registry.yarnpkg.com/@testing-library/jest-dom/-/jest-dom-5.16.1.tgz#3db7df5ae97596264a7da9696fe14695ba02e51f"
-  integrity sha512-ajUJdfDIuTCadB79ukO+0l8O+QwN0LiSxDaYUTI4LndbbUsGi6rWU1SCexXzBA2NSjlVB9/vbkasQIL3tmPBjw==
+  version: "5.16.2"
   dependencies:
     "@babel/runtime" "^7.9.2"
     "@types/testing-library__jest-dom" "^5.9.1"
@@ -5137,39 +5127,7 @@
   integrity sha512-Y86MAxASe25hNzlDbsviXl8jQHb0RDvKt4c40ZJQ1Don0AAL0STLZSs4N+6gLEO55pedy7r2cLwS+ZDxPm/2Bw==
 
 "@types/node@^16.0.0":
-  version "16.11.21"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.21.tgz#474d7589a30afcf5291f59bd49cca9ad171ffde4"
-  integrity sha512-Pf8M1XD9i1ksZEcCP8vuSNwooJ/bZapNmIzpmsMaL+jMI+8mEYU3PKvs+xDNuQcJWF/x24WzY4qxLtB0zNow9A==
-
-"@types/normalize-package-data@^2.4.0":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.1.tgz#d3357479a0fdfdd5907fe67e17e0a85c906e1301"
-  integrity sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==
-
-"@types/parse-json@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
-  integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
-
-"@types/prettier@^2.0.0":
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.4.3.tgz#a3c65525b91fca7da00ab1a3ac2b5a2a4afbffbf"
-  integrity sha512-QzSuZMBuG5u8HqYz01qtMdg/Jfctlnvj1z/lYnIDXs/golxw0fxtRAHd9KrzjR7Yxz1qVeI00o0kiO3PmVdJ9w==
-
-"@types/prop-types@*":
-  version "15.7.4"
-  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.4.tgz#fcf7205c25dff795ee79af1e30da2c9790808f11"
-  integrity sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==
-
-"@types/q@^1.5.1":
-  version "1.5.5"
-  resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.5.tgz#75a2a8e7d8ab4b230414505d92335d1dcb53a6df"
-  integrity sha512-L28j2FcJfSZOnL1WBjDYp2vUHCeIFlyYI/53EwD/rKUBQ7MtUUfbQWiyKJGpcnv4/WgrhWsFKrcPstcAt/J0tQ==
-
-"@types/react-dom@^17.0.0":
-  version "17.0.11"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.11.tgz#e1eadc3c5e86bdb5f7684e00274ae228e7bcc466"
-  integrity sha512-f96K3k+24RaLGVu/Y2Ng3e1EbZ8/cVJvypZWd7cy0ofCBaf2lcM46xNhycMZ2xGwbBjRql7hOlZ+e2WlJ5MH3Q==
+  version: "16.11.22"
   dependencies:
     "@types/react" "*"
 
@@ -5188,9 +5146,7 @@
     "@types/react" "*"
 
 "@types/react@*", "@types/react@^17.0.0":
-  version "17.0.38"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.38.tgz#f24249fefd89357d5fa71f739a686b8d7c7202bd"
-  integrity sha512-SI92X1IA+FMnP3qM5m4QReluXzhcmovhZnLNm3pyeQlooi02qI7sLiepEYqT678uNiyc25XfCqxREFpy3W7YhQ==
+  version: "17.0.39"
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -17090,9 +17046,7 @@ serverless-scriptable-plugin@1.2.2:
   version "1.0.0"
 
 serverless-step-functions@^3.0.0:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/serverless-step-functions/-/serverless-step-functions-3.1.1.tgz#32400368b1a7f9837648359f3ad6750ffb5edba4"
-  integrity sha512-nsYhKPfLavKNYB2uj/lf66RqpXWhWgBXpmwwTPWjQFLvePDYloEgLTO/yuzybuHP1vKc9qUY5+j7lBWVy6qCIQ==
+  version: "3.5.1"
   dependencies:
     "@hapi/joi" "^15.0.2"
     asl-validator "^1.9.8"
@@ -19208,9 +19162,7 @@ webpack@4.44.2:
     webpack-sources "^1.4.1"
 
 webpack@^5.0.0:
-  version "5.67.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.67.0.tgz#cb43ca2aad5f7cc81c4cd36b626e6b819805dbfd"
-  integrity sha512-LjFbfMh89xBDpUMgA1W9Ur6Rn/gnr2Cq1jjHFPo4v6a79/ypznSYbAyPgGhwsxBtMIaEmDD1oJoA7BEYw/Fbrw==
+  version: "5.68.0"
   dependencies:
     "@types/eslint-scope" "^3.7.0"
     "@types/estree" "^0.0.50"
