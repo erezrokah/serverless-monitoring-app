@@ -6484,9 +6484,7 @@ aws-amplify@^3.0.18:
     "@aws-amplify/xr" "2.2.34"
 
 aws-sdk@^2.678.0, aws-sdk@^2.817.0, aws-sdk@^2.881.0:
-  version "2.1073.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1073.0.tgz#96c0c25c89f814c4aa4262e6eeef20eec9fda0da"
-  integrity sha512-TtyHDL4ZEs8Zh/DqWY/hv745DTWrIwOyBAvfjBJ45RE9h0TjpWqCIowEtb6gRPAKyPPyfGH4s+rEYu07vNK1Hg==
+  version: "2.1092.0"
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
