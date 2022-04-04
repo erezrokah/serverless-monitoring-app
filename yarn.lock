@@ -16339,9 +16339,9 @@ prepend-http@^2.0.0:
   integrity sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=
 
 prettier@^2.0.5:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.6.1.tgz#d472797e0d7461605c1609808e27b80c0f9cfe17"
-  integrity sha512-8UVbTBYGwN37Bs9LERmxCPjdvPxlEowx2urIL6urHzdb3SDq4B/Z6xLFCblrSnE4iKWcS6ziJ3aOYrc1kz/E2A==
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.6.2.tgz#e26d71a18a74c3d0f0597f55f01fb6c06c206032"
+  integrity sha512-PkUpF+qoXTqhOeWL9fu7As8LXsIUZ1WYaJiY/a7McAQzxjk82OF0tibkFXVCDImZtWxbvojFjerkiLb0/q8mew==
 
 pretty-bytes@^5.3.0:
   version "5.6.0"
@@ -17833,9 +17833,7 @@ serve-static@1.14.2:
     send "0.17.2"
 
 serverless-appsync-plugin@^1.1.2:
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/serverless-appsync-plugin/-/serverless-appsync-plugin-1.12.1.tgz#5bf5131bf635e0e8a544ea20a0361b004c5e394c"
-  integrity sha512-RglUfNtmy0KQNLdrtlwqn4BClgQpHzDoTWZOo6gs9RvULlv72SPVCSODVIqJUT6hjwdIC60t+IkVv2MwtSYNuw==
+  version: "1.13.0"
   dependencies:
     "@graphql-tools/merge" "^6.2.11"
     aws-sdk "^2.881.0"
