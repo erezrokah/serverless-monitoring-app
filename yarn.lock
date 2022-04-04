@@ -17833,9 +17833,7 @@ serve-static@1.14.2:
     send "0.17.2"
 
 serverless-appsync-plugin@^1.1.2:
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/serverless-appsync-plugin/-/serverless-appsync-plugin-1.12.1.tgz#5bf5131bf635e0e8a544ea20a0361b004c5e394c"
-  integrity sha512-RglUfNtmy0KQNLdrtlwqn4BClgQpHzDoTWZOo6gs9RvULlv72SPVCSODVIqJUT6hjwdIC60t+IkVv2MwtSYNuw==
+  version: "1.13.0"
   dependencies:
     "@graphql-tools/merge" "^6.2.11"
     aws-sdk "^2.881.0"
