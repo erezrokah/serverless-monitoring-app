@@ -5304,11 +5304,11 @@
     "@types/react" "*"
 
 "@types/react-test-renderer@^17.0.0":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@types/react-test-renderer/-/react-test-renderer-17.0.1.tgz#3120f7d1c157fba9df0118dae20cb0297ee0e06b"
-  integrity sha512-3Fi2O6Zzq/f3QR9dRnlnHso9bMl7weKCviFmfF6B4LS1Uat6Hkm15k0ZAQuDz+UBq6B3+g+NM6IT2nr5QgPzCw==
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/@types/react-test-renderer/-/react-test-renderer-17.0.2.tgz#5f800a39b12ac8d2a2149e7e1885215bcf4edbbf"
+  integrity sha512-+F1KONQTBHDBBhbHuT2GNydeMpPuviduXIVJRB7Y4nma4NR5DrTJfMMZ+jbhEHbpwL+Uqhs1WXh4KHiyrtYTPg==
   dependencies:
-    "@types/react" "*"
+    "@types/react" "^17"
 
 "@types/react@*", "@types/react@^17.0.0":
   version "17.0.43"
@@ -10595,9 +10595,9 @@ fs-constants@^1.0.0:
   integrity sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==
 
 fs-extra@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-10.0.0.tgz#9ff61b655dde53fb34a82df84bb214ce802e17c1"
-  integrity sha512-C5owb14u9eJwizKGdchcDUQeFtlSHHthBk8pbX9Vc1PFZrLombudjDnNns88aYslCyF6IY5SUw3Roz6xShcEIQ==
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-10.1.0.tgz#02873cfbc4084dde127eaa5f9905eef2325d1abf"
+  integrity sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==
   dependencies:
     graceful-fs "^4.2.0"
     jsonfile "^6.0.1"
@@ -17901,9 +17901,9 @@ serverless-scriptable-plugin@1.2.2:
   version "1.0.0"
 
 serverless-step-functions@^3.0.0:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/serverless-step-functions/-/serverless-step-functions-3.5.1.tgz#282e26ee59d21f2034aac75c96202ea8d92140d5"
-  integrity sha512-ACDGK6f0OerG7UH0QNZ8lO4f2t4MrSwuEyMjNWE0pUcD0GugS1aHJhdtGADfJ7yvL6yVA3BRU2x8IlaWNrvOrA==
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/serverless-step-functions/-/serverless-step-functions-3.6.0.tgz#bf24cbc0f905c7a604ba3fdb00dc25e3f1c75a5d"
+  integrity sha512-W2FSXEIHKU0CZNr6HlSPIZAKl7KV/Ct8gSbhTu+hv8sUn31gmijJ0iYCHGtizsOFM1osGTdd6zRmxmf6us51Wg==
   dependencies:
     "@hapi/joi" "^15.0.2"
     "@serverless/utils" "^5.20.1"
