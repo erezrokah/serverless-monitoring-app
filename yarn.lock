@@ -12663,9 +12663,9 @@ jest-jasmine2@^26.6.3:
     throat "^5.0.0"
 
 jest-junit@^13.0.0:
-  version "13.1.0"
-  resolved "https://registry.yarnpkg.com/jest-junit/-/jest-junit-13.1.0.tgz#c364b90b88ad2492dae4002f00c9fed75e0590c4"
-  integrity sha512-ECbhzEG3Oe2IH3Mnwcv2vAXM4qTbcObN/gTUzwKPlpaNsf2G/zlj/teEUqRGV17YQiQ4AqzTf3pCO7W59DKVIw==
+  version "13.2.0"
+  resolved "https://registry.yarnpkg.com/jest-junit/-/jest-junit-13.2.0.tgz#66eeb86429aafac8c1745a70f44ace185aacb943"
+  integrity sha512-B0XNlotl1rdsvFZkFfoa19mc634+rrd8E4Sskb92Bb8MmSXeWV9XJGUyctunZS1W410uAxcyYuPUGVnbcOH8cg==
   dependencies:
     mkdirp "^1.0.4"
     strip-ansi "^6.0.1"
@@ -17901,9 +17901,9 @@ serverless-scriptable-plugin@1.2.2:
   version "1.0.0"
 
 serverless-step-functions@^3.0.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/serverless-step-functions/-/serverless-step-functions-3.6.0.tgz#bf24cbc0f905c7a604ba3fdb00dc25e3f1c75a5d"
-  integrity sha512-W2FSXEIHKU0CZNr6HlSPIZAKl7KV/Ct8gSbhTu+hv8sUn31gmijJ0iYCHGtizsOFM1osGTdd6zRmxmf6us51Wg==
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/serverless-step-functions/-/serverless-step-functions-3.7.0.tgz#f747ebbed529e3a824df844795290385b7b717a6"
+  integrity sha512-Pu0cXoho+bmFyvDJ11wq9cE5JCK5VKlVXcXh/PuhwW02M6Bo3hOFIG6mwwAcgKqqIxT+HD0DIjD1rVK2WdZ76A==
   dependencies:
     "@hapi/joi" "^15.0.2"
     "@serverless/utils" "^5.20.1"
