@@ -5270,9 +5270,9 @@
   integrity sha512-HnYpAE1Y6kRyKM/XkEuiRQhTHvkzMBurTHnpFLYLBGPIylZNPs9jJcuOOYWxPLJCSEtmZT0Y8rHDokKN7rRTig==
 
 "@types/aws-lambda@^8.10.68":
-  version "8.10.102"
-  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.102.tgz#d2402224ec30cdddfb669005c25b6ee01fd6f5be"
-  integrity sha512-BT05v46n9KtSHa9SgGuOvm49eSruJ9utD8iNXpdpuUVYk8wOcqmm1LEzpNRkrXxD0CULc38sdLpk6q3Wa2WOwg==
+  version "8.10.103"
+  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.103.tgz#9f0d748036a206ebe4a3eb19febc53b52ee36352"
+  integrity sha512-mYWsrM5YPmnyJru7kMDX8RYSc486sDqVOP1kUdotthD3YjJ57iTBN3N7MMtL1qdVoPW2YmCnNnWscyidmPe6Gw==
 
 "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.7":
   version "7.1.19"
@@ -5489,9 +5489,9 @@
   integrity sha512-UxDxWn7dl97rKVeVS61vErvw086aCYhDLyvRQZ5Rk65rZKepaFdm53GeqXaKBuOhED4e9uWq34IC3TdSdJJ2Gw==
 
 "@types/node@^16.0.0":
-  version "16.11.56"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.56.tgz#dcbb617669481e158e0f1c6204d1c768cd675901"
-  integrity sha512-aFcUkv7EddxxOa/9f74DINReQ/celqH8DiB3fRYgVDM2Xm5QJL8sl80QKuAnGvwAsMn+H3IFA6WCrQh1CY7m1A==
+  version "16.11.58"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.58.tgz#0a3698dee3492617a8d5fe7998d18d7520b63026"
+  integrity sha512-uMVxJ111wpHzkx/vshZFb6Qni3BOMnlWLq7q9jrwej7Yw/KvjsEbpxCCxw+hLKxexFMc8YmpG8J9tnEe/rKsIg==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -5558,9 +5558,9 @@
     csstype "^3.0.2"
 
 "@types/react@^17.0.0":
-  version "17.0.48"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.48.tgz#a4532a8b91d7b27b8768b6fc0c3bccb760d15a6c"
-  integrity sha512-zJ6IYlJ8cYYxiJfUaZOQee4lh99mFihBoqkOSEGV+dFi9leROW6+PgstzQ+w3gWTnUfskALtQPGHK6dYmPj+2A==
+  version "17.0.49"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.49.tgz#df87ba4ca8b7942209c3dc655846724539dc1049"
+  integrity sha512-CCBPMZaPhcKkYUTqFs/hOWqKjPxhTEmnZWjlHHgIMop67DsXywf9B5Os9Hz8KSacjNOgIdnZVJamwl232uxoPg==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -9453,9 +9453,9 @@ dotenv@8.2.0:
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
 dotenv@^16.0.0:
-  version "16.0.1"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.1.tgz#8f8f9d94876c35dac989876a5d3a82a267fdce1d"
-  integrity sha512-1K6hR6wtk2FviQ4kEiSjFiH5rpzEVi8WW0x96aztHVMhEspNpc4DVOUTEHtEva5VThQ8IaBX1Pe4gSzpVVUsKQ==
+  version "16.0.2"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.2.tgz#0b0f8652c016a3858ef795024508cddc4bffc5bf"
+  integrity sha512-JvpYKUmzQhYoIFgK2MOnF3bciIZoItIIoryihy0rIA+H4Jy0FmgyKYAHCTN98P5ybGSJcIFbh6QKeJdtZd1qhA==
 
 dset@^3.1.2:
   version "3.1.2"
@@ -18188,9 +18188,9 @@ serverless-step-functions@^3.0.0:
     lodash "^4.17.11"
 
 serverless-webpack@^5.2.0:
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/serverless-webpack/-/serverless-webpack-5.9.0.tgz#184ec9abb01d023625f5e19603c5fa9aa5f51f8f"
-  integrity sha512-RhaMCrLrbc4pZAePAs0IQOlgFuI3fFT10sFVU7d/nA+Hj/veUItPElAo6mMmWtdxV61XQiQrlwIOL2zT8QxdBg==
+  version "5.9.1"
+  resolved "https://registry.yarnpkg.com/serverless-webpack/-/serverless-webpack-5.9.1.tgz#46bf25d4b013b2bc1e5522c8a2eddee37506f439"
+  integrity sha512-Xkry+xNTjc8MVPXluePxxDhy8/7ZYL8gs0YuxuVbrrAyEbeviPWKGxHg41559fcQEpEoYN/1Ko29b5303iv1vQ==
   dependencies:
     archiver "^5.3.1"
     bluebird "^3.7.2"
