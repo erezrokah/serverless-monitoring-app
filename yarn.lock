@@ -18350,9 +18350,9 @@ serverless-scriptable-plugin@1.2.2:
   version "1.0.0"
 
 serverless-step-functions@^3.0.0:
-  version "3.10.0"
-  resolved "https://registry.yarnpkg.com/serverless-step-functions/-/serverless-step-functions-3.10.0.tgz#33c240a6d83657ce4ecda04e1689db9acd12613c"
-  integrity sha512-Zv4Gi68+g8vIsdPKK85LbF5fCBpxoZgfwM5taMB8Cb8L0LNn2sejpPZj6vRQHFmCaizmD57pPQVGCHhrB2BdcQ==
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/serverless-step-functions/-/serverless-step-functions-3.11.0.tgz#ae5e8730d47bba2942b7ecd7a89ee6193b3953d9"
+  integrity sha512-P/AbwI0MLLHhKq96G3oc3oAH2GWjD/rl55aMjTtNAXC7f/vCQ55k1KDtcvmWN3J6n5cTaEDzKlkWNsnabHy6Qw==
   dependencies:
     "@hapi/joi" "^15.0.2"
     "@serverless/utils" "^6.7.0"
