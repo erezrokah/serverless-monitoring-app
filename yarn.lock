@@ -6892,10 +6892,10 @@ asl-path-validator@^0.11.0:
   dependencies:
     jsonpath-plus "^7.0.0"
 
-asl-validator@^3.0.8:
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/asl-validator/-/asl-validator-3.0.8.tgz#6ccac1fc120d8d7b64ba1e8d5761912282da2875"
-  integrity sha512-ku2hkt137ebImA6DNySVoBtymffl/62TQHWKBb54yI3twrcsQyi78fPtvRi+PMob89vLeb0BbGezr5+4rQcJ7Q==
+asl-validator@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/asl-validator/-/asl-validator-3.1.0.tgz#48b8b0b3e6dc5cb7cc80d4bbb67516bb634eefc0"
+  integrity sha512-J2OmT6lkj2RHojDLWyqh33BNCBfpOIAEl1z01cd/4WiGt8Sjgqx+gbX7WsgVKGS4uF/pGwc1EkrZvm0mSRMcWA==
   dependencies:
     ajv "^8.11.0"
     asl-path-validator "^0.11.0"
@@ -18480,13 +18480,13 @@ serverless-scriptable-plugin@1.2.2:
   version "1.0.0"
 
 serverless-step-functions@^3.0.0:
-  version "3.11.1"
-  resolved "https://registry.yarnpkg.com/serverless-step-functions/-/serverless-step-functions-3.11.1.tgz#fcb5e5b2b04916602c5ecef627e0263386ca98e8"
-  integrity sha512-Czg99/gvPSvLdTXYdrzz/5EQyRUNy5NCHSXxk/Po+mweY2xgovq5XxPe5XnCUGjikXvg+iAU79jF7jFkCue3IA==
+  version "3.12.1"
+  resolved "https://registry.yarnpkg.com/serverless-step-functions/-/serverless-step-functions-3.12.1.tgz#1325cb60c365adf7a1d976b504bd74067a19627e"
+  integrity sha512-8PObLriopBZqcEJgFXGKOb3NTXft9zWdYPoQp7tjacPg7sC0EqAgEm4vQ3ZWWg4eidmu1wKv+2QZrzKpUHC0UQ==
   dependencies:
     "@hapi/joi" "^15.0.2"
     "@serverless/utils" "^6.7.0"
-    asl-validator "^3.0.8"
+    asl-validator "^3.1.0"
     bluebird "^3.4.0"
     chalk "^4.1.2"
     lodash "^4.17.11"
