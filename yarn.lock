@@ -7099,9 +7099,9 @@ aws-amplify@^3.0.18:
     "@aws-amplify/xr" "2.2.34"
 
 aws-sdk@^2.678.0, aws-sdk@^2.817.0, aws-sdk@^2.881.0:
-  version "2.1304.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1304.0.tgz#92a57d96394185fbeb790a85e71c47154c1cd150"
-  integrity sha512-9mf2uafa2M9yFC5IlMe85TIc7OUo1HSProCQWzpRmAAYhcSwmfbRyt02Wtr5YSVvJJPmcSgcyI92snsQR1c3nw==
+  version "2.1313.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1313.0.tgz#e6dad914670fb3f4d5cd95c58413fca5ea5c6c86"
+  integrity sha512-8GMdtV2Uch3HL2c6+P3lNZFTcg/fqq9L3EWYRLb6ljCZvWKTssjdkjSJFDyTReNgeiKV224YRPYQbKpOEz4flQ==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
