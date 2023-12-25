@@ -6667,10 +6667,10 @@ ajv@^8.0.1:
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-ajv@^8.11.0:
-  version "8.11.2"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.11.2.tgz#aecb20b50607acf2569b6382167b65a96008bb78"
-  integrity sha512-E4bfmKAhGiSTvMfL1Myyycaub+cUEU2/IvpylXkUu7CHBkBj1f/ikdzbD7YQ6FKUbixDxeYvB/xY4fvyroDlQg==
+ajv@^8.12.0:
+  version "8.12.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.12.0.tgz#d1a0527323e22f53562c567c00991577dfbe19d1"
+  integrity sha512-sRu1kpcO9yLtYxBKvqfTeh9KzZEwO3STyX1HT+4CaDzC6HpTGYhIhPIzj9XuKU7KYDwnaeh5hcOwjy1QuJzBPA==
   dependencies:
     fast-deep-equal "^3.1.1"
     json-schema-traverse "^1.0.0"
@@ -6985,22 +6985,23 @@ asap@^2.0.0, asap@~2.0.3, asap@~2.0.6:
   resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.6.tgz#e50347611d7e690943208bbdafebcbc2fb866d46"
   integrity sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY=
 
-asl-path-validator@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/asl-path-validator/-/asl-path-validator-0.11.0.tgz#9041fad53f621e5a39d2333e3ea4c91ed1661c74"
-  integrity sha512-2kfFkqNCXInc7d8hbUoXn/XpK5fFr3//0nh4jfcZWav0VR4zo2bYVlRCwOuNKJID9yM4vIo7dMb4n0fnWrc/Xw==
+asl-path-validator@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/asl-path-validator/-/asl-path-validator-0.12.0.tgz#490e11d4d4aaed69b7f5cd195eeefce3f9504ff9"
+  integrity sha512-pzBX2mKp8NQ7p1xM6sfSd2vFQJDX0UdUCun/YcRKMNSv7j93erTomK7iIU79N5rjJD++kPr9qwWhA67pFVpdhA==
   dependencies:
     jsonpath-plus "^7.0.0"
 
-asl-validator@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/asl-validator/-/asl-validator-3.1.0.tgz#48b8b0b3e6dc5cb7cc80d4bbb67516bb634eefc0"
-  integrity sha512-J2OmT6lkj2RHojDLWyqh33BNCBfpOIAEl1z01cd/4WiGt8Sjgqx+gbX7WsgVKGS4uF/pGwc1EkrZvm0mSRMcWA==
+asl-validator@^3.8.0:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/asl-validator/-/asl-validator-3.8.2.tgz#c33f4e9ed19773528633137f5a093c5b11427495"
+  integrity sha512-wSGCbzbTz5hfuSQl33u/OZEGXT8IE9taRbAPtCNg4boK7oHLlXZqH7VlwKGeKY4QwvDwlyktERBXs3r32JwIeQ==
   dependencies:
-    ajv "^8.11.0"
-    asl-path-validator "^0.11.0"
-    commander "^5.1.0"
-    jsonpath-plus "^7.0.0"
+    ajv "^8.12.0"
+    asl-path-validator "^0.12.0"
+    commander "^10.0.1"
+    jsonpath-plus "^7.2.0"
+    yaml "^2.3.1"
 
 asn1.js@^5.2.0:
   version "5.4.1"
@@ -8551,6 +8552,11 @@ combined-stream@^1.0.6, combined-stream@^1.0.8, combined-stream@~1.0.6:
   dependencies:
     delayed-stream "~1.0.0"
 
+commander@^10.0.1:
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-10.0.1.tgz#881ee46b4f77d1c1dccc5823433aa39b022cbe06"
+  integrity sha512-y4Mg2tXshplEbSGzx7amzPwKKOCGuoSRP/CjEdwwk0FOGlUbq6lKuoyDZTNZkmxHdJtp54hdfY/JUrdL7Xfdug==
+
 commander@^2.12.1, commander@^2.20.0, commander@^2.20.3, commander@^2.8.1:
   version "2.20.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
@@ -8560,11 +8566,6 @@ commander@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-4.1.1.tgz#9fd602bd936294e9e9ef46a3f4d6964044b18068"
   integrity sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==
-
-commander@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-5.1.0.tgz#46abbd1652f8e059bddaef99bbdcb2ad9cf179ae"
-  integrity sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==
 
 common-tags@1.8.2, common-tags@^1.8.0:
   version "1.8.2"
@@ -13957,7 +13958,7 @@ jsonparse@^1.2.0:
   resolved "https://registry.yarnpkg.com/jsonparse/-/jsonparse-1.3.1.tgz#3f4dae4a91fac315f71062f8521cc239f1366280"
   integrity sha1-P02uSpH6wxX3EGL4UhzCOfE2YoA=
 
-jsonpath-plus@^7.0.0:
+jsonpath-plus@^7.0.0, jsonpath-plus@^7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/jsonpath-plus/-/jsonpath-plus-7.2.0.tgz#7ad94e147b3ed42f7939c315d2b9ce490c5a3899"
   integrity sha512-zBfiUPM5nD0YZSBT/o/fbCUlCcepMIdP0CJZxM1+KgA4f2T206f6VAg9e7mX35+KlMaIc5qXW34f3BnwJ3w+RA==
@@ -18630,12 +18631,12 @@ serverless-scriptable-plugin@1.3.1:
   version "1.0.0"
 
 serverless-step-functions@^3.0.0:
-  version "3.13.1"
-  resolved "https://registry.yarnpkg.com/serverless-step-functions/-/serverless-step-functions-3.13.1.tgz#e5dbee273ab89f68427586ea09b1e878a8b7ae51"
-  integrity sha512-pkmHJn2L4LmpfqC/0omRFfeNX8MEPd166aHDpTLV5RFCQG56CqdKhPf0klO7h69MSBnqHnH7c1sw6hV/6BGDQQ==
+  version "3.18.0"
+  resolved "https://registry.yarnpkg.com/serverless-step-functions/-/serverless-step-functions-3.18.0.tgz#5419facebb2395aeb6537374234718fe1cc4e67f"
+  integrity sha512-wy9DHVtgF8EWb2FVcPRT6Jde06NpeiCGzsYVLUCtraF2GCoER+Ie3C8RToHstHaTwshMvU2JoXwCPSvzfV6OJA==
   dependencies:
     "@serverless/utils" "^6.7.0"
-    asl-validator "^3.1.0"
+    asl-validator "^3.8.0"
     bluebird "^3.4.0"
     chalk "^4.1.2"
     joi "^17.7.0"
@@ -21447,6 +21448,11 @@ yaml@^1.10.0:
   version "1.10.2"
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
   integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
+
+yaml@^2.3.1:
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.3.4.tgz#53fc1d514be80aabf386dc6001eb29bf3b7523b2"
+  integrity sha512-8aAvwVUSHpfEqTQ4w/KMlf3HcRdt50E5ODIQJBw1fQ5RL34xabzxtUlzTXVqc4rkZsPbvrXKWnABCD7kWSmocA==
 
 yamljs@^0.3.0:
   version "0.3.0"
