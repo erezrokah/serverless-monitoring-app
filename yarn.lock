@@ -18695,9 +18695,9 @@ serverless-scriptable-plugin@1.3.1:
   version "1.0.0"
 
 serverless-step-functions@^3.0.0:
-  version "3.18.0"
-  resolved "https://registry.yarnpkg.com/serverless-step-functions/-/serverless-step-functions-3.18.0.tgz#5419facebb2395aeb6537374234718fe1cc4e67f"
-  integrity sha512-wy9DHVtgF8EWb2FVcPRT6Jde06NpeiCGzsYVLUCtraF2GCoER+Ie3C8RToHstHaTwshMvU2JoXwCPSvzfV6OJA==
+  version "3.19.0"
+  resolved "https://registry.yarnpkg.com/serverless-step-functions/-/serverless-step-functions-3.19.0.tgz#93ccfa6ee7e928d5eaeff3858523ea57b9e46015"
+  integrity sha512-FrqnOKWIDvfmxKDeMPkBCRCaYc6wT41feuPKE1V6qP+lTp8p/B8ZsILmP04ONynIK5AUzFYshCMVJ1Wz3KntBg==
   dependencies:
     "@serverless/utils" "^6.7.0"
     asl-validator "^3.8.0"
