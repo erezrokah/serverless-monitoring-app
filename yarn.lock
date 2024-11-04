@@ -5835,9 +5835,9 @@
   integrity sha512-gC3TazRzGoOnoKAhUx+Q0t8S9Tzs74z7m0ipwGpSqQrleP14hKxP4/JUeEQcD3W1/aIpnWl8pHowI7WokuZpXg==
 
 "@types/node@^16.0.0":
-  version "16.18.105"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.105.tgz#7147176852774ec4d6dd626803888adf6b999feb"
-  integrity sha512-w2d0Z9yMk07uH3+Cx0N8lqFyi3yjXZxlbYappPj+AsOlT02OyxyiuNoNHdGt6EuiSm8Wtgp2YV7vWg+GMFrvFA==
+  version "16.18.119"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.119.tgz#88443bb82119b7c0920e86949673876cbe1c3492"
+  integrity sha512-ia7V9a2FnhUFfetng4/sRPBMTwHZUkPFY736rb1cg9AgG7MZdR97q7/nLR9om+sq5f1la9C857E0l/nrI0RiFQ==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.4"
@@ -5855,9 +5855,9 @@
   integrity sha512-+68kP9yzs4LMp7VNh8gdzMSPZFL44MLGqiHWvttYJe+6qnuVr4Ek9wSBQoveqY/r+LwjCcU29kNVkidwim+kYA==
 
 "@types/prop-types@*":
-  version "15.7.12"
-  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.12.tgz#12bb1e2be27293c1406acb6af1c3f3a1481d98c6"
-  integrity sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==
+  version "15.7.13"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.13.tgz#2af91918ee12d9d32914feb13f5326658461b451"
+  integrity sha512-hCZTSvwbzWGvhqxp/RqVqwU999pBf2vp7hzIjiYOsl8wqOmUxkQ6ddw1cV3l8811+kdUFus/q4d1Y3E3SyEifA==
 
 "@types/q@^1.5.1":
   version "1.5.8"
