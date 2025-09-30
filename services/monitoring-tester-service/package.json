@@ -19,7 +19,7 @@
   "dependencies": {
     "aws-amplify": "^3.0.18",
     "aws-sdk": "^2.817.0",
-    "axios": "^0.28.0"
+    "axios": "^0.30.0"
   },
   "devDependencies": {
     "@anttiviljami/serverless-stack-output": "^0.3.1",
