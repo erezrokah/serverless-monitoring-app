@@ -24,7 +24,7 @@
   "devDependencies": {
     "@anttiviljami/serverless-stack-output": "^0.3.1",
     "@types/aws-lambda": "^8.10.68",
-    "@types/chai": "^4.2.12",
+    "@types/chai": "^5.0.0",
     "@types/jest": "^26.0.13",
     "@types/mockdate": "^2.0.0",
     "@types/node": "^16.0.0",
