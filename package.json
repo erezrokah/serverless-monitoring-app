@@ -24,7 +24,7 @@
     "print:name": "lerna run print:name"
   },
   "devDependencies": {
-    "jest-junit": "^14.0.0",
+    "jest-junit": "^16.0.0",
     "lerna": "3.15.0",
     "prettier": "^2.0.5"
   },
