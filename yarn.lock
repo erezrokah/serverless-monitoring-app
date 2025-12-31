@@ -11514,10 +11514,10 @@ fs-extra@^10.0.0:
     jsonfile "^6.0.1"
     universalify "^2.0.0"
 
-fs-extra@^11.2.0:
-  version "11.2.0"
-  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-11.2.0.tgz#e70e17dfad64232287d01929399e0ea7c86b0e5b"
-  integrity sha512-PmDi3uwK5nFuXh7XDTlVnS17xJS7vW36is2+w3xcv8SVxiB4NyATf4ctkVY5bkSjX0Y4nbvZCq1/EjtEyr9ktw==
+fs-extra@^11.3.1:
+  version "11.3.3"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-11.3.3.tgz#a27da23b72524e81ac6c3815cc0179b8c74c59ee"
+  integrity sha512-VWSRii4t0AFm6ixFFmLLx1t7wS1gh+ckoa84aOeapGum0h+EZd1EhEumSB+ZdDLnEPuucsVB9oB7cxJHap6Afg==
   dependencies:
     graceful-fs "^4.2.0"
     jsonfile "^6.0.1"
@@ -18825,10 +18825,10 @@ semver@^7.3.8:
   dependencies:
     lru-cache "^6.0.0"
 
-semver@^7.6.3:
-  version "7.6.3"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-7.6.3.tgz#980f7b5550bc175fb4dc09403085627f9eb33143"
-  integrity sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==
+semver@^7.7.2:
+  version "7.7.3"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.7.3.tgz#4b5f4143d007633a8dc671cd0a6ef9147b8bb946"
+  integrity sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==
 
 semver@~5.3.0:
   version "5.3.0"
@@ -18976,18 +18976,18 @@ serverless-step-functions@^3.0.0:
     lodash "^4.17.11"
 
 serverless-webpack@^5.2.0:
-  version "5.15.0"
-  resolved "https://registry.yarnpkg.com/serverless-webpack/-/serverless-webpack-5.15.0.tgz#064e34ef4c78076057e2ab8380922d8bdc00df6d"
-  integrity sha512-zgPoA89OyKziVR22X6tsfImmoG9UB3QzoVDUpEmuB0VZBN/97RaonSLMoeMQFqcZ7ckXXIjqwb4ylmhD8vGHcA==
+  version "5.15.3"
+  resolved "https://registry.yarnpkg.com/serverless-webpack/-/serverless-webpack-5.15.3.tgz#307233ee058b1bdf875417b25dd6ed2728fbe38c"
+  integrity sha512-qYs+oakvTDri9x1DMtzecsA76LT6NX4LST349gJ7g1Nr3hslJTGfH+8h0J0xkDOH1fhiEJCVMEl7ZfRQmySutQ==
   dependencies:
     archiver "^7.0.1"
     bluebird "^3.7.2"
     find-yarn-workspace-root "^2.0.0"
-    fs-extra "^11.2.0"
+    fs-extra "^11.3.1"
     glob "^10.4.5"
     is-builtin-module "^3.2.1"
     lodash "^4.17.21"
-    semver "^7.6.3"
+    semver "^7.7.2"
 
 set-blocking@^2.0.0, set-blocking@~2.0.0:
   version "2.0.0"
